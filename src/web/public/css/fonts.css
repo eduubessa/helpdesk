@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,500,600,700|Poppins:300,400,600,800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
+
+html, body {
+    overflow-y: hidden;
+}
+
+.popover {
+    padding: 18px;
+    background: #212529 !important;
+}
+
+.popover .arrow:after {
+    border-bottom-color: #212529;
+}
+
+.popover .popover-body {
+    width: 450px !important;
+    color: #fff;
+}
+
+.popover .popover-body ul {
+    position: relative;
+    right: 15px;
+}
+
+.popover .popover-body li {
+    margin: 18px 0;
+    list-style: none;
+}
+
+.popover .popover-body li:hover,
+.popover .popover-body li.active {
+    cursor: pointer;
+    color: #81b826;
+}
+

@@ -1,0 +1,8 @@
+{
+  "debug" : true,
+  "name" : "Helpdesk Restful API",
+  "description" : "",
+  "port" : 3000,
+  "host": "localhost",
+  "url" : "http://localhost:3000/"
+}

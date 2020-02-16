@@ -1,0 +1,16 @@
+{
+    "dev": {
+      "origin": ["http://localhost", "http://api.helpme.code"],
+      "methods": "GET",
+      "headers": "*",
+      "credentials": true,
+      "optionsSuccessStatus": 200
+    },
+    "production": {
+      "origin": [],
+      "methods": "GET",
+      "headers": "*",
+      "credentials": true,
+      "optionsSuccessStatus": 200
+    }
+  }

@@ -1,0 +1,15 @@
+{
+    "development" : {
+        "host" : "localhost",
+        "port" : 2525,
+        "username" : null,
+        "password" : null
+    },
+    "production" : {
+        "host" : "mail.itpeople.pt",
+        "port" : 2525,
+        "username" : "helpdesk",
+        "password" : "^595S&V@fdYyR-SBts?@fvrBhc$^XYB&-L=c+Wfy7x@aK?Ttt!8aM5wvBwn!De$2",
+        "from" : "no-reply@itpeople.pt"
+    }
+}

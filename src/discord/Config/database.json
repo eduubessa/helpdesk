@@ -1,0 +1,12 @@
+{
+    "development" : {
+        "host" : "localhost",
+        "username" : null,
+        "password" : null,
+        "secure" : {
+            "sslValidate" : false,
+            "checkServerIdentify" : false,
+            "sslCA" : null
+        }
+    }
+}

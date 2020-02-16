@@ -1,0 +1,42 @@
+{
+    "development": {
+        "port": 27017,
+        "driver": "mongodb",
+        "host": "helpdesk-ug5o5.azure.mongodb.net",
+        "auth": true,
+        "username": "helpdesk_user",
+        "password": "pBuEszSIucljg9Em",
+        "index": "helpdesk",
+        "secure": {
+            "sslValidate": false,
+            "checkServerIdentify": false,
+            "sslCA": null
+        },
+        "options": {
+            "useNewUrlParser": true,
+            "useFindAndModify": false,
+            "useCreateIndex": true,
+            "useUnifiedTopology": true
+        }
+    },
+    "production": {
+        "port": 27017,
+        "driver": "mongodb",
+        "host": "api.itpeople.pt/helpdesk",
+        "auth": true,
+        "username": "helpdesk_database",
+        "password": "^595S&V@fdYyR-SBts?@fvrBhc$^XYB&-L=c+Wfy7x@aK?Ttt!8aM5wvBwn!De$2",
+        "index": "helpdesk",
+        "secure": {
+            "sslValidate": false,
+            "checkServerIdentify": false,
+            "sslCA": null
+        },
+        "options": {
+            "useNewUrlParser": true,
+            "useFindAndModify": true,
+            "useCreateIndex": true,
+            "useUnifiedTopology": true
+        }
+    }
+}
