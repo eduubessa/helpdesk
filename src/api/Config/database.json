@@ -2,10 +2,10 @@
     "development": {
         "port": 27017,
         "driver": "mongodb",
-        "host": "helpdesk-ug5o5.azure.mongodb.net",
-        "auth": true,
-        "username": "helpdesk_user",
-        "password": "pBuEszSIucljg9Em",
+        "host": "localhost",
+        "auth": false,
+        "username": "",
+        "password": "",
         "index": "helpdesk",
         "secure": {
             "sslValidate": false,

@@ -2,7 +2,7 @@
     <section class="app">
         <header class="header">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">IT</a>
+                <a class="navbar-brand" href="#">Help Me</a>
                 <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
                         class="navbar-toggler mr-4 border-0" data-target="#navbarSupportedContent"
                         data-toggle="collapse" type="button">
@@ -44,8 +44,8 @@
         margin: 0;
 
         a.navbar-brand {
-            padding: 32px;
-            font-weight: 600;
+            padding: 22px 32px;
+            font-size: 1rem;
             background: #81b826;
             font-family: "Poppins";
             letter-spacing: 2px;
@@ -59,6 +59,7 @@
                 letter-spacing: 2px;
                 transition: all 0.4s ease;
                 border-right: 1px solid #555;
+                font-size: .8rem;
 
                 &:nth-child(3), &:last-child {
                     border: 0;
@@ -70,7 +71,7 @@
                     padding: 8px 22px;
                     text-transform: uppercase;
                     transition: all 0.4s ease;
-                    font-size: 14px;
+                    font-size: 0.8rem;
                     letter-spacing: 3px;
                     border-bottom: 2px solid transparent;
 

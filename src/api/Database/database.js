@@ -15,7 +15,7 @@ if(app.debug === true){
     if(database.development.auth === true) {
         connection = mongoose.connect(`${database.development.driver}+srv://${database.development.username}:${database.development.password}@${database.development.host}/${database.development.index}?retryWrites=true&w=majority`);
     }else {
-        connection = mongoose.connect(`${database.development.driver}+srv://${database.development.host}/${database.development.index}?retryWrites=true&w=majority`);
+        connection = mongoose.connect(`${database.development.driver}://${database.development.host}/${database.development.index}?retryWrites=true&w=majority`);
     }
 }else{
     mongoose.set('useNewUrlParser', database.production.options.useNewUrlParser);
