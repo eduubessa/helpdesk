@@ -19,7 +19,7 @@ class UserStoreValidator {
         return {
             'username' : 'required|string|unique',
             'email' : 'required|string|unique',
-            'passowrd' : 'required|string|confirmed
+            'password' : 'required|string|confirmed',
         }
     }
 

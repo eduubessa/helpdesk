@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
+const crypto = require('crypto');
 
 const UserSchema = mongoose.Schema({
     avatar : {
@@ -45,6 +46,25 @@ const UserSchema = mongoose.Schema({
         default : false
     }
 });
+
+/**
+ * Set Password
+ * @param password
+ */
+UserSchema.methods.setPassword = (password) => {
+    this.salt = crypto.randomBytes(16).toString('hex');
+    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString('hex');
+};
+
+/**
+ * Check password is valid
+ * @param password
+ * @returns {boolean}
+ */
+UserSchema.methods.validatePass = (password) => {
+    let hash = crypto.pbkdf2Sync(password, this.salt, 1000,  64, `sha512`).toString(`hex`);
+    return this.hash === hash;
+};
 
 module.exports = mongoose.model('User', UserSchema);
 

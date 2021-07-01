@@ -50,6 +50,7 @@ class TicketController {
         ticket.title = request.body.title;
         ticket.departament = request.body.departament;
         ticket.priority = request.body.priority;
+        ticket.message
         ticket.isClosed = false;
         ticket.slug = crypto.randomBytes(12).toString('hex');
         ticket.created_by = "5d0a485b1fe6c159d497bbb3";
