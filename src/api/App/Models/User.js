@@ -27,8 +27,7 @@ const UserSchema = mongoose.Schema({
         unique : true
     },
     password : {
-        type : String,
-        required : true,
+        type : String
     },
     created_at : {
         type : Date,
@@ -44,6 +43,9 @@ const UserSchema = mongoose.Schema({
         type : Boolean,
         required : true,
         default : false
+    },
+    salt : {
+        String
     }
 });
 
@@ -53,7 +55,7 @@ const UserSchema = mongoose.Schema({
  */
 UserSchema.methods.setPassword = (password) => {
     this.salt = crypto.randomBytes(16).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString('hex');
+    this.password = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString('hex');
 };
 
 /**

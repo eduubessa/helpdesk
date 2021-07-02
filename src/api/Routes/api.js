@@ -22,6 +22,7 @@ router.post('/auth/login', authController.login);
 //Users route
 router.get('/users', userController.index);
 router.post('/users', userController.store);
+router.delete('/users', userController.delete);
 router.get('/users/:username', userController.show);
 
 //Tickets route

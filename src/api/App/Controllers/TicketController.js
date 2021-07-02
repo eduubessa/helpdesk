@@ -43,14 +43,13 @@ class TicketController {
      * @param response
      * @param next
      * @returns {*|Promise<Response>}
-     */
+     */ cd
     store (request, response, next)
     {
         let ticket = new Ticket;
         ticket.title = request.body.title;
         ticket.departament = request.body.departament;
         ticket.priority = request.body.priority;
-        ticket.message
         ticket.isClosed = false;
         ticket.slug = crypto.randomBytes(12).toString('hex');
         ticket.created_by = "5d0a485b1fe6c159d497bbb3";
