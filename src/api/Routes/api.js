@@ -31,7 +31,8 @@ router.get('/users/:username', userController.show);
 router.get('/tickets', ticketController.index);
 router.get('/tickets/:slug', ticketController.show);
 router.post('/tickets', ticketController.store);
-router.post('ticket/close', ticketController.updateAndClose);
+router.patch('/tickets/close', ticketController.updateAndClose);
+router.patch('/ticket/:slug', ticketController.destroy);
 
 // Messages
 router.put('/messages', messageController.upload);

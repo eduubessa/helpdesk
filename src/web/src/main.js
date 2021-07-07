@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Axios from "axios";
+// import VueX from 'vue-x'
 import VueAxios from "vue-axios";
 import VueRouter from 'vue-router';
 
@@ -11,6 +12,8 @@ import TicketsComponent from './components/TicketsComponent';
 
 Vue.use(VueAxios, Axios);
 Vue.use(VueRouter);
+
+Axios.defaults.baseURL = "http://localhost:3000";
 
 Vue.config.productionTip = false;
 

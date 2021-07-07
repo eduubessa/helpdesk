@@ -86,7 +86,10 @@
                          :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
                   </div>
                   <div class="col-sm-10 col-md-8 col-lg-8 pt-3 pb-3">
-                    <h4><span class="badge badge-info mr-2" v-if="ticket.supported_by == null">New</span>{{ ticket.created_by.firstname }}
+                    <h4>
+                      <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && ticket.isClosed">New</span>
+                      <span class="badge badge-danger mr-2" v-if="ticket.isClosed">Closed</span>
+                      {{ ticket.created_by.firstname }}
                       {{ ticket.created_by.lastname }}</h4>
                     <div class="info">
                       <span v-if="ticket.priority >= 15" class="badge badge-danger mr-2">Priority: High</span>
@@ -96,9 +99,10 @@
                       <div class="message">{{ ticket.title }}</div>
                     </div>
                   </div>
-                  <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2">
-                    <button v-if="ticket.supported_by == null" :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-refresh"></i></button>
+                  <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2 text-right">
+                    <button v-if="!ticket.isClosed && ticket.supported_by == null" :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}"><i class="fa fa-refresh"></i></button>
                     <button v-if="user.level >= 4"><i class="fa fa-trash"></i></button>
                   </div>
                 </div>
@@ -646,7 +650,7 @@ export default {
   data: function () {
     return {
       user: {
-        avatar: 'https://scontent.flis8-1.fna.fbcdn.net/v/t31.0-8/p960x960/15493314_1520597541285523_1198747209129454042_o.jpg?_nc_cat=105&_nc_oc=AQmghZFsgGrtL8elR95iip4xO4Xb5mHyCclkCOP-RGhsllKedtqDZ1mW_K-Zbd0IQpkuxMnDN6lN5AC_CWosMNFu&_nc_ht=scontent.flis8-1.fna&oh=aa76051aca27a76fb63955ee6d17bdd3&oe=5E3F4BD3',
+        avatar: '',
         level: 5
       },
       stream: null,
@@ -661,7 +665,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$http.get('http://localhost:3000/api/v1/tickets')
+    this.$http.get('/api/v1/tickets')
         .then((response) => {
           this.tickets = response.data.tickets;
         }).catch((err) => {
@@ -683,7 +687,7 @@ export default {
       }
     },
     eventChangePictureHandler: function () {
-      this.$http.put('http://localhost:3000/api/v1/messages/')
+      this.$http.put(' /api/v1/messages/')
           .then((response) => {
             // eslint-disable-next-line no-console
             console.log(response);

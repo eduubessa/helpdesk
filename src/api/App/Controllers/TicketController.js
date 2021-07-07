@@ -95,10 +95,24 @@ class TicketController {
         });
     }
 
-    async updateAndClose(request, response, next)
-    {
-        return response.send("Hello");
+    async updateAndClose(request, response, next) {
+        let ticketAndUpdate = await Ticket.findOneAndUpdate({slug: request.body.slug}, { $set: { isClosed: true }}, { new: false}, (err, ticket) => {
+            if(err) throw err;
+            return response.status(200).json(ticket);
+        }).catch((err) => {
+            return response.status(404).send("ERROR 404 - Page Not Found");
+        });
     }
+
+    async destroy(request, response, next) {
+         let ticketAndDelete = await Ticket.findOneAndDelete({ slug: request.body.slug}, { new: false}, (err, ticket) =>{
+             if(err) throw err;
+             return response.status(200).json({ message : 'Ticket apagado com sucesso!'});
+         }).catch((err) => {
+             return response.status(404).send('ERROR 404 - Page Not Found');
+         });
+    }
+
 }
 
 module.exports = TicketController;
