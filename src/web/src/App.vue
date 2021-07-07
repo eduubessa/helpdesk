@@ -27,6 +27,14 @@
               </a>
             </li>
           </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link nav-avatar" style="background-image: url('/images/757365726176617461725f656475756265737361.jpg')" href="#"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sair</a>
+            </li>
+          </ul>
         </div>
       </nav>
     </header>
@@ -40,8 +48,12 @@
     <footer class="footer">
       <section class="lightbox" v-if="formNewTicket === true">
         <div class="lightbox-content">
-          hksadhfkhjsadhf
-        </div>
+          <div class="input-group">
+            <input v-model="ticket.title" type="text" name="title" />
+          </div>
+          <div class="input-group">
+            <input v-model="ticket.title" type="text" name="title" />
+          </div></div>
       </section>
     </footer>
   </section>
@@ -82,7 +94,6 @@ nav.navbar {
         font-size: 0.8rem;
         letter-spacing: 3px;
         border-bottom: 2px solid transparent;
-
         &#nav-new-ticket {
           padding: 7px 26px 3px 26px;
           margin: 16px;
@@ -107,6 +118,14 @@ nav.navbar {
           border-bottom: 2px solid #81b826;
         }
       }
+    }
+    .nav-avatar {
+      padding: 0;
+      margin: 0;
+      width: 32px;
+      height: 32px;
+      background-size: cover;
+      border-radius: 50%;
     }
   }
 }
@@ -143,6 +162,7 @@ section.lightbox {
   export default {
     data: function () {
       return {
+        ticket: {},
         formNewTicket: false
       }
     },

@@ -69,6 +69,7 @@ class UserController {
         });
 
         let newUser = new User;
+        newUser.avatar = request.body.avatar;
         newUser.firstname = request.body.firstname;
         newUser.lastname = request.body.lastname;
         newUser.username = request.body.username;

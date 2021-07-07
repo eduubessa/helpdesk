@@ -55,7 +55,7 @@
           </ul>
         </section>
       </aside>
-      <section id="tickets" class="col-sm-12 col-md-12 col-lg-6">
+      <section id="tickets" class="col-md-12 col-lg-6">
         <header id="tickets-header" class="col-12">
           <div class="row">
             <div class=" col-sm-6 col-md-6 col-lg-6">
@@ -66,31 +66,39 @@
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
               <div id="order">
-                Ordenar por: <strong id="order-by" tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="<ul class='order-by-select'><li>Atualizado: Mais recente</li><li>Atualizado: Mais antigo</li><li>Criação: Mais recente</li><li>Criação: mais antigo</li><li>Autor: A-Z</li><li>Autor: Z-A</li></ul>"><span>Atualizado - Mais recente</span><i class="fa fa-sort-down"></i></strong>
+                Ordenar por: <strong id="order-by" tabindex="0" data-toggle="popover" data-trigger="focus"
+                                     data-placement="bottom"
+                                     data-content="<ul class='order-by-select'><li>Atualizado: Mais recente</li><li>Atualizado: Mais antigo</li><li>Criação: Mais recente</li><li>Criação: mais antigo</li><li>Autor: A-Z</li><li>Autor: Z-A</li></ul>"><span>Atualizado - Mais recente</span><i
+                  class="fa fa-sort-down"></i></strong>
               </div>
             </div>
           </div>
         </header>
-        <section id="list-tickets" class="col-sm-12">
+        <section id="list-tickets" class="col-md-12">
           <nav id="nav-tickets">
             <ul>
               <li v-for="(ticket, key) in tickets"
-                  :class="{  'nav-tickets-item' : true, 'active' : ticket_selected === key }" :key="key" @click="ticket_selected = key">
+                  :class="{  'nav-tickets-item' : true, 'active' : ticket_selected === key }" :key="key"
+                  @click="ticket_selected = key">
                 <div class="row">
-                  <div class="col-sm-2 col-lg-1">
-                    <div class="ticket-item-user-avatar" :style="`background-image: url(${ticket.created_by.avatar})`"></div>
+                  <div class="col-sm-3 col-md-3 col-lg-1">
+                    <div class="ticket-item-user-avatar"
+                         :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
                   </div>
                   <div class="col-sm-10 col-md-8 col-lg-8 pt-3 pb-3">
-                    <h4><span class="badge badge-info mr-2">New</span>{{ ticket.created_by.firstname }} {{ ticket.created_by.lastname }}</h4>
+                    <h4><span class="badge badge-info mr-2" v-if="ticket.supported_by == null">New</span>{{ ticket.created_by.firstname }}
+                      {{ ticket.created_by.lastname }}</h4>
                     <div class="info">
                       <span v-if="ticket.priority >= 15" class="badge badge-danger mr-2">Priority: High</span>
-                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15" class="badge badge-warning text-white mr-2">Priority: Medium</span>
+                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15"
+                            class="badge badge-warning text-white mr-2">Priority: Medium</span>
                       <span v-else-if="ticket.priority >= 0 && ticket.priority < 15" class="badge badge-success mr-2">Priority: Low</span>
                       <div class="message">{{ ticket.title }}</div>
                     </div>
                   </div>
                   <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2">
-                    <button :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button v-if="ticket.supported_by == null" :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-refresh"></i></button>
                     <button v-if="user.level >= 4"><i class="fa fa-trash"></i></button>
                   </div>
                 </div>
@@ -99,12 +107,15 @@
           </nav>
         </section>
       </section>
-      <section id="messages" class="col-sm-12 col-md-7 col-lg-4">
+      <section id="messages" class="col-md-7 col-lg-4">
         <header id="messages-header">
           <h3>{{ tickets[ticket_selected].title }}</h3>
           <div class="ticket-user-creator">
-            <div class="ticket-user-creator-avatar" :style="`background-image: url(${tickets[ticket_selected].created_by.avatar})`"></div>
-            <span>by <strong>{{ tickets[ticket_selected].created_by.firstname }} {{ tickets[ticket_selected].created_by.lastname }}</strong></span>
+            <div class="ticket-user-creator-avatar"
+                 :style="`background-image: url('/images/${tickets[ticket_selected].created_by.avatar}')`"></div>
+            <span>by
+              <strong>{{ tickets[ticket_selected].created_by.firstname }} {{ tickets[ticket_selected].created_by.lastname }}</strong>
+            </span>
           </div>
         </header>
         <section id="messages-conversation" class="col-12 bg-success">
@@ -125,7 +136,9 @@
               <div class="message-sender d-flex flex-row-reverse">
                 <div class="message-sender-avatar" :style="'background-image: url(' + user.avatar + ')'"></div>
                 <div class="message-sender-body">
-                  <img :src="'https://www.tynker.com/projects/screenshot/5c0c5dc8fa5d5874a27c5edc/windows-xp-error-simulator.png'" width="150" alt="">
+                  <img
+                      :src="'https://www.tynker.com/projects/screenshot/5c0c5dc8fa5d5874a27c5edc/windows-xp-error-simulator.png'"
+                      width="150" alt="">
                 </div>
               </div>
             </div>
@@ -143,9 +156,12 @@
           <div id="messages-textarea-editor">
             <div class="row">
               <div class="col-8">
-                <textarea @keypress.prevent.enter="sendMessage" v-model="message" name="message" placeholder="Type something ..." id="message-textarea-editor-message"></textarea>
-                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*" style="display: none;"/>
-                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*" style="display: none;"/>
+                <textarea @keypress.prevent.enter="sendMessage" v-model="message" name="message"
+                          placeholder="Type something ..." id="message-textarea-editor-message"></textarea>
+                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*"
+                       style="display: none;"/>
+                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*"
+                       @change="eventChangePictureHandler()" style="display: none;"/>
               </div>
               <div id="messages-textarea-editor-features" class="col-4">
                 <button @click="recording"><i :class="{ 'fa fa-microphone' : true, 'text-danger' : isRecording }"></i>
@@ -267,11 +283,11 @@ section {
     }
 
     header#tickets-header {
-      height: 10vh;
+      height: 9vh;
       border-bottom: 2px solid rgba(220, 220, 220, 1);
 
       button {
-        padding: 9px 15px;
+        padding: 9px 14px;
         margin: 20px 8px;
         color: rgba(180, 180, 180, 1);
         border: 2px solid rgba(180, 180, 180, 1);
@@ -291,7 +307,7 @@ section {
       }
 
       div#order {
-        margin: 35px 20px;
+        margin: 28px 20px;
         transition: all 0.4s ease;
 
         strong {
@@ -380,6 +396,11 @@ section {
               }
 
               &:nth-child(2):hover {
+                color: #ffc107;
+                border-color: #ffc107;
+              }
+
+              &:nth-child(3):hover {
                 color: #dc3545;
                 border-color: #dc3545;
               }
@@ -644,8 +665,8 @@ export default {
         .then((response) => {
           this.tickets = response.data.tickets;
         }).catch((err) => {
-          alert(err.message);
-          throw err;
+      alert(err.message);
+      throw err;
     });
   },
   methods: {
@@ -660,6 +681,15 @@ export default {
         }
           break;
       }
+    },
+    eventChangePictureHandler: function () {
+      this.$http.put('http://localhost:3000/api/v1/messages/')
+          .then((response) => {
+            // eslint-disable-next-line no-console
+            console.log(response);
+          }).catch((err) => {
+            alert(err.message);
+      });
     },
     recording: async function () {
       if (this.isRecording === false) {

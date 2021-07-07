@@ -11,6 +11,7 @@ class TicketController {
     ticketUpdateValidator = null;
 
     /**
+     *  Fetch all tickets
      *
      * @param request
      * @param response
@@ -33,11 +34,35 @@ class TicketController {
             }
         }).populate('created_by', '-_id -email -password -created_at -updated_at -__v')
             .populate('supported_by', '-_id -email -password -created_at -updated_at -__v')
-            .select(['-_id', '-__v']);
+            .select(['-_id', '-__v'])
+            .sort([['priority', -1], ['updated_at', -1], ['created_at', -1]]);
     }
 
     /**
      *
+     * Fetch one ticket
+     *
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async show (request, response, next)
+    {
+        await Ticket.findOne({ slug : request.params.slug }, (err, ticket) => {
+            if(err) throw err;
+            if(ticket === null || ticket === ""){
+                return response.status(404).send("ERROR 404 - Page Not Found");
+            }else{
+                response.status(200).json(ticket);
+            }
+        }).catch((err) => {
+            response.status(500).send(err);
+        })
+    }
+
+    /**
+     * Save ticket on database
      *
      * @param request
      * @param response
@@ -52,9 +77,8 @@ class TicketController {
         ticket.priority = request.body.priority;
         ticket.isClosed = false;
         ticket.slug = crypto.randomBytes(12).toString('hex');
-        ticket.created_by = "5d0a485b1fe6c159d497bbb3";
-        ticket.supported_by = "5d0a101f5ebd97156443c11b";
-
+        ticket.created_by = request.body.created_by;
+        ticket.supported_by = null;
         ticket.save((err, ticket) => {
             if(err) {
                 return response.status(500).json({
@@ -71,6 +95,10 @@ class TicketController {
         });
     }
 
+    async updateAndClose(request, response, next)
+    {
+        return response.send("Hello");
+    }
 }
 
 module.exports = TicketController;

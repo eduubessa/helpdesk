@@ -22,7 +22,6 @@ const TicketSchema = mongoose.Schema({
     },
     supported_by : {
         type: mongoose.Types.ObjectId,
-        required: true,
         ref: 'User'
     },
     priority: {

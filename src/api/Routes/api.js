@@ -4,6 +4,7 @@ const router = express.Router();
 //Requires
 const UserController = require('../App/Controllers/UserController');
 const TicketController = require('../App/Controllers/TicketController');
+const MessageController = require('../App/Controllers/MessageController');
 const AuthController = require('../App/Controllers/Auth/LoginController');
 const RegisterController = require('../App/Controllers/Auth/RegisterController');
 const SettingsController = require('../App/Controllers/SettingsController');
@@ -13,6 +14,7 @@ let authController = new AuthController();
 let registerController = new RegisterController();
 let userController = new UserController();
 let ticketController = new TicketController();
+let messageController = new MessageController();
 let settingsController = new SettingsController();
 
 //Auth route
@@ -27,7 +29,12 @@ router.get('/users/:username', userController.show);
 
 //Tickets route
 router.get('/tickets', ticketController.index);
+router.get('/tickets/:slug', ticketController.show);
 router.post('/tickets', ticketController.store);
+router.post('ticket/close', ticketController.updateAndClose);
+
+// Messages
+router.put('/messages', messageController.upload);
 
 //Settings route
 router.get('/settings', settingsController.index);
