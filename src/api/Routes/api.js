@@ -31,15 +31,18 @@ router.get('/users/:username', userController.show);
 router.get('/tickets', ticketController.index);
 router.get('/tickets/:slug', ticketController.show);
 router.post('/tickets', ticketController.store);
-router.patch('/tickets/close', ticketController.updateAndClose);
-router.patch('/ticket/:slug', ticketController.destroy);
+router.delete('/ticket/:slug', ticketController.destroy);
+
+
+// Update infos
+router.patch('/ticket/accept', ticketController.updateAndAcceptSupport);
+router.patch('/ticket/reopen', ticketController.updateAndReopen);
+router.patch('/ticket/close', ticketController.updateAndClose);
 
 // Messages
 router.put('/messages', messageController.upload);
 
 //Settings route
 router.get('/settings', settingsController.index);
-
-
 
 module.exports = router;

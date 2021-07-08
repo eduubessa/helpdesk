@@ -34,23 +34,11 @@
         <h4>Atividade Recente</h4>
         <section id="recent-activity">
           <ul>
-            <li>
+            <li v-for="(activity, key) in activities" :key="key">
               <div class="recent-activity-user">
-                <div class="recent-activity-user-avatar offline"></div>
+                <div class="recent-activity-user-avatar offline" :style="'background-image: url(\'/images/\'' + user.avatar + ');'"></div>
               </div>
-              <span><strong>Annie Morries</strong> changed the priority of <strong>Ticket #22</strong> from Low to Urgent</span>
-            </li>
-            <li>
-              <div class="recent-activity-user">
-                <div class="recent-activity-user-avatar offline"></div>
-              </div>
-              <span><strong>Annie Morries</strong> changed the priority of <strong>Ticket #22</strong> from Low to Urgent</span>
-            </li>
-            <li>
-              <div class="recent-activity-user">
-                <div class="recent-activity-user-avatar offline"></div>
-              </div>
-              <span><strong>Annie Morries</strong> changed the priority of <strong>Ticket #22</strong> from Low to Urgent</span>
+              <span v-html="activity"></span>
             </li>
           </ul>
         </section>
@@ -66,10 +54,9 @@
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
               <div id="order">
-                Ordenar por: <strong id="order-by" tabindex="0" data-toggle="popover" data-trigger="focus"
-                                     data-placement="bottom"
-                                     data-content="<ul class='order-by-select'><li>Atualizado: Mais recente</li><li>Atualizado: Mais antigo</li><li>Criação: Mais recente</li><li>Criação: mais antigo</li><li>Autor: A-Z</li><li>Autor: Z-A</li></ul>"><span>Atualizado - Mais recente</span><i
-                  class="fa fa-sort-down"></i></strong>
+                Ordenar por: <strong id="order-by" tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="<ul class='order-by-select'><li>Atualizado: Mais recente</li><li>Atualizado: Mais antigo</li><li>Criação: Mais recente</li><li>Criação: mais antigo</li><li>Autor: A-Z</li><li>Autor: Z-A</li></ul>">
+                <span>Atualizado - Mais recente</span>
+                <i class="fa fa-sort-down"></i></strong>
               </div>
             </div>
           </div>
@@ -79,16 +66,16 @@
             <ul>
               <li v-for="(ticket, key) in tickets"
                   :class="{  'nav-tickets-item' : true, 'active' : ticket_selected === key }" :key="key"
-                  @click="ticket_selected = key">
+                  @click="ticket_selected = key; messages = [];">
                 <div class="row">
                   <div class="col-sm-3 col-md-3 col-lg-1">
-                    <div class="ticket-item-user-avatar"
-                         :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
+                    <div class="ticket-item-user-avatar" :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
                   </div>
                   <div class="col-sm-10 col-md-8 col-lg-8 pt-3 pb-3">
                     <h4>
-                      <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && ticket.isClosed">New</span>
+                      <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && !ticket.isClosed">New</span>
                       <span class="badge badge-danger mr-2" v-if="ticket.isClosed">Closed</span>
+                      <span class="badge badge-success mr-2" v-if="!ticket.isClosed && ticket.supported_by != null">Open</span>
                       {{ ticket.created_by.firstname }}
                       {{ ticket.created_by.lastname }}</h4>
                     <div class="info">
@@ -100,10 +87,11 @@
                     </div>
                   </div>
                   <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2 text-right">
-                    <button v-if="!ticket.isClosed && ticket.supported_by == null" :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}"><i class="fa fa-refresh"></i></button>
-                    <button v-if="user.level >= 4"><i class="fa fa-trash"></i></button>
+                    <button @click="acceptEventHandleClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button @click="solvedEventHandleClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}" class="circle-warning"><i class="fa fa-pencil"></i></button>
+                    <button @click="reopenEventHandleClick(ticket)" v-if="ticket.isClosed && !ticket.isReopen" class="circle-warning"><i class="fa fa-undo"></i></button>
+                    <button @click="trashEventHandleClick(ticket, key)" class="circle-danger"><i class="fa fa-trash"></i></button>
                   </div>
                 </div>
               </li>
@@ -132,44 +120,28 @@
             </div>
             <div class="row" v-if="message.send === true">
               <div class="message-sender d-flex flex-row-reverse">
-                <div class="message-sender-avatar" :style="'background-image: url(' + user.avatar + ')'"></div>
+                <div class="message-sender-avatar" :style="'background-image: url(' + user.avatar +')'"></div>
                 <div class="message-sender-body">{{ message.body }}</div>
-              </div>
-            </div>
-            <div class="row" v-if="message.send === true">
-              <div class="message-sender d-flex flex-row-reverse">
-                <div class="message-sender-avatar" :style="'background-image: url(' + user.avatar + ')'"></div>
-                <div class="message-sender-body">
-                  <img
-                      :src="'https://www.tynker.com/projects/screenshot/5c0c5dc8fa5d5874a27c5edc/windows-xp-error-simulator.png'"
-                      width="150" alt="">
-                </div>
-              </div>
-            </div>
-            <div class="row" v-if="message.send === true">
-              <div class="message-sender d-flex flex-row-reverse">
-                <div class="message-sender-avatar" :style="'background-image: url(' + user.avatar + ')'"></div>
-                <div class="message-sender-audio bg-transparent">
-                  <audio src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" controls/>
-                </div>
               </div>
             </div>
           </div>
         </section>
         <footer id="messages-textarea">
           <div id="messages-textarea-editor">
-            <div class="row">
+            <div v-if="tickets[ticket_selected].isClosed || tickets[ticket_selected].supported_by === null" class="row text-center">
+              <div class="col-12">
+                <textarea v-if="tickets[ticket_selected].isClosed" class="text-center" placeholder="O ticket foi dado como concluído, não é possivel enviar mensagem..." disabled></textarea>
+                <textarea v-else-if="tickets[ticket_selected].supported_by === null" class="text-center" placeholder="Para iniciar a conversa, é necessário aceitar o pedido de suporte!" disabled></textarea>
+              </div>
+            </div>
+            <div v-else class="row">
               <div class="col-8">
-                <textarea @keypress.prevent.enter="sendMessage" v-model="message" name="message"
-                          placeholder="Type something ..." id="message-textarea-editor-message"></textarea>
-                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*"
-                       style="display: none;"/>
-                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*"
-                       @change="eventChangePictureHandler()" style="display: none;"/>
+                <textarea @keypress.prevent.enter="sendMessage" v-model="message" name="message" placeholder="Escreva alguma coisa ..." id="message-textarea-editor-message"></textarea>
+                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*" style="display: none;"/>
+                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*" @change="eventChangePictureHandler()" style="display: none;"/>
               </div>
               <div id="messages-textarea-editor-features" class="col-4">
-                <button @click="recording"><i :class="{ 'fa fa-microphone' : true, 'text-danger' : isRecording }"></i>
-                </button>
+                <button @click="recording"><i :class="{ 'fa fa-microphone' : true, 'text-danger' : isRecording }"></i></button>
                 <button @click="upload('documents')"><i class="fa fa-paperclip"></i></button>
                 <button @click="upload('pictures')"><i class="fa fa-image"></i></button>
                 <button @click.prevent="sendMessage" id="send-message"><i class="fa fa-paper-plane"></i></button>
@@ -254,7 +226,8 @@ aside {
           div.recent-activity-user-avatar {
             width: 38px;
             height: 38px;
-            background: url('https://picsum.photos/300/300') 50% 50% no-repeat;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
             background-size: cover;
             border-radius: 50%;
             border: 2px solid #81b826;
@@ -394,17 +367,17 @@ section {
                 margin: 15px 8px;
               }
 
-              &:hover {
+              &.circle-success:hover {
                 color: #81b826;
                 border-color: #81b826;
               }
 
-              &:nth-child(2):hover {
+              &.circle-warning:hover {
                 color: #ffc107;
                 border-color: #ffc107;
               }
 
-              &:nth-child(3):hover {
+              &.circle-danger:hover {
                 color: #dc3545;
                 border-color: #dc3545;
               }
@@ -646,6 +619,9 @@ section {
 }
 </style>
 <script>
+const socketIO = require('socket.io-client');
+const io = socketIO.io("http://localhost:3000")
+
 export default {
   data: function () {
     return {
@@ -660,11 +636,19 @@ export default {
       inboxOpened: true,
       ticket_selected: 0,
       messages: [],
+      activities: [],
       tickets: [],
       ticket: {}
     }
   },
   mounted: function () {
+
+    // Recent activity
+    io.on('activity:recent', (activity) => {
+      this.user = "757365726176617461725f656475756265737361.jpg"
+      this.activities.push(activity);
+    });
+
     this.$http.get('/api/v1/tickets')
         .then((response) => {
           this.tickets = response.data.tickets;
@@ -674,6 +658,60 @@ export default {
     });
   },
   methods: {
+
+    /**
+     * Accept ticket support
+     * @param ticket
+     */
+    acceptEventHandleClick: function (ticket) {
+      ticket.isClosed = false;
+      ticket.supported_by = "60dda0bcc36f5e2e131128bf";
+      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
+      // this.$http.patch('/ticket/accept', { slug : ticket.slug, user: "60dda0bcc36f5e2e131128bf" }, (err, ticket) => {
+      //   if(err) throw err;
+      //   ticket.isClosed = false;
+      //   ticket.supported_by = "60dda0bcc36f5e2e131128bf";
+      // }).catch((err) => {
+      //   // eslint-disable-next-line no-console
+      //   console.log(err);
+      // });
+    },
+
+    /**
+     * Solved and Close ticket
+     * @param ticket
+     */
+    solvedEventHandleClick: function (ticket) {
+      ticket.isClosed = true;
+      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> terminou o suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
+    },
+    /**
+     * Reopen ticket support
+     * @param ticket
+     */
+    reopenEventHandleClick: function (ticket) {
+      ticket.isClosed = false;
+      ticket.supported_by = "60dda0bcc36f5e2e131128bf";
+      ticket.isReopen = true;
+      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> Reabriu o Ticket#${ticket.slug}`);
+      // this.$http.patch('/ticket/reopen', { slug : ticket.slug, is_closed: false, is_reopen: true }, (err, ticket) => {
+      //   if(err) throw err;
+      //   ticket.isClosed = false;
+      //   ticket.supported_by = "60dda0bcc36f5e2e131128bf";
+      //   ticket.isReopen = true;
+      //   io.emit("chat:message", `O ticket "${ticket.title}" de ${ticket.created_by.firstname } ${ticket.created_by.lastname} foi reaberto com sucesso!`);
+      // }).catch((err) => {
+      //   alert(err.message);
+      // });
+    },
+    /**
+     * Delete ticket support
+     * @param ticket
+     */
+    trashEventHandleClick: function (ticket, key) {
+      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> O ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a> foi apagado com sucesso!`);
+      this.tickets.splice(key, 1);
+    },
     upload: function (input) {
       switch (input) {
         case 'documents': {
@@ -704,6 +742,7 @@ export default {
       }
     },
     sendMessage: function () {
+      io.emit("chat:message", this.message);
       this.messages.push({send: true, body: this.message});
       this.message = null;
     },

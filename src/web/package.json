@@ -14,6 +14,7 @@
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "core-js": "^3.6.4",
+    "socket.io-client": "^4.1.2",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-cli": "^2.9.6",

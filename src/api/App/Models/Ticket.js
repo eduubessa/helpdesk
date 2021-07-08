@@ -34,6 +34,11 @@ const TicketSchema = mongoose.Schema({
         required: true,
         default: false
     },
+    isReopen: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     created_at: {
         type: Date,
         required: true,

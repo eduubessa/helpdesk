@@ -1,12 +1,20 @@
 const path = require('path');
 const cors = require('cors');
+const dotenv = require("dotenv");
 const morgan = require('morgan');
 const moment = require('moment');
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const momentTimezone = require('moment-timezone');
+
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: '*'
+    }
+});
 
 moment.locale('pt');
 
@@ -20,12 +28,37 @@ const database = require('./Database/database');
 const routerAPI = require('./Routes/api');
 const routerWeb = require('./Routes/web');
 
-app.use(cors());
+dotenv.config();
+console.log("API TOKEN: " + process.env.API_TOKEN_ACCESS);
+
+let options = {
+    origin: '*',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+};
+
+app.use(cors(options));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+io.on('connection', socket => {
+    // Chat Message
+    socket.on('chat:message', msg => {
+        console.log(msg);
+        io.emit('chat:message', msg);
+    });
+
+    // Recent activity
+    socket.on('activity:recent', activity => {
+        console.log(activity);
+        io.emit('activity:recent', `${activity}`);
+    });
+});
+
 app.use('/api/v1', routerAPI);
 app.use('/', routerWeb);
+app.set("trust proxy", 1);
 
 if(server.debug === true) {
     app.use('/', (request, response, next) => {
@@ -73,7 +106,7 @@ app.use((request, response, next) => {
     });
 });
 
-app.listen(server.port, server.host, (request, response) => {
+http.listen(server.port, server.host, (request, response) => {
     console.log(`Listening to requests on ${server.host}`);
 });
 

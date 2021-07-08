@@ -1,5 +1,6 @@
 'use strict';
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 
 const Ticket = require('../Models/Ticket');
 const TicketStoreValidator = require('../Requests/TicketStoreValidator');
@@ -95,6 +96,52 @@ class TicketController {
         });
     }
 
+    /**
+     * Update and Accept ticket support
+     *
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async updateAndAcceptSupport(request, response, next)
+    {
+        let user = mongoose.Types.ObjectId(request.body.supported_by);
+
+        let ticketAndUpdate = await Ticket.findOneAndUpdate({slug: request.body.slug}, { $set: { isClosed: true, supported_by: user }}, { new: false}, (err, ticket) => {
+            if(err) throw err;
+            return response.status(200).json(ticket);
+        }).catch((err) => {
+            return response.status(404).send("ERROR 404 - Page Not Found");
+        });
+    }
+
+    /**
+     * Update: Reopen ticket support
+     *
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async updateAndReopen(request, response, next)
+    {
+        let ticketAndUpdate = await Ticket.findOneAndUpdate({slug: request.body.slug}, { $set: { isClosed: request.body.is_closed, isReopen: request.body.is_reopen }}, { new: false}, (err, ticket) => {
+            if(err) throw err;
+            return response.status(200).json(ticket);
+        }).catch((err) => {
+            return response.status(404).send("ERROR 404 - Page Not Found");
+        });
+    }
+
+    /**
+     * Update: Solved and close ticket
+     *
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
     async updateAndClose(request, response, next) {
         let ticketAndUpdate = await Ticket.findOneAndUpdate({slug: request.body.slug}, { $set: { isClosed: true }}, { new: false}, (err, ticket) => {
             if(err) throw err;
@@ -104,6 +151,14 @@ class TicketController {
         });
     }
 
+    /**
+     * Delete: Delete ticket
+     *
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
     async destroy(request, response, next) {
          let ticketAndDelete = await Ticket.findOneAndDelete({ slug: request.body.slug}, { new: false}, (err, ticket) =>{
              if(err) throw err;
