@@ -1,7 +1,6 @@
 'use strict';
-const crypto = require('crypto');
-
 const User = require('../Models/User');
+const bcrypt = require("bcrypt");
 
 class UserController {
 
@@ -74,21 +73,18 @@ class UserController {
         newUser.lastname = request.body.lastname;
         newUser.username = request.body.username;
         newUser.email = request.body.email;
-
-        newUser.setPassword(request.body.password);
+        newUser.password = await bcrypt.hash(request.body.password, 10);
 
         newUser.save((err, user) => {
-            if((err)) {
-                return response.status(500).json({
+            if(err) {
+                response.status(500).json({
                     error: 500,
                     errorMessage: err,
                     message: 'Não foi possivel criar o utilizador, por favor tente mais tarde!'
                 });
             }else{
-                return response.status(200).json(user);
+                response.status(200).json(user);
             }
-        }).catch((err) => {
-            return response.status(500).json(err);
         });
     }
 

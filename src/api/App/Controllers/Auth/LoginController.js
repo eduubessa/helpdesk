@@ -5,29 +5,33 @@ const config = require('../../../Config/auth');
 
 class LoginController {
 
-    async login (request, response) {
+    async login(request, response) {
 
-        const user = await User.findOne({ username: request.body.username });
+        const user = await User.findOne({username: request.body.username});
 
-        if(!user){
-            return response.status(400).json({ error: 400, message: "Utilizador não encontrado!"});
-        }
+        if (request.body.password !== null && user !== null) {
 
-        if(request.body.password !== null && request.body.password !== "") {
+            if (!user) {
+                return response.status(400).json({error: 400, message: "Utilizador não encontrado!"});
+            }
+
             if (!await bcrypt.compare(request.body.password, user.password)) {
                 return response.status(400).json({error: 400, message: "Password inválida"});
             }
-        }else{
+
+        } else {
             return response.status(400).json({error: 400, message: "Introduza uma password!"});
         }
 
-        let token = jwt.sign({ id: user._id }, config.secret, {
+        let token = jwt.sign({id: user._id}, config.secret, {
             expiresIn: 86400
         });
 
         user.password = undefined;
 
-        return response.status(200).json({ user: user, token: token });
+        return response.status(200).json({user: user, token: token});
+
+
 
     }
 

@@ -1,22 +1,13 @@
-class AuthMiddleware {
+const jwt = require("jsonwebtoken");
 
-    checkAuthentication (request) {
-        let headersAuth = request.headers.authorization;
-
-        if(!headersAuth) {
-            return response.status(401).send({
-                error: 'No token provided'
-            });
-        }
-
-        const parts = headersAuth.split(' ');
-
-        if(parts.length !== 2){
-            return response.status(401).json({
-                error: 'Token error'
-            })
-        }
+module.exports = (request, response, next) => {
+    try {
+        const token = request.headers.authorization.replace("Bearer", "");
+        const decoded = jwt.verify(token, "secret");
+        next();
+    }catch(err){
+        return response.status(401).json({
+            err: "Authentication failed"
+        })
     }
-}
-
-module.exports = AuthMiddleware;
+};

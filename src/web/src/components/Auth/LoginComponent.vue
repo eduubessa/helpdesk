@@ -36,7 +36,7 @@
                     <input class="form-control" type="text" placeholder="Password" name="username" id="input-password" form="auth-sign">
                   </div>
                   <div class="container-fluid">
-                    <button class="btn btn-default pull-right">Entrar</button>
+                    <button @click="authentication()" class="btn btn-default pull-right">Entrar</button>
                   </div>
                 </div>
               </div>
@@ -189,3 +189,24 @@ section.auth {
   }
 }
 </style>
+<script>
+  export default {
+    data () {
+      return {
+        user: {}
+      }
+    },
+    methods: {
+      fetchUser: function () {
+        //let self = this;
+        this.$http.get('/api/v1/users', (err, users) => {
+          // eslint-disable-next-line no-console
+          console.log(users)
+        });
+      },
+      authentication: function () {
+
+      }
+    }
+  }
+</script>

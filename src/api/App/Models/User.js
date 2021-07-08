@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const crypto = require('crypto');
+const bcrypt = require("bcrypt");
 
 const UserSchema = mongoose.Schema({
     avatar : {
@@ -27,6 +28,7 @@ const UserSchema = mongoose.Schema({
         unique : true
     },
     password : {
+        required: true,
         type : String
     },
     created_at : {
@@ -44,28 +46,56 @@ const UserSchema = mongoose.Schema({
         required : true,
         default : false
     },
-    salt : {
-        String
-    }
+    tokens: [
+        {
+            token: {
+                type: String,
+                required: true,
+                unique: true
+            }
+        }
+    ]
 });
 
 /**
- * Set Password
- * @param password
+ * Hash the password before saving the user model
  */
-UserSchema.methods.setPassword = (password) => {
-    this.salt = crypto.randomBytes(16).toString('hex');
-    this.password = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString('hex');
+UserSchema.pre("save", async (next) => {
+    const user = this;
+    if(user.isModified("password")){
+        user.password = await bcrypt.hash(user.password, 10);
+    }
+    next();
+});
+
+/**
+ * Generate token to user authentication
+ * @returns {Promise<*>}
+ */
+UserSchema.methods.generateAuthenticationToken = async () => {
+    const user = this;
+    const token = jwt.sign({_id: user._id, username: user.username, email: user.email }, "secret");
+    user.tokens = user.tokens.concat({ token });
+    await user.save();
+    return token;
 };
 
 /**
- * Check password is valid
+ * Search for user by username and password
+ * @param username
  * @param password
- * @returns {boolean}
+ * @returns {Promise<*>}
  */
-UserSchema.methods.validatePass = (password) => {
-    let hash = crypto.pbkdf2Sync(password, this.salt, 1000,  64, `sha512`).toString(`hex`);
-    return this.hash === hash;
+UserSchema.statics.findByCredentials = async(username, password) => {
+    const user = await User.findOne({ username });
+    if(!user) {
+        throw new Error({error: "Invalid login details, try again!"});
+    }
+    const isPasswordMatch = await(bcrypt.compare(password, user.password));
+    if(!isPasswordMatch){
+        throw new Error({ error: "Invalid login details, try again!"});
+    }
+    return user;
 };
 
 module.exports = mongoose.model('User', UserSchema);
