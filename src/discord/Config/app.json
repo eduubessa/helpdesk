@@ -1,5 +1,11 @@
 {
-  "app_name" : "Helpdesk on Discord",
-  "app_url" : "http://helpdesk.itpeople.pt",
-  "bot_name" : "Xico Simões"
+  "debug" : true,
+  "name" : "Helpdesk Restful API",
+  "description" : "",
+  "port" : 3000,
+  "host": "localhost",
+  "url" : "http://localhost:3000/",
+  "api" : {
+    "token": "Hello world"
+  }
 }

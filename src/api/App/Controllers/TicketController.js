@@ -82,13 +82,13 @@ class TicketController {
         ticket.supported_by = null;
         ticket.save((err, ticket) => {
             if(err) {
-                return response.status(500).json({
+                response.status(500).json({
                     error: 500,
                     errorMessage: err,
                     message: "Não foi possível criar o ticket, tente novamente mais tared!"
                 });
             }else{
-                return response.status(200).json({
+                response.status(200).json({
                     message: "O seu ticket foi criado com sucesso",
                     ticket: ticket
                 });

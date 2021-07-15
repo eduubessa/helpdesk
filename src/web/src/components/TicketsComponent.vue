@@ -99,7 +99,7 @@
           </nav>
         </section>
       </section>
-      <section id="messages" class="col-md-7 col-lg-4">
+      <section id="messages" class="col-md-7 col-lg-4" v-if="tickets[ticket_selected] != null">
         <header id="messages-header">
           <h3>{{ tickets[ticket_selected].title }}</h3>
           <div class="ticket-user-creator">
@@ -253,6 +253,7 @@ section {
 
   &#tickets {
     padding: 0;
+    overflow-y: auto;
 
     div.col-sm-6 {
       padding: 0;
@@ -667,6 +668,7 @@ export default {
       ticket.isClosed = false;
       ticket.supported_by = "60dda0bcc36f5e2e131128bf";
       io.emit("activity:recent", `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
+
       // this.$http.patch('/ticket/accept', { slug : ticket.slug, user: "60dda0bcc36f5e2e131128bf" }, (err, ticket) => {
       //   if(err) throw err;
       //   ticket.isClosed = false;
@@ -685,6 +687,7 @@ export default {
       ticket.isClosed = true;
       io.emit("activity:recent", `<strong>Eduardo Bessa</strong> terminou o suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
     },
+
     /**
      * Reopen ticket support
      * @param ticket
@@ -704,6 +707,7 @@ export default {
       //   alert(err.message);
       // });
     },
+
     /**
      * Delete ticket support
      * @param ticket
@@ -734,10 +738,14 @@ export default {
       });
     },
     recording: async function () {
+      const recorder = await this.audioMicrophoneRecording();
       if (this.isRecording === false) {
         this.isRecording = true;
+        recorder.start();
       } else {
+
         this.isRecording = false;
+        await recorder.stop();
 
       }
     },

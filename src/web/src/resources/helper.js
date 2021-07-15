@@ -1,32 +1,36 @@
-'use strict';
-
-const recordingAudio = new Promise(async (resolve) => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true});
-    const mediaRecorder = new MediaRecorder(stream);
-    let audioChunks = [];
-
-    mediaRecorder.addEventListener('dataavailable', (event) => {
-        audioChunks.push(event.data);
-    });
-
-    const start = () => {
-        audioChunks = [];
-        mediaRecorder.start();
-    };
-
-    const stop = () => new Promise((resolve) => {
-        mediaRecorder.addEventListener('stop', () => {
-            const audioBlob = new Blob(audioChunks);
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const audio = new Audio(audioUrl);
-            const play = () => audio.play();
-            resolve({ audioChunks, audioBlob, audioUrl, play});
-        });
-        mediaRecorder.stop();
-    });
-    resolve({ start, stop});
-});
+'use strict'
 
 module.exports = {
-    recordingAudio
+    methods: {
+        audioMicrophoneRecording: function () {
+            return new Promise(resolve => {
+                navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
+                    const mediaRecorder = new MediaRecorder(stream);
+
+                    const start = () => {
+                        mediaRecorder.start();
+
+                        // eslint-disable-next-line no-console
+                        console.log(mediaRecorder.state);
+                    }
+
+                    const stop = () => {
+                        mediaRecorder.stop()
+                        // eslint-disable-next-line no-console
+                        console.log(mediaRecorder.state);
+                    };
+
+                    mediaRecorder.addEventListener("dataavailable", (event) => {
+                        let blob = new Blob(event.data);
+                        let audio = document.createELement("audio");
+                        audio.src = URL.createObjectURL(blob);
+                        audio.controls = true;
+                        audio.play();
+                    });
+
+                    resolve({start, stop})
+                });
+            });
+        }
+    }
 }

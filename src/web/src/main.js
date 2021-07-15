@@ -9,8 +9,11 @@ import LoginComponent from './components/Auth/LoginComponent'
 import PaymentComponent from './components/PaymentComponent';
 import TicketsComponent from './components/TicketsComponent';
 
+const helper = require('./resources/helper');
+
 Vue.use(VueAxios, Axios);
 Vue.use(VueRouter);
+Vue.mixin(helper)
 
 const token  = localStorage.getItem('token');
 
