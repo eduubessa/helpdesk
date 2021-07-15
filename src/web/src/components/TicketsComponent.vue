@@ -141,7 +141,8 @@
                 <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*" @change="eventChangePictureHandler()" style="display: none;"/>
               </div>
               <div id="messages-textarea-editor-features" class="col-4">
-                <button @click="recording"><i :class="{ 'fa fa-microphone' : true, 'text-danger' : isRecording }"></i></button>
+                <button v-if="!isRecording" @click="handleStartRecordingVoiceClick"><i class="fa fa-microphone"></i></button>
+                <button v-else @click="handleStopRecordingVoiceClick"><i class="fa fa-microphone text-danger"></i></button>
                 <button @click="upload('documents')"><i class="fa fa-paperclip"></i></button>
                 <button @click="upload('pictures')"><i class="fa fa-image"></i></button>
                 <button @click.prevent="sendMessage" id="send-message"><i class="fa fa-paper-plane"></i></button>
@@ -737,17 +738,17 @@ export default {
             alert(err.message);
       });
     },
-    recording: async function () {
+    handleStartRecordingVoiceClick: async function () {
       const recorder = await this.audioMicrophoneRecording();
-      if (this.isRecording === false) {
-        this.isRecording = true;
-        recorder.start();
-      } else {
-
-        this.isRecording = false;
-        await recorder.stop();
-
-      }
+      this.isRecording = true;
+      recorder.start()
+    },
+    handleStopRecordingVoiceClick: async function () {
+      const recorder = await this.audioMicrophoneRecording();
+      this.isRecording = false;
+      recorder.stop();
+      // eslint-disable-next-line no-console
+      console.log("Stop fuck!");
     },
     sendMessage: function () {
       io.emit("chat:message", this.message);
