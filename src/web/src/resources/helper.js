@@ -8,36 +8,49 @@ module.exports = {
                     let chunks = [];
                     const mediaRecorder = new MediaRecorder(stream);
 
-                    mediaRecorder.onstop = () => {
-                        let blob = new Blob(chunks);
-                        let audio = document.createElement("audio");
-                        audio.src = URL.createObjectURL(blob);
-                        audio.controls = true;
-                        audio.play();
-                    };
-
-                    mediaRecorder.ondataavailable = (event) => {
-                        if(event.data.size > 0){
-                            chunks.push(event.data);
-                            // eslint-disable-next-line no-console
-                            console.log(mediaRecorder.state)
-                            setTimeout(() => {
-                                mediaRecorder.stop()
-                            }, 1000);
-                        }
-                    }
-
                     const start = () => {
-                        mediaRecorder.start(200);
+                        mediaRecorder.start(5000);
                         // eslint-disable-next-line no-console
-                        console.log(mediaRecorder.state);
+                        console.log("Recorder started!");
                     }
 
                     const stop = () => {
                         if(mediaRecorder.state !== "inactive") {
+                            // eslint-disable-next-line no-console
+                            console.log("Recorder stopped!")
                             mediaRecorder.stop();
+                            mediaRecorder.stream.stop();
                         }
                     }
+
+                    // eslint-disable-next-line no-unused-vars
+                    mediaRecorder.onstop = (event) => {
+                        // eslint-disable-next-line no-console
+                        console.log("On Stop!");
+                        let audio = document.createElement("audio");
+                        let blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus'});
+
+                        chunks = [];
+
+                        let audio_url = window.URL.createObjectURL(blob);
+                        audio.src = audio_url;
+                        audio.play();
+                    };
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        chunks.push(event.data);
+                        // eslint-disable-next-line no-console
+                        console.log(chunks);
+                        // eslint-disable-next-line no-console
+                        console.log(mediaRecorder.state);
+
+                        if(mediaRecorder.state == "recording") {
+                            setTimeout(function () {
+                                mediaRecorder.stop();
+                            }, 5000);
+                        }
+                    }
+
 
                     resolve({start, stop})
                 }).catch((err) => {

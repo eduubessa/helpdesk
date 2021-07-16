@@ -2,7 +2,7 @@
   <section class="app">
     <header class="header">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Help Me</a>
+        <a class="navbar-brand" href="#">HelpMe!</a>
         <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
                 class="navbar-toggler mr-4 border-0" data-target="#navbarSupportedContent"
                 data-toggle="collapse" type="button">
@@ -11,17 +11,17 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/tickets">Tickets</a>
+            <li :class="{ 'nav-item' : true, 'active' : pathname === '/tickets' || pathname === '/' }">
+              <a class="nav-link" :href="pathname !== '/tickets' ? '/tickets' : false">Tickets</a>
+            </li>
+            <li :class="{ 'nav-item' : true,  'active' : pathname === '/trends' }">
+              <a class="nav-link" :href="pathname !== '/trends' ? '/trends' : false">Trends</a>
+            </li>
+            <li :class="{ 'nav-item' : true,  'active' : pathname === '/apps' }" >
+              <a class="nav-link" :href="pathname !== '/apps' ? '/apps' : false">Apps</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/trends">Trends</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/apps">Apps</a>
-            </li>
-            <li class="nav-item">
-              <a @click="onHandleClickFormNewTicket()" aria-disabled="true" class="nav-link" href="#"
+              <a @click="modal = true" aria-disabled="true" class="nav-link" href="#"
                  id="nav-new-ticket" tabindex="-1">
                 <i class="fa fa-envelope mr-1"></i>
                 Novo ticket
@@ -47,215 +47,119 @@
       </div>
     </main>
 
-    <section v-if="!isloaded" class="page-loader">
-      <div class="square"></div>
-      <div class="square"></div>
-      <div class="square"></div>
-      <div class="square"></div>
-    </section>
-
-    <footer class="footer">
-      <section class="lightbox" v-if="formNewTicket === true">
-        <div class="lightbox-content">
-          <h4 class="text-center mt-2">Novo ticket!</h4>
-          <p class="text-center">Preenche o formulário, para pedires ajuda!</p>
+    <transition name="fade">
+      <section v-if="!isloaded" class="page-loader">
+        <div class="container">
           <div class="row">
-            <div class="col-4 offset-2">
-              sdhjfgjsdgfjgsdaf
-            </div>
-            <div class="col-4">
-              sdhjfgjsdgfjgsdaf
+            <div class="col-12 text-center">
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
             </div>
           </div>
-          <div class="input-group">
-            <input v-model="ticket.title" type="text" name="title"/>
-          </div>
-          <div class="input-group">
-            <input v-model="ticket.title" type="text" name="title"/>
+          <div class="row">
+            <div class="col-12 mt-5">
+              <p class="text-white text-center">Estamos a preparar os técnicos!</p><br />
+            </div>
           </div>
         </div>
       </section>
-    </footer>
+
+      <section class="lightbox" v-if="modal">
+        <div class="lightbox-content">
+          <div class="container-fluid">
+           <div class="row">
+             <div class="col-10 offset-1">
+               <header>
+                 <h4 class="text-center font-weight-bold">Estamos aqui para ajudar,</h4>
+                 <p class="text-center">
+                   Pedimos-te por favor que preenchas todo o formulário com o máximo de informação que consigas,
+                   para chegarmos o mais rápido à solução que precisas, e forma a sermos eficazes
+                 </p>
+               </header>
+             </div>
+           </div>
+            <div class="row mt-3">
+              <div class="col-3 offset-1">
+                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.difficulty_level === 3 }" @click="ticket.difficulty_level = 3">
+                  <p><strong>Eu sou iniciante</strong></p>
+                  <p class="text-center"><small>Eu apenas sei utilizar o computador, para o trabalho.</small></p>
+                </button>
+              </div>
+              <div class="col-3">
+                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.difficulty_level === 2 }" @click="ticket.difficulty_level = 2">
+                  <p><strong>Eu sou intermédio</strong></p>
+                  <p class="text-center"><small>Eu já sei instalar e configurar aplicações e o sistema.</small></p>
+                </button>
+              </div>
+              <div class="col-3">
+                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.difficulty_level === 1 }" @click="ticket.difficulty_level = 1">
+                  <p><strong>Eu sou profissional</strong></p>
+                  <p class="text-center"><small>Tenho conhecimentos avançados, apenas preciso de explicação.</small></p>
+                </button>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-12 offset-1">
+                <p class="font-weight-bold">É a tua primeira vez que usa o HelpMe?</p>
+                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.first_time === 1 }" @click="ticket.first_time = 1">Sim</button>
+                <button :class="{ 'btn btn-default btn-select ml-2': true, 'btn-active': ticket.first_time === 0 }" @click="ticket.first_time = 0">Não, já usei!</button>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-10 offset-1">
+                <p class="font-weight-bold">Qual a prioridade</p>
+                <select class="form-control">
+                  <option selected disabled>Seleciona a prioridade</option>
+                  <option value="1">Sem prioridade</option>
+                  <option value="1">Prioritário</option>
+                </select>
+              </div>
+              <div class="col-10 offset-1 mt-4">
+                <p class="font-weight-bold">Descrição</p>
+                <textarea class="form-control"></textarea>
+              </div>
+              <div class="col-10 offset-1 mt-4">
+                <button class="btn btn-select"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </transition>
+
   </section>
 </template>
-<style lang="scss">
-nav.navbar {
-  padding: 0;
-  margin: 0;
-
-  a.navbar-brand {
-    padding: 22px 32px;
-    font-size: 1rem;
-    background: #81b826;
-    font-family: "Poppins";
-    letter-spacing: 2px;
-  }
-
-  ul.navbar-nav {
-    li.nav-item {
-      cursor: pointer;
-      padding: 0 12px;
-      font-family: "Roboto", sans-serif;
-      letter-spacing: 2px;
-      transition: all 0.4s ease;
-      border-right: 1px solid #555;
-      font-size: .8rem;
-
-      &:nth-child(3), &:last-child {
-        border: 0;
-      }
-
-      a.nav-link {
-        color: #999;
-        margin: 10px;
-        padding: 8px 22px;
-        text-transform: uppercase;
-        transition: all 0.4s ease;
-        font-size: 0.8rem;
-        letter-spacing: 3px;
-        border-bottom: 2px solid transparent;
-
-        &#nav-new-ticket {
-          padding: 7px 26px 3px 26px;
-          margin: 16px;
-          color: #fff;
-          border-radius: 24px;
-          letter-spacing: 2px;
-          background: #81b826;
-          font-size: 14px;
-          font-weight: 600;
-
-          &:hover {
-            color: #81b826;
-            background: #fff;
-            border-color: transparent;
-          }
-        }
-      }
-
-      &:hover, &.active {
-        a {
-          color: #fff;
-          border-bottom: 2px solid #81b826;
-        }
-      }
-    }
-
-    .nav-avatar {
-      padding: 0;
-      margin: 0;
-      width: 32px;
-      height: 32px;
-      background-size: cover;
-      border-radius: 50%;
-    }
-  }
-}
-
-section.page-loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  background: rgba(52, 58, 64, 1);
-  display: flex;
-  z-index: 999;
-
-  div.square {
-    margin-right: 8px;
-    width: 22px;
-    height: 22px;
-    background: #81b826;
-    display: inline-flex;
-    $colors: #81b826, #FFFFFF, #81b826, #FFFFFF;
-    border-radius: 50%;
-    @for $i from 1 through length($colors) {
-      &:nth-child(#{$i}) {
-        background-color: nth($colors, $i);
-      }
-    }
-
-    &:first-child, &:nth-child(3) {
-      animation: greenToWhite 1s infinite;
-      animation-delay: 0s;
-    }
-
-    &:nth-child(2), &:last-child {
-      animation: whiteToGreen 1s infinite;
-      animation-delay: 2s;
-    }
-  }
-}
-
-@keyframes greenToWhite {
-  from {
-    background-color: #81b826;
-  }
-  to {
-    background-color: #ffffff;
-  }
-}
-
-@keyframes whiteToGreen {
-  from {
-    background-color: #ffffff;
-  }
-  to {
-    background-color: #81b826;
-  }
-}
-
-section.lightbox {
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  align-content: center;
-  justify-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-
-  div.lightbox-content {
-    padding: 12px;
-    margin: 27vh auto;
-    width: 50%;
-    height: 40vh;
-    border-radius: 4px;
-    align-content: center;
-    justify-items: center;
-    background: #fff;
-  }
-}
+<style lang="scss" scoped>
+  @import "./resources/assets/scss/app.scss";
 </style>
 <script>
 export default {
   data: () => {
     return {
-      ticket: {},
+      ticket: {
+        difficulty_level: 3,
+        first_time: 1
+      },
+      modal: false,
       isloaded: false,
-      formNewTicket: false
+      pathname: null,
+      difficulty_level: 3
     }
   },
   methods: {
-    onHandleClickFormNewTicket: function () {
-      this.formNewTicket = true;
+    handleCreateNewTicketClick: function () {
+      this.modal = true;
     }
   },
   created() {
+    this.pathname = window.location.pathname;
     document.onreadystatechange = () => {
       if (document.readyState === "complete") {
         setTimeout(() => {
           this.isloaded = true;
-        }, 500);
+        }, 1500);
       }
     }
   }

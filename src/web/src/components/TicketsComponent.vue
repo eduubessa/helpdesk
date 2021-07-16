@@ -277,8 +277,6 @@ export default {
       const recorder = await this.audioMicrophoneRecording();
       this.isRecording = false;
       recorder.stop();
-      // eslint-disable-next-line no-console
-      console.log("Stop fuck!");
     },
      handleSendMessageClick: function () {
       io.emit("chat:message", this.message);
