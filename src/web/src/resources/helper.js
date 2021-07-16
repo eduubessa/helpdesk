@@ -15,7 +15,7 @@ module.exports = {
                     }
 
                     const stop = () => {
-                        if(mediaRecorder.state !== "inactive") {
+                        if(mediaRecorder.state === "recording") {
                             // eslint-disable-next-line no-console
                             console.log("Recorder stopped!")
                             mediaRecorder.stop();

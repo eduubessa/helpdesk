@@ -146,9 +146,9 @@ section.lightbox {
   div.lightbox-content {
     padding: 12px;
     margin: 0 auto;
-    width: 55%;
+    width: 60vw;
     height: auto;
-    border-radius: 6px;
+    border-radius: 8px;
     align-content: center;
     justify-items: center;
     background: #fff;
@@ -164,6 +164,14 @@ section.lightbox {
 
   button.btn-select {
     line-height: 20px;
+    width: auto;
+    border: 2px solid #81b826;
+  }
+
+  button.btn-select-square {
+    padding-top: 16px;
+    line-height: 20px;
+    width: 250px;
     border: 2px solid #81b826;
   }
 
@@ -174,7 +182,8 @@ section.lightbox {
   button.btn-select:focus,
   button.btn-select:hover,
   button.btn-select:active,
-  button.btn-select.btn-active {
+  button.btn-select.btn-active,
+  button.btn-select-square.btn-active {
     color: #fff;
     background-color: #81b826;
     outline: none !important;

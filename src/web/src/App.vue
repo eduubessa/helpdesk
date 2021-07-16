@@ -82,46 +82,61 @@
            </div>
             <div class="row mt-3">
               <div class="col-3 offset-1">
-                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.difficulty_level === 3 }" @click="ticket.difficulty_level = 3">
+                <button :class="{ 'btn btn-default btn-select-square': true, 'btn-active': ticket.difficulty_level === 3 }" @click="ticket.difficulty_level = 3">
                   <p><strong>Eu sou iniciante</strong></p>
                   <p class="text-center"><small>Eu apenas sei utilizar o computador, para o trabalho.</small></p>
                 </button>
               </div>
               <div class="col-3">
-                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.difficulty_level === 2 }" @click="ticket.difficulty_level = 2">
+                <button :class="{ 'btn btn-default btn-select-square': true, 'btn-active': ticket.difficulty_level === 2 }" @click="ticket.difficulty_level = 2">
                   <p><strong>Eu sou intermédio</strong></p>
                   <p class="text-center"><small>Eu já sei instalar e configurar aplicações e o sistema.</small></p>
                 </button>
               </div>
               <div class="col-3">
-                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.difficulty_level === 1 }" @click="ticket.difficulty_level = 1">
+                <button :class="{ 'btn btn-default btn-select-square': true, 'btn-active': ticket.difficulty_level === 1 }" @click="ticket.difficulty_level = 1">
                   <p><strong>Eu sou profissional</strong></p>
                   <p class="text-center"><small>Tenho conhecimentos avançados, apenas preciso de explicação.</small></p>
                 </button>
               </div>
             </div>
-            <div class="row mt-5">
+            <div class="row mt-4">
               <div class="col-12 offset-1">
                 <p class="font-weight-bold">É a tua primeira vez que usa o HelpMe?</p>
-                <button :class="{ 'btn btn-default btn-select': true, 'btn-active': ticket.first_time === 1 }" @click="ticket.first_time = 1">Sim</button>
-                <button :class="{ 'btn btn-default btn-select ml-2': true, 'btn-active': ticket.first_time === 0 }" @click="ticket.first_time = 0">Não, já usei!</button>
+                <button :class="{ 'btn btn-default btn-select btn-select': true, 'btn-active': ticket.first_time === 1 }" @click="ticket.first_time = 1">Sim</button>
+                <button :class="{ 'btn btn-default btn-select btn-select ml-2': true, 'btn-active': ticket.first_time === 0 }" @click="ticket.first_time = 0">Não, já usei!</button>
               </div>
             </div>
-            <div class="row mt-4">
-              <div class="col-10 offset-1">
-                <p class="font-weight-bold">Qual a prioridade</p>
+            <div class="row">
+              <div class="col-10 offset-1 mt-4">
+                <p class="font-weight-bold">Qual a prioridade?</p>
                 <select class="form-control">
                   <option selected disabled>Seleciona a prioridade</option>
-                  <option value="1">Sem prioridade</option>
-                  <option value="1">Prioritário</option>
+                  <option value="1">Baixa</option>
+                  <option value="1">Baixa Média</option>
+                  <option value="1">Média</option>
+                  <option value="1">Alta Média</option>
+                  <option value="1">Alta</option>
+                  <option value="1">Urgente</option>
                 </select>
               </div>
               <div class="col-10 offset-1 mt-4">
-                <p class="font-weight-bold">Descrição</p>
+                <p class="font-weight-bold">Qual é o departamento?</p>
+                <select class="form-control">
+                  <option selected disabled>Selecione o departamento</option>
+                  <option value="1">Administrativo</option>
+                  <option value="1">Financeiro</option>
+                  <option value="1">Informático</option>
+                  <option value="1">Marketing</option>
+                  <option value="1">Recursos Humandos</option>
+                </select>
+              </div>
+              <div class="col-10 offset-1 mt-4">
+                <p class="font-weight-bold">Descreve o que precisas:</p>
                 <textarea class="form-control"></textarea>
               </div>
               <div class="col-10 offset-1 mt-4">
-                <button class="btn btn-select"></button>
+                <button class="btn btn-select float-right">Criar ticket</button>
               </div>
             </div>
           </div>

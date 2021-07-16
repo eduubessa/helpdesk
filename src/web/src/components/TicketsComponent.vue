@@ -274,6 +274,8 @@ export default {
       recorder.start()
     },
     handleStopRecordingVoiceClick: async function () {
+      // eslint-disable-next-line no-console
+      console.log("Trying stop record!")
       const recorder = await this.audioMicrophoneRecording();
       this.isRecording = false;
       recorder.stop();
