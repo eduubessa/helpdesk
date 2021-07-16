@@ -80,18 +80,17 @@
                       {{ ticket.created_by.lastname }}</h4>
                     <div class="info">
                       <span v-if="ticket.priority >= 15" class="badge badge-danger mr-2">Priority: High</span>
-                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15"
-                            class="badge badge-warning text-white mr-2">Priority: Medium</span>
+                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15" class="badge badge-warning text-white mr-2">Priority: Medium</span>
                       <span v-else-if="ticket.priority >= 0 && ticket.priority < 15" class="badge badge-success mr-2">Priority: Low</span>
                       <div class="message">{{ ticket.title }}</div>
                     </div>
                   </div>
                   <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2 text-right">
-                    <button @click="acceptEventHandleClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button @click="solvedEventHandleClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button @click="handleAcceptTicketClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button @click="handleSolvedTicketClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
                     <button v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}" class="circle-warning"><i class="fa fa-pencil"></i></button>
-                    <button @click="reopenEventHandleClick(ticket)" v-if="ticket.isClosed && !ticket.isReopen" class="circle-warning"><i class="fa fa-undo"></i></button>
-                    <button @click="trashEventHandleClick(ticket, key)" class="circle-danger"><i class="fa fa-trash"></i></button>
+                    <button @click="handleReOpenTicketClick(ticket)" v-if="ticket.isClosed && !ticket.isReopen" class="circle-warning"><i class="fa fa-undo"></i></button>
+                    <button @click="handleTrashTicketClick(ticket, key)" class="circle-danger"><i class="fa fa-trash"></i></button>
                   </div>
                 </div>
               </li>
@@ -136,16 +135,16 @@
             </div>
             <div v-else class="row">
               <div class="col-8">
-                <textarea @keypress.prevent.enter="sendMessage" v-model="message" name="message" placeholder="Escreva alguma coisa ..." id="message-textarea-editor-message"></textarea>
-                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*" style="display: none;"/>
-                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*" @change="eventChangePictureHandler()" style="display: none;"/>
+                <textarea @keypress.prevent.enter="handleSendMessageClick" v-model="message" name="message" placeholder="Escreva alguma coisa ..." id="message-textarea-editor-message"></textarea>
+                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*" @change="handleUploadImagesVideosAndDocumentsChange" style="display: none;"/>
+                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*" @change="handleUploadImagesVideosAndDocumentsChange()" style="display: none;"/>
               </div>
               <div id="messages-textarea-editor-features" class="col-4">
                 <button v-if="!isRecording" @click="handleStartRecordingVoiceClick"><i class="fa fa-microphone"></i></button>
                 <button v-else @click="handleStopRecordingVoiceClick"><i class="fa fa-microphone text-danger"></i></button>
-                <button @click="upload('documents')"><i class="fa fa-paperclip"></i></button>
-                <button @click="upload('pictures')"><i class="fa fa-image"></i></button>
-                <button @click.prevent="sendMessage" id="send-message"><i class="fa fa-paper-plane"></i></button>
+                <button @click="handleUploadImagesVideosAndDocumentsClick('documents')"><i class="fa fa-paperclip"></i></button>
+                <button @click="handleUploadImagesVideosAndDocumentsClick('pictures')"><i class="fa fa-image"></i></button>
+                <button @click.prevent="handleSendMessageClick" id="send-message"><i class="fa fa-paper-plane"></i></button>
               </div>
             </div>
           </div>
@@ -665,26 +664,25 @@ export default {
      * Accept ticket support
      * @param ticket
      */
-    acceptEventHandleClick: function (ticket) {
+    handleAcceptTicketClick: function (ticket) {
       ticket.isClosed = false;
       ticket.supported_by = "60dda0bcc36f5e2e131128bf";
       io.emit("activity:recent", `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
-
-      // this.$http.patch('/ticket/accept', { slug : ticket.slug, user: "60dda0bcc36f5e2e131128bf" }, (err, ticket) => {
-      //   if(err) throw err;
-      //   ticket.isClosed = false;
-      //   ticket.supported_by = "60dda0bcc36f5e2e131128bf";
-      // }).catch((err) => {
-      //   // eslint-disable-next-line no-console
-      //   console.log(err);
-      // });
+      this.$http.patch('/ticket/accept', { slug : ticket.slug, user: "60dda0bcc36f5e2e131128bf" }, (err, ticket) => {
+        if(err) throw err;
+        ticket.isClosed = false;
+        ticket.supported_by = "60dda0bcc36f5e2e131128bf";
+      }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
     },
 
     /**
      * Solved and Close ticket
      * @param ticket
      */
-    solvedEventHandleClick: function (ticket) {
+    handleSolvedTicketClick: function (ticket) {
       ticket.isClosed = true;
       io.emit("activity:recent", `<strong>Eduardo Bessa</strong> terminou o suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
     },
@@ -693,7 +691,7 @@ export default {
      * Reopen ticket support
      * @param ticket
      */
-    reopenEventHandleClick: function (ticket) {
+    handleReOpenTicketClick: function (ticket) {
       ticket.isClosed = false;
       ticket.supported_by = "60dda0bcc36f5e2e131128bf";
       ticket.isReopen = true;
@@ -713,12 +711,12 @@ export default {
      * Delete ticket support
      * @param ticket
      */
-    trashEventHandleClick: function (ticket, key) {
+    handleTrashTicketClick: function (ticket, key) {
       io.emit("activity:recent", `<strong>Eduardo Bessa</strong> O ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a> foi apagado com sucesso!`);
       this.tickets.splice(key, 1);
     },
-    upload: function (input) {
-      switch (input) {
+    handleUploadImagesVideosAndDocumentsClick: function (type) {
+      switch (type) {
         case 'documents': {
           document.getElementById('upload-documents').click();
         }
@@ -729,14 +727,9 @@ export default {
           break;
       }
     },
-    eventChangePictureHandler: function () {
-      this.$http.put(' /api/v1/messages/')
-          .then((response) => {
-            // eslint-disable-next-line no-console
-            console.log(response);
-          }).catch((err) => {
-            alert(err.message);
-      });
+    handleUploadImagesVideosAndDocumentsChange: function (type) {
+      // eslint-disable-next-line no-console
+      console.log(type);
     },
     handleStartRecordingVoiceClick: async function () {
       const recorder = await this.audioMicrophoneRecording();
@@ -750,7 +743,7 @@ export default {
       // eslint-disable-next-line no-console
       console.log("Stop fuck!");
     },
-    sendMessage: function () {
+     handleSendMessageClick: function () {
       io.emit("chat:message", this.message);
       this.messages.push({send: true, body: this.message});
       this.message = null;
