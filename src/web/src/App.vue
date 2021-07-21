@@ -60,14 +60,15 @@
           </div>
           <div class="row">
             <div class="col-12 mt-5">
-              <p class="text-white text-center">Estamos a preparar os técnicos!</p><br />
+              <p class="text-white text-center">Estamos a ligar os cabos</p><br />
             </div>
           </div>
         </div>
       </section>
 
       <section class="lightbox" v-if="modal">
-        <div class="lightbox-content">
+        <div class="lightbox-content" @click="false">
+          <button @click="modal = false"  class="btn-close-modal"><i class="fa fa-times"></i></button>
           <div class="container-fluid">
            <div class="row">
              <div class="col-10 offset-1">
@@ -84,7 +85,7 @@
               <div class="col-3 offset-1">
                 <button :class="{ 'btn btn-default btn-select-square': true, 'btn-active': ticket.difficulty_level === 3 }" @click="ticket.difficulty_level = 3">
                   <p><strong>Eu sou iniciante</strong></p>
-                  <p class="text-center"><small>Eu apenas sei utilizar o computador, para o trabalho.</small></p>
+                  <p class="text-center"><small>Eu apenas sei utilizar o computador, para o trabalho ou lazer</small></p>
                 </button>
               </div>
               <div class="col-3">
