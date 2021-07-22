@@ -50,8 +50,6 @@ module.exports = {
                             }, 5000);
                         }
                     }
-
-
                     resolve({start, stop})
                 }).catch((err) => {
                     // eslint-disable-next-line no-console
@@ -59,5 +57,5 @@ module.exports = {
                 })
             });
         }
-    }
+    },
 }

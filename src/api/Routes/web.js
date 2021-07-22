@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //Requires
-const TicketController = require('../App/Controllers/TicketController');
+const TicketController = require('../App/Controllers/Api/TicketApiController');
 
 //Instances
 let ticketController = new TicketController();

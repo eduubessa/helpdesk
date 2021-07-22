@@ -38,7 +38,7 @@
               <div class="recent-activity-user">
                 <div class="recent-activity-user-avatar offline" :style="'background-image: url(\'/images/\'' + user.avatar + ');'"></div>
               </div>
-              <span v-html="activity"></span>
+              <span v-html="activity">{{ activity.user }}</span>
             </li>
           </ul>
         </section>
@@ -183,7 +183,6 @@ export default {
 
     // Recent activity
     io.on('activity:recent', (activity) => {
-      this.user = "757365726176617461725f656475756265737361.jpg"
       this.activities.push(activity);
     });
 
@@ -204,7 +203,15 @@ export default {
     handleAcceptTicketClick: function (ticket) {
       ticket.isClosed = false;
       ticket.supported_by = "60dda0bcc36f5e2e131128bf";
-      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
+      let activity = {
+        user: {
+          avatar: "757365726176617461725f656475756265737361.jpg",
+          firstname: "Eduardo",
+          lastname: "Bessa"
+        },
+        message: `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
+      }
+      io.emit("activity:recent", activity);
       this.$http.patch('/ticket/accept', { slug : ticket.slug, user: "60dda0bcc36f5e2e131128bf" }, (err, ticket) => {
         if(err) throw err;
         ticket.isClosed = false;

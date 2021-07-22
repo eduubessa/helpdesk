@@ -1,8 +1,8 @@
 'use strict';
 
-const Department = require('../Models/Departament');
+const Department = require('../../Models/Departament');
 
-class DepartmentController {
+class DepartmentApiController {
 
     /**
      * Fetch all departments
@@ -62,4 +62,4 @@ class DepartmentController {
 
 }
 
-module.exports = DepartmentController;
+module.exports = DepartmentApiController;

@@ -1,6 +1,6 @@
 'use strict';
 
-class MessageController {
+class MessageViewController {
 
     async index(request, response, next)
     {
@@ -27,4 +27,4 @@ class MessageController {
 
 }
 
-module.exports = MessageController;
+module.exports = MessageViewController;

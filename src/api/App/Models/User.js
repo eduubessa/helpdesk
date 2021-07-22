@@ -31,6 +31,11 @@ const UserSchema = mongoose.Schema({
         required: true,
         type : String
     },
+    token: {
+        type: String,
+        required: true,
+        default: 'supersecret'
+    },
     created_at : {
         type : Date,
         required : true,
@@ -46,15 +51,11 @@ const UserSchema = mongoose.Schema({
         required : true,
         default : false
     },
-    tokens: [
-        {
-            token: {
-                type: String,
-                required: true,
-                unique: true
-            }
-        }
-    ]
+    is_admin: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 });
 
 /**

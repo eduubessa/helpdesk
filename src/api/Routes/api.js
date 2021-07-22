@@ -2,54 +2,52 @@ const express = require('express');
 const router = express.Router();
 
 //Requires
-const UserController        = require('../App/Controllers/UserController');
-const DepartmentController  = require('../App/Controllers/DepartmentController');
-const TicketController      = require('../App/Controllers/TicketController');
-const MessageController     = require('../App/Controllers/MessageController');
-const AuthController        = require('../App/Controllers/Auth/LoginController');
-const RegisterController    = require('../App/Controllers/Auth/RegisterController');
-const SettingsController    = require('../App/Controllers/SettingsController');
+const AuthApiController        = require('../App/Controllers/Api/AuthApiController');
+const UserApiController        = require('../App/Controllers/Api/UserApiController');
+const TicketApiController      = require('../App/Controllers/Api/TicketApiController');
+const MessageApiController     = require('../App/Controllers/Api/MessageApiController');
+const SettingsApiController    = require('../App/Controllers/Api/SettingsApiController');
+const DepartmentApiController  = require('../App/Controllers/Api/DepartmentApiController');
 
 //Instances
-let authController          = new AuthController();
-let registerController      = new RegisterController();
-let userController          = new UserController();
-let departmentsController   = new DepartmentController();
-let ticketController        = new TicketController();
-let messageController       = new MessageController();
-let settingsController      = new SettingsController();
+let authApiController          = new AuthApiController();
+let userApiController          = new UserApiController();
+let ticketApiController        = new TicketApiController();
+let messageApiController       = new MessageApiController();
+let settingsApiController      = new SettingsApiController();
+let departmentApiController    = new DepartmentApiController();
 
-//Auth route
-    router.post('/auth/register',   registerController.store);
-router.post('/auth/login',          authController.login);
+// Authentication route
+router.post('/auth/sign-in', authApiController.signIn)
+router.post('/auth/sign-out', authApiController.signOut)
 
 //Users route
-router.get('/users',                userController.index);
-router.post('/users',               userController.store);
-router.delete('/users',             userController.delete);
-router.get('/users/:username',      userController.show);
-
-// Departments routes
-router.get('/departments',          departmentsController.index);
-router.get('/departments/:slug',    departmentsController.show);
-router.post('/departments',         departmentsController.store);
+router.get('/users',                userApiController.index);
+router.post('/users',               userApiController.store);
+router.delete('/users',             userApiController.delete);
+router.get('/users/:username',      userApiController.show);
 
 //Tickets route
-router.get('/tickets',              ticketController.index);
-router.get('/tickets/:slug',        ticketController.show);
-router.post('/tickets',                  ticketController.store);
-router.delete('/ticket/:slug',      ticketController.destroy);
+router.get('/tickets',              ticketApiController.index);
+router.get('/tickets/:slug',        ticketApiController.show);
+router.post('/tickets',                  ticketApiController.store);
+router.delete('/ticket/:slug',      ticketApiController.destroy);
 
 
 // Update infos
-router.patch('/ticket/accept',      ticketController.updateAndAcceptSupport);
-router.patch('/ticket/reopen',      ticketController.updateAndReopen);
-router.patch('/ticket/close',       ticketController.updateAndClose);
+router.patch('/ticket/accept',      ticketApiController.updateAndAcceptSupport);
+router.patch('/ticket/reopen',      ticketApiController.updateAndReopen);
+router.patch('/ticket/close',       ticketApiController.updateAndClose);
+
+// Departments routes
+router.get('/departments',          departmentApiController.index);
+router.get('/departments/:slug',    departmentApiController.show);
+router.post('/departments',         departmentApiController.store);
 
 // Messages
-router.put('/messages',             messageController.upload);
+router.put('/messages',             messageApiController.upload);
 
 //Settings route
-router.get('/settings',             settingsController.index);
+router.get('/settings',             messageApiController.index);
 
 module.exports = router;

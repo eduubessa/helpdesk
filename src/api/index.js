@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const morgan = require('morgan');
 const moment = require('moment');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const momentTimezone = require('moment-timezone');
@@ -50,8 +51,9 @@ io.on('connection', socket => {
     });
 
     // Recent activity
-    socket.on('activity:recent', activity => {
-        console.log(activity);
+    socket.on('activity:recent', (user, activity) => {
+        console.log(`User: ${user.firstname}`);
+        console.log(`Activity:  ${activity}`);
         io.emit('activity:recent', `${activity}`);
     });
 });

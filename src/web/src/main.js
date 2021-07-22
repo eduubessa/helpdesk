@@ -24,15 +24,43 @@ Axios.defaults.baseURL = "http://localhost:3000";
 Vue.config.productionTip = false;
 
 const routes = [
-    { path: '/', component: TicketsComponent },
-    { path: '/auth/login', component: LoginComponent },
-    { path: '/tickets', component: TicketsComponent },
-    { path: '/payment', component: PaymentComponent}
+    { path: '/', component: TicketsComponent, meta: { auth: true, admin: false}},
+    { path: '/auth/login', component: LoginComponent, meta: { guest: true } },
+    { path: '/tickets', component: TicketsComponent, meta: { auth: true, admin: true } },
+    { path: '/payment', component: PaymentComponent, meta: { auth: true, admin: true } }
 ];
 
 const router = new VueRouter({
     routes,
     mode: 'history'
+});
+
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.auth)){
+         if(localStorage.getItem('jwt') == null){
+             next({
+                 path: '/auth/login',
+                 query: { redirect_to: (to.path === '/' || to.path === '') ? 'tickets' : to.path.replace('/', '') }
+             });
+         }else{
+             let user = JSON.parse(localStorage.getItem('user'));
+             if(to.matched.some(record => record.meta.admin)) {
+                 if(user.is_admin){
+                     next();
+                 }else{
+                     next({
+                         path: '/error/404'
+                     });
+                 }
+             }else{
+                 next({
+                     path: '/error/404'
+                 });
+             }
+         }
+    }
+
+    next();
 });
 
 new Vue({

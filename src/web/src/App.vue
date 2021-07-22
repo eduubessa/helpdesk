@@ -60,7 +60,7 @@
           </div>
           <div class="row">
             <div class="col-12 mt-5">
-              <p class="text-white text-center">Estamos a ligar os cabos</p><br />
+              <p class="text-white text-center" id="loader-text">{{ current_phrase }}</p><br />
             </div>
           </div>
         </div>
@@ -164,7 +164,13 @@ export default {
       modal: false,
       isloaded: false,
       pathname: null,
-      difficulty_level: 3
+      difficulty_level: 3,
+      loader_phrases: [
+          "A ligar o computador ...",
+          "Aquecer o café ...",
+          "Fazer pesquisas na internet ..."
+      ],
+      current_phrase: "A desenvolver o helpdesk ..."
     }
   },
   methods: {
@@ -182,7 +188,7 @@ export default {
       if (document.readyState === "complete") {
         setTimeout(() => {
           this.isloaded = true;
-        }, 1500);
+        }, 1000);
       }
     }
   }
