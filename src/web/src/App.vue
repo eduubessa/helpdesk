@@ -111,7 +111,7 @@
             <div class="row">
               <div class="col-10 offset-1 mt-4">
                 <p class="font-weight-bold">Qual a prioridade?</p>
-                <select class="form-control">
+                <select class="form-control" v-model="ticket.priority">
                   <option selected disabled>Seleciona a prioridade</option>
                   <option value="1">Baixa</option>
                   <option value="1">Baixa Média</option>
@@ -123,7 +123,7 @@
               </div>
               <div class="col-10 offset-1 mt-4">
                 <p class="font-weight-bold">Qual é o departamento?</p>
-                <select class="form-control">
+                <select class="form-control" v-model="ticket.department">
                   <option selected disabled>Selecione o departamento</option>
                   <option value="1">Administrativo</option>
                   <option value="1">Financeiro</option>
@@ -134,10 +134,10 @@
               </div>
               <div class="col-10 offset-1 mt-4">
                 <p class="font-weight-bold">Descreve o que precisas:</p>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" v-model="ticket.description"></textarea>
               </div>
               <div class="col-10 offset-1 mt-4">
-                <button class="btn btn-select float-right">Criar ticket</button>
+                <button class="btn btn-select float-right" @click="handleSubmitCreateNewTicketClick()">Criar ticket</button>
               </div>
             </div>
           </div>
@@ -155,6 +155,9 @@ export default {
   data: () => {
     return {
       ticket: {
+        priority: null,
+        department: null,
+        description: null,
         difficulty_level: 3,
         first_time: 1
       },
@@ -167,6 +170,10 @@ export default {
   methods: {
     handleCreateNewTicketClick: function () {
       this.modal = true;
+    },
+    handleSubmitCreateNewTicketClick: function () {
+      // eslint-disable-next-line no-console
+      console.log(this.ticket);
     }
   },
   created() {
