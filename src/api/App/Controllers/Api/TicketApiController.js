@@ -19,25 +19,27 @@ class TicketApiController {
      * @param next
      * @returns {*|Promise<Response>}
      */
-    async index (request, response, next)
-    {
+    async index (request, response, next) {
         await Ticket.find({}, (err, tickets) => {
-            if(err) {
-                response.status(500).json({ error: 500, message: 'Não foi possivel encontrar tickets, tente novamente!'});
+            if (err) {
+                response.status(500).json({
+                    error: 500,
+                    message: 'Não foi possivel encontrar tickets, tente novamente!'
+                });
                 throw err;
             }
 
-            if(tickets.length > 0)
-            {
-                response.status(200).json({ tickets : tickets })
-            }else{
-                response.status(200).json({ message : 'Neste momento não temos tickets na nossa base de dados, crie o primeiro ticket'});
+            if (tickets.length > 0) {
+                response.status(200).json({tickets: tickets})
+            } else {
+                response.status(200).json({message: 'Neste momento não temos tickets na nossa base de dados, crie o primeiro ticket'});
             }
         }).populate('created_by', '-_id -email -password -created_at -updated_at -__v')
             .populate('supported_by', '-_id -email -password -created_at -updated_at -__v')
             .select(['-_id', '-__v'])
             .sort([['priority', -1], ['updated_at', -1], ['created_at', -1]]);
     }
+
 
     /**
      *

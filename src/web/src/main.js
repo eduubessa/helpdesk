@@ -7,7 +7,8 @@ import VueRouter from 'vue-router';
 // Components
 import LoginComponent from './components/Auth/LoginComponent'
 import PaymentComponent from './components/PaymentComponent';
-import TicketsComponent from './components/TicketsComponent';
+import TicketsIndexComponent from './components/Tickets/IndexComponent';
+import TicketsClosedComponent from './components/Tickets/ClosedComponent'
 
 const helper = require('./resources/helper');
 
@@ -24,9 +25,10 @@ Axios.defaults.baseURL = "http://localhost:3000";
 Vue.config.productionTip = false;
 
 const routes = [
-    { path: '/', component: TicketsComponent, meta: { auth: true, admin: false}},
+    { path: '/', component: TicketsIndexComponent, meta: { auth: true, admin: false}},
     { path: '/auth/login', component: LoginComponent, meta: { guest: true } },
-    { path: '/tickets', component: TicketsComponent, meta: { auth: true, admin: true } },
+    { path: '/tickets', component: TicketsIndexComponent, meta: { auth: true, admin: true } },
+    { path: '/tickets/closed', component: TicketsClosedComponent, meta: { auth: true, admin: true } },
     { path: '/payment', component: PaymentComponent, meta: { auth: true, admin: true } }
 ];
 

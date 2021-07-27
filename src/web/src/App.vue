@@ -125,7 +125,7 @@
                 <p class="font-weight-bold">Qual é o departamento?</p>
                 <select class="form-control" v-model="ticket.department">
                   <option selected disabled>Selecione o departamento</option>
-                  <option value="1">Administrativo</option>
+                  <option value="1">Administrativo</option>nodemo
                   <option value="1">Financeiro</option>
                   <option value="1">Informático</option>
                   <option value="1">Marketing</option>

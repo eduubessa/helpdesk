@@ -71,6 +71,20 @@
         password: null
       }
     },
+    beforeMount() {
+      if(localStorage.getItem('token') != null){
+        this.$emit('logged_in');
+        if(this.$route.query.redirect_to != null) {
+          this.$router.push("/" + this.$route.query.redirect_to)
+        }else{
+          if(localStorage.getItem('user').is_admin === true){
+            this.$router.push('/tickets');
+          }else{
+            this.$router.push('/apps');
+          }
+        }
+      }
+    },
     methods: {
       authentication: function () {
         if(this.password.length > 3){

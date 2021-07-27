@@ -8,20 +8,20 @@
             <li @click="inboxOpened = true">
               <i class="fa fa-inbox"></i>Inbox
               <ul :class="{ 'd-none' : inboxOpened === false }">
-                <li class="active">All New</li>
-                <li>My New</li>
-                <li>Closed</li>
-                <li>Unanswered</li>
+                <li class="active" @click="$router.push('/tickets')">All</li>
+                <li @click="$router.push('/tickets/my-new')">My New</li>
+                <li @click="$router.push('/tickets/closed')">Closed</li>
+                <li @click="$router.push('/tickets/unanswered')">Unanswered</li>
                 <li>Twitter Support</li>
               </ul>
             </li>
             <li @click="inboxOpened = false">
               <i class="fa fa-inbox"></i>Inquiries
               <ul :class="{ 'd-none' : inboxOpened === true }">
-                <li>All New</li>
-                <li>My New</li>
-                <li>Closed</li>
-                <li>Unanswered</li>
+                <li @click="$router.push('/tickets')">All</li>
+                <li @click="$router.push('/tickets/my-new')">My New</li>
+                <li class="active" @click="$router.push('/tickets/closed')">Closed</li>
+                <li @click="$router.push('/tickets/unanswered')">Unanswered</li>
                 <li>Twitter Support</li>
               </ul>
             </li>
@@ -154,7 +154,7 @@
   </div>
 </template>
 <style lang="scss" scoped>
-  @import "./../resources/assets/scss/tickets.scss";
+  @import "../../resources/assets/scss/tickets";
 </style>
 <script>
 const socketIO = require('socket.io-client');
