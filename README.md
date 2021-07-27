@@ -1,3 +1,7 @@
-# Helpdesk
+# Helpdesk - Aplicação para ajudar no suporte.
 
-Desenvolvimento de Helpdesk com Inteligência artificial, o objetivo deste projeto é automatizar o máximo possível o suporte técnico de forma a que o helpdesk ganha a sua própria inteligência de resolver alguns problemas de suporte automáticamente.
+Esta aplicação foi desenvolvida de forma ajudar em toda a gestão de helpdesk, seja nas empresas como nos projetos pessoais.
+O desolvimento desta aplicação tem direitos de autor, logo para ter acesso à aplicação é necessário ter, um documento em que comprove autorização do uso desta aplicação.
+
+
+

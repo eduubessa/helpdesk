@@ -72,13 +72,6 @@
       }
     },
     methods: {
-      fetchUser: function () {
-        //let self = this;
-        this.$http.get('/api/v1/users', (err, users) => {
-          // eslint-disable-next-line no-console
-          console.log(users)
-        });
-      },
       authentication: function () {
         if(this.password.length > 3){
           this.$http.post('/api/v1/auth/sign-in', {
@@ -87,7 +80,7 @@
           }).then((response) => {
             localStorage.setItem('user', JSON.stringify(response.data.user));
             localStorage.setItem('token', response.data.token);
-            if(localStorage.getItem('jwt') != null){
+            if(localStorage.getItem('token') != null){
               this.$emit('logged_in');
               if(this.$route.query.redirect_to != null) {
                 this.$router.push("/" + this.$route.query.redirect_to)

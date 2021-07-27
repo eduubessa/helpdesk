@@ -163,10 +163,7 @@ const io = socketIO.io("http://localhost:3000")
 export default {
   data: function () {
     return {
-      user: {
-        avatar: '',
-        level: 5
-      },
+      user: {},
       stream: null,
       recorder: null,
       isRecording: false,
@@ -180,6 +177,7 @@ export default {
     }
   },
   mounted: function () {
+    this.user = localStorage.getItem('user');
 
     // Recent activity
     io.on('activity:recent', (activity) => {
@@ -203,15 +201,9 @@ export default {
     handleAcceptTicketClick: function (ticket) {
       ticket.isClosed = false;
       ticket.supported_by = "60dda0bcc36f5e2e131128bf";
-      let activity = {
-        user: {
-          avatar: "757365726176617461725f656475756265737361.jpg",
-          firstname: "Eduardo",
-          lastname: "Bessa"
-        },
-        message: `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
-      }
-      io.emit("activity:recent", activity);
+      let user = localStorage.getItem('user');
+      let activity = `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
+      io.emit("activity:recent", user, activity);
       this.$http.patch('/ticket/accept', { slug : ticket.slug, user: "60dda0bcc36f5e2e131128bf" }, (err, ticket) => {
         if(err) throw err;
         ticket.isClosed = false;
