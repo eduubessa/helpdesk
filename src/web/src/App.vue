@@ -30,8 +30,7 @@
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link nav-avatar"
-                 style="background-image: url('/images/757365726176617461725f656475756265737361.jpg')" href="#"></a>
+              <a class="nav-link nav-avatar" :style="'background-image: url(/images/' + user.avatar + ')'" href="#"></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Sair</a>
@@ -161,6 +160,7 @@ export default {
         difficulty_level: 3,
         first_time: 1
       },
+      user: {},
       modal: false,
       isloaded: false,
       pathname: null,
@@ -183,6 +183,7 @@ export default {
     }
   },
   created() {
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.pathname = window.location.pathname;
     document.onreadystatechange = () => {
       if (document.readyState === "complete") {

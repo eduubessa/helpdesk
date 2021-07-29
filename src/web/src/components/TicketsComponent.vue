@@ -8,9 +8,9 @@
             <li @click="inboxOpened = true">
               <i class="fa fa-inbox"></i>Inbox
               <ul :class="{ 'd-none' : inboxOpened === false }">
-                <li @click="$router.push('/tickets')">All</li>
+                <li class="active" @click="$router.push('/tickets')">All</li>
                 <li @click="$router.push('/tickets/my-new')">My New</li>
-                <li class="active" @click="$router.push('/tickets/closed')">Closed</li>
+                <li @click="$router.push('/tickets/closed')">Closed</li>
                 <li @click="$router.push('/tickets/unanswered')">Unanswered</li>
                 <li>Twitter Support</li>
               </ul>
@@ -18,9 +18,9 @@
             <li @click="inboxOpened = false">
               <i class="fa fa-inbox"></i>Inquiries
               <ul :class="{ 'd-none' : inboxOpened === true }">
-                <li>All New</li>
+                <li>All</li>
                 <li>My New</li>
-                <li><link href="/tickets/closed">Closed</li>
+                <li>Closed</li>
                 <li>Unanswered</li>
                 <li>Twitter Support</li>
               </ul>
@@ -36,9 +36,9 @@
           <ul>
             <li v-for="(activity, key) in activities" :key="key">
               <div class="recent-activity-user">
-                <div class="recent-activity-user-avatar offline" :style="'background-image: url(\'/images/\'' + user.avatar + ');'"></div>
+                <div class="recent-activity-user-avatar offline" :style="'background-image: url(/images/' + activity.user.avatar + ');'"></div>
               </div>
-              <span v-html="activity">{{ activity.user }}</span>
+              <span v-html="activity.message"></span>
             </li>
           </ul>
         </section>
@@ -73,9 +73,9 @@
                   </div>
                   <div class="col-sm-10 col-md-8 col-lg-8 pt-3 pb-3">
                     <h4>
-                      <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && !ticket.isClosed">New</span>
-                      <span class="badge badge-danger mr-2" v-if="ticket.isClosed">Closed</span>
-                      <span class="badge badge-success mr-2" v-if="!ticket.isClosed && ticket.supported_by != null">Open</span>
+                      <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && !ticket.is_closed">New</span>
+                      <span class="badge badge-danger mr-2" v-if="ticket.is_closed">Closed</span>
+                      <span class="badge badge-success mr-2" v-if="!ticket.is_closed && ticket.supported_by != null">Open</span>
                       {{ ticket.created_by.firstname }}
                       {{ ticket.created_by.lastname }}</h4>
                     <div class="info">
@@ -86,10 +86,10 @@
                     </div>
                   </div>
                   <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2 text-right">
-                    <button @click="handleAcceptTicketClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button @click="handleSolvedTicketClick(ticket)" v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button v-if="!ticket.isClosed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}" class="circle-warning"><i class="fa fa-pencil"></i></button>
-                    <button @click="handleReOpenTicketClick(ticket)" v-if="ticket.isClosed && !ticket.isReopen" class="circle-warning"><i class="fa fa-undo"></i></button>
+                    <button @click="handleAcceptTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button @click="handleSolvedTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
+                    <button v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}" class="circle-warning"><i class="fa fa-pencil"></i></button>
+                    <button @click="handleReOpenTicketClick(ticket)" v-if="ticket.is_closed && !ticket.is_reopen" class="circle-warning"><i class="fa fa-undo"></i></button>
                     <button @click="handleTrashTicketClick(ticket, key)" class="circle-danger"><i class="fa fa-trash"></i></button>
                   </div>
                 </div>
@@ -127,9 +127,9 @@
         </section>
         <footer id="messages-textarea">
           <div id="messages-textarea-editor">
-            <div v-if="tickets[ticket_selected].isClosed || tickets[ticket_selected].supported_by === null" class="row text-center">
+            <div v-if="tickets[ticket_selected].is_closed || tickets[ticket_selected].supported_by === null" class="row text-center">
               <div class="col-12">
-                <textarea v-if="tickets[ticket_selected].isClosed" class="text-center" placeholder="O ticket foi dado como concluído, não é possivel enviar mensagem..." disabled></textarea>
+                <textarea v-if="tickets[ticket_selected].is_closed" class="text-center" placeholder="O ticket foi dado como concluído, não é possivel enviar mensagem..." disabled></textarea>
                 <textarea v-else-if="tickets[ticket_selected].supported_by === null" class="text-center" placeholder="Para iniciar a conversa, é necessário aceitar o pedido de suporte!" disabled></textarea>
               </div>
             </div>
@@ -154,9 +154,10 @@
   </div>
 </template>
 <style lang="scss" scoped>
-@import "../../resources/assets/scss/tickets";
+  @import "../resources/assets/scss/tickets";
 </style>
 <script>
+
 const socketIO = require('socket.io-client');
 const io = socketIO.io("http://localhost:3000")
 
@@ -177,40 +178,64 @@ export default {
     }
   },
   mounted: function () {
-    this.user = localStorage.getItem('user');
+    this.user = JSON.parse(localStorage.getItem('user'));
 
     // Recent activity
     io.on('activity:recent', (activity) => {
       this.activities.push(activity);
     });
 
-    this.$http.get('/api/v1/tickets?is_closed=true')
-        .then((response) => {
+    let query = '';
+
+    switch(this.$route.path.replace('/tickets/', ''))
+    {
+      case 'closed': query = "?is_closed=true"; break;
+      case 'unanswered': query = "?supported_by=null"; break;
+      default : query = '';
+    }
+
+    this.$http.get('/api/v1/tickets' + query).then((response) => {
           this.tickets = response.data.tickets;
         }).catch((err) => {
       alert(err.message);
       throw err;
     });
+
+     this.$http.get('/api/v1/activities').then((response) => {
+       this.activities = response.data.activities;
+     }).catch((err) => {
+       alert(err.message);
+       throw err;
+     })
   },
   methods: {
+    // Fetch Tickets wi
+    fetchTicketsWithQuery: function (query = '') {
+      this.$http.get('/api/v1/tickets?' + query)
+          .then((response) => {
+            this.tickets = response.data.tickets;
+          }).catch((err) => {
+        alert(err.message);
+        throw err;
+      });
+    },
 
     /**
      * Accept ticket support
      * @param ticket
      */
     handleAcceptTicketClick: function (ticket) {
-      ticket.isClosed = false;
-      ticket.supported_by = "60dda0bcc36f5e2e131128bf";
-      let user = localStorage.getItem('user');
-      let activity = `<strong>Eduardo Bessa</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
-      io.emit("activity:recent", user, activity);
-      this.$http.patch('/ticket/accept', { slug : ticket.slug, user: "60dda0bcc36f5e2e131128bf" }, (err, ticket) => {
-        if(err) throw err;
-        ticket.isClosed = false;
-        ticket.supported_by = "60dda0bcc36f5e2e131128bf";
-      }).catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
+      this.$http.put(`/api/v1/tickets/${ticket.slug}`, { supported_by: this.user._id})
+          .then(() => {
+            let activity = {
+              user: this.user,
+              message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
+            }
+            io.emit("activity:recent", activity);
+            this.ticket.supported_by = this.user._id;
+          }).catch((err) => {
+        alert(err.message);
+        throw err;
       });
     },
 
@@ -219,28 +244,36 @@ export default {
      * @param ticket
      */
     handleSolvedTicketClick: function (ticket) {
-      ticket.isClosed = true;
-      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> terminou o suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`);
-    },
+      this.$http.put(`/api/v1/tickets/${ticket.slug}`, { is_closed: true })
+          .then(() => {
+            let activity = {
+              user: this.user,
+              message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> terminou o suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
+            }
+            io.emit("activity:recent", activity);
+            ticket.is_closed = true;
+          }).catch((err) => {
+        alert(err.message);
+        throw err;
+      });
+     },
 
     /**
      * Reopen ticket support
      * @param ticket
      */
     handleReOpenTicketClick: function (ticket) {
-      ticket.isClosed = false;
-      ticket.supported_by = "60dda0bcc36f5e2e131128bf";
-      ticket.isReopen = true;
-      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> Reabriu o Ticket#${ticket.slug}`);
-      // this.$http.patch('/ticket/reopen', { slug : ticket.slug, is_closed: false, is_reopen: true }, (err, ticket) => {
-      //   if(err) throw err;
-      //   ticket.isClosed = false;
-      //   ticket.supported_by = "60dda0bcc36f5e2e131128bf";
-      //   ticket.isReopen = true;
-      //   io.emit("chat:message", `O ticket "${ticket.title}" de ${ticket.created_by.firstname } ${ticket.created_by.lastname} foi reaberto com sucesso!`);
-      // }).catch((err) => {
-      //   alert(err.message);
-      // });
+      this.$http.put(`/api/v1/tickets/${ticket.slug}`, { is_closed: false, is_reopen: true })
+          .then(() => {
+            let activity = {
+              user: this.user,
+              message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Reabriu o Ticket#${ticket.slug}`
+            }
+            io.emit("activity:recent", this.user, activity);
+          }).catch((err) => {
+            alert(err.message);
+            throw err;
+      });
     },
 
     /**
@@ -248,7 +281,11 @@ export default {
      * @param ticket
      */
     handleTrashTicketClick: function (ticket, key) {
-      io.emit("activity:recent", `<strong>Eduardo Bessa</strong> O ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a> foi apagado com sucesso!`);
+      let activity = {
+        user: this.user,
+        message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> O ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a> foi apagado com sucesso!`
+      }
+      io.emit("activity:recent", activity);
       this.tickets.splice(key, 1);
     },
     handleUploadImagesVideosAndDocumentsClick: function (type) {
@@ -279,7 +316,7 @@ export default {
       this.isRecording = false;
       recorder.stop();
     },
-    handleSendMessageClick: function () {
+     handleSendMessageClick: function () {
       io.emit("chat:message", this.message);
       this.messages.push({send: true, body: this.message});
       this.message = null;
