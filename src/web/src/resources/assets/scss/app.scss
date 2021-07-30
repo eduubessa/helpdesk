@@ -3,7 +3,7 @@
 nav.navbar {
   padding: 0;
   margin: 0;
-
+  height: 68px;
   a.navbar-brand {
     padding: 22px 32px;
     font-size: 1rem;
@@ -64,10 +64,9 @@ nav.navbar {
 
     .nav-avatar {
       padding: 0;
-      margin: 0;
-      width: 32px;
-      height: 32px;
-      background-size: cover;
+      margin: 0 15px 0 0;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
     }
   }

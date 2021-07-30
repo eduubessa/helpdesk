@@ -8,10 +8,10 @@
             <li @click="inboxOpened = true">
               <i class="fa fa-inbox"></i>Inbox
               <ul :class="{ 'd-none' : inboxOpened === false }">
-                <li class="active" @click="$router.push('/tickets')">All</li>
-                <li @click="$router.push('/tickets/my-new')">My New</li>
-                <li @click="$router.push('/tickets/closed')">Closed</li>
-                <li @click="$router.push('/tickets/unanswered')">Unanswered</li>
+                <li :class="{ 'active' : $route.path == '/tickets'}" @click="$router.push('/tickets')">All</li>
+                <li :class="{ 'active' : $route.path == '/tickets/my-new'}" @click="$router.push('/tickets/my-new')">My New</li>
+                <li :class="{ 'active' : $route.path == '/tickets/closed'}" @click="$router.push('/tickets/closed')">Closed</li>
+                <li :class="{ 'active' : $route.path == '/tickets/unanswered'}" @click="$router.push('/tickets/unanswered')">Unanswered</li>
                 <li>Twitter Support</li>
               </ul>
             </li>
@@ -36,7 +36,8 @@
           <ul>
             <li v-for="(activity, key) in activities" :key="key">
               <div class="recent-activity-user">
-                <div class="recent-activity-user-avatar offline" :style="'background-image: url(/images/' + activity.user.avatar + ');'"></div>
+                <div class="recent-activity-user-avatar offline"
+                     :style="'background-image: url(/images/' + activity.user.avatar + ');'"></div>
               </div>
               <span v-html="activity.message"></span>
             </li>
@@ -54,7 +55,9 @@
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
               <div id="order">
-                Ordenar por: <strong id="order-by" tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="<ul class='order-by-select'><li>Atualizado: Mais recente</li><li>Atualizado: Mais antigo</li><li>Criação: Mais recente</li><li>Criação: mais antigo</li><li>Autor: A-Z</li><li>Autor: Z-A</li></ul>">
+                Ordenar por: <strong id="order-by" tabindex="0" data-toggle="popover" data-trigger="focus"
+                                     data-placement="bottom"
+                                     data-content="<ul class='order-by-select'><li>Atualizado: Mais recente</li><li>Atualizado: Mais antigo</li><li>Criação: Mais recente</li><li>Criação: mais antigo</li><li>Autor: A-Z</li><li>Autor: Z-A</li></ul>">
                 <span>Atualizado - Mais recente</span>
                 <i class="fa fa-sort-down"></i></strong>
               </div>
@@ -69,28 +72,40 @@
                   @click="ticket_selected = key; messages = [];">
                 <div class="row">
                   <div class="col-sm-3 col-md-3 col-lg-1">
-                    <div class="ticket-item-user-avatar" :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
+                    <div class="ticket-item-user-avatar"
+                         :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
                   </div>
                   <div class="col-sm-10 col-md-8 col-lg-8 pt-3 pb-3">
                     <h4>
-                      <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && !ticket.is_closed">New</span>
+                      <span class="badge badge-info mr-2"
+                            v-if="ticket.supported_by == null && !ticket.is_closed">New</span>
                       <span class="badge badge-danger mr-2" v-if="ticket.is_closed">Closed</span>
                       <span class="badge badge-success mr-2" v-if="!ticket.is_closed && ticket.supported_by != null">Open</span>
                       {{ ticket.created_by.firstname }}
                       {{ ticket.created_by.lastname }}</h4>
                     <div class="info">
                       <span v-if="ticket.priority >= 15" class="badge badge-danger mr-2">Priority: High</span>
-                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15" class="badge badge-warning text-white mr-2">Priority: Medium</span>
+                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15"
+                            class="badge badge-warning text-white mr-2">Priority: Medium</span>
                       <span v-else-if="ticket.priority >= 0 && ticket.priority < 15" class="badge badge-success mr-2">Priority: Low</span>
                       <div class="message">{{ ticket.title }}</div>
                     </div>
                   </div>
                   <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2 text-right">
-                    <button @click="handleAcceptTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button @click="handleSolvedTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                    <button v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}" class="circle-warning"><i class="fa fa-pencil"></i></button>
-                    <button @click="handleReOpenTicketClick(ticket)" v-if="ticket.is_closed && !ticket.is_reopen" class="circle-warning"><i class="fa fa-undo"></i></button>
-                    <button @click="handleTrashTicketClick(ticket, key)" class="circle-danger"><i class="fa fa-trash"></i></button>
+                    <button @click="handleAcceptTicketClick(ticket)"
+                            v-if="!ticket.is_closed && ticket.supported_by == null"
+                            :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i>
+                    </button>
+                    <button @click="handleSolvedTicketClick(ticket)"
+                            v-if="!ticket.is_closed && ticket.supported_by != null"
+                            :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i>
+                    </button>
+                    <button v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}"
+                            class="circle-warning"><i class="fa fa-pencil"></i></button>
+                    <button @click="handleReOpenTicketClick(ticket)" v-if="ticket.is_closed && !ticket.is_reopen"
+                            class="circle-warning"><i class="fa fa-undo"></i></button>
+                    <button @click="handleTrashTicketClick(ticket, key)" class="circle-danger"><i
+                        class="fa fa-trash"></i></button>
                   </div>
                 </div>
               </li>
@@ -105,7 +120,9 @@
             <div class="ticket-user-creator-avatar"
                  :style="`background-image: url('/images/${tickets[ticket_selected].created_by.avatar}')`"></div>
             <span>by
-              <strong>{{ tickets[ticket_selected].created_by.firstname }} {{ tickets[ticket_selected].created_by.lastname }}</strong>
+              <strong>{{
+                  tickets[ticket_selected].created_by.firstname
+                }} {{ tickets[ticket_selected].created_by.lastname }}</strong>
             </span>
           </div>
         </header>
@@ -127,24 +144,37 @@
         </section>
         <footer id="messages-textarea">
           <div id="messages-textarea-editor">
-            <div v-if="tickets[ticket_selected].is_closed || tickets[ticket_selected].supported_by === null" class="row text-center">
+            <div v-if="tickets[ticket_selected].is_closed || tickets[ticket_selected].supported_by === null"
+                 class="row text-center">
               <div class="col-12">
-                <textarea v-if="tickets[ticket_selected].is_closed" class="text-center" placeholder="O ticket foi dado como concluído, não é possivel enviar mensagem..." disabled></textarea>
-                <textarea v-else-if="tickets[ticket_selected].supported_by === null" class="text-center" placeholder="Para iniciar a conversa, é necessário aceitar o pedido de suporte!" disabled></textarea>
+                <textarea v-if="tickets[ticket_selected].is_closed" class="text-center"
+                          placeholder="O ticket foi dado como concluído, não é possivel enviar mensagem..."
+                          disabled></textarea>
+                <textarea v-else-if="tickets[ticket_selected].supported_by === null" class="text-center"
+                          placeholder="Para iniciar a conversa, é necessário aceitar o pedido de suporte!"
+                          disabled></textarea>
               </div>
             </div>
             <div v-else class="row">
               <div class="col-8">
-                <textarea @keypress.prevent.enter="handleSendMessageClick" v-model="message" name="message" placeholder="Escreva alguma coisa ..." id="message-textarea-editor-message"></textarea>
-                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*" @change="handleUploadImagesVideosAndDocumentsChange" style="display: none;"/>
-                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*" @change="handleUploadImagesVideosAndDocumentsChange()" style="display: none;"/>
+                <textarea @keypress.prevent.enter="handleSendMessageClick" v-model="message" name="message"
+                          placeholder="Escreva alguma coisa ..." id="message-textarea-editor-message"></textarea>
+                <input type="file" id="upload-documents" name="documents" accept="application/*,image/*|video/*,audio/*"
+                       @change="handleUploadImagesVideosAndDocumentsChange" style="display: none;"/>
+                <input type="file" id="upload-pictures" name="pictures" accept="image/*,video/*"
+                       @change="handleUploadImagesVideosAndDocumentsChange()" style="display: none;"/>
               </div>
               <div id="messages-textarea-editor-features" class="col-4">
-                <button v-if="!isRecording" @click="handleStartRecordingVoiceClick"><i class="fa fa-microphone"></i></button>
-                <button v-else @click="handleStopRecordingVoiceClick"><i class="fa fa-microphone text-danger"></i></button>
-                <button @click="handleUploadImagesVideosAndDocumentsClick('documents')"><i class="fa fa-paperclip"></i></button>
-                <button @click="handleUploadImagesVideosAndDocumentsClick('pictures')"><i class="fa fa-image"></i></button>
-                <button @click.prevent="handleSendMessageClick" id="send-message"><i class="fa fa-paper-plane"></i></button>
+                <button v-if="!isRecording" @click="handleStartRecordingVoiceClick"><i class="fa fa-microphone"></i>
+                </button>
+                <button v-else @click="handleStopRecordingVoiceClick"><i class="fa fa-microphone text-danger"></i>
+                </button>
+                <button @click="handleUploadImagesVideosAndDocumentsClick('documents')"><i class="fa fa-paperclip"></i>
+                </button>
+                <button @click="handleUploadImagesVideosAndDocumentsClick('pictures')"><i class="fa fa-image"></i>
+                </button>
+                <button @click.prevent="handleSendMessageClick" id="send-message"><i class="fa fa-paper-plane"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -180,37 +210,55 @@ export default {
   mounted: function () {
     this.user = JSON.parse(localStorage.getItem('user'));
 
+    // eslint-disable-next-line no-console
+    console.log(this.user)
+
     // Recent activity
     io.on('activity:recent', (activity) => {
       this.activities.push(activity);
     });
 
-    let query = '';
-
-    switch(this.$route.path.replace('/tickets/', ''))
-    {
-      case 'closed': query = "?is_closed=true"; break;
-      case 'unanswered': query = "?supported_by=null"; break;
-      default : query = '';
-    }
-
-    this.$http.get('/api/v1/tickets' + query).then((response) => {
-          this.tickets = response.data.tickets;
-        }).catch((err) => {
+    this.$http.get('/api/v1/tickets').then((response) => {
+      this.tickets = response.data.tickets;
+    }).catch((err) => {
       alert(err.message);
       throw err;
     });
 
-     this.$http.get('/api/v1/activities').then((response) => {
-       this.activities = response.data.activities;
-     }).catch((err) => {
-       alert(err.message);
-       throw err;
-     })
+    this.$http.get('/api/v1/activities').then((response) => {
+      this.activities = response.data.activities;
+    }).catch((err) => {
+      alert(err.message);
+      throw err;
+    })
+  },
+  watch: {
+    $route(to){
+      let query = to.path.replace('/tickets/', '');
+      switch(query)
+      {
+        case 'all': query = ""; break;
+        case 'closed': query = "?is_closed=true"; break;
+        case 'my-new': query = "?supported_by=" + this.user._id; break;
+        case 'unanswered': query = "?supported_by=unanswered"; break;
+        default : query = ""; break;
+      }
+
+      //let query = 'status=' + to.path.replace('/tickets/', '');
+      this.$http.get(`/api/v1/tickets${query}`)
+          .then((response) => {
+            this.tickets = response.data.tickets;
+          }).catch((err) => {
+        alert(err.message);
+        throw err;
+      });
+    }
   },
   methods: {
     // Fetch Tickets wi
     fetchTicketsWithQuery: function (query = '') {
+      // eslint-disable-next-line no-console
+      console.log(query)
       this.$http.get('/api/v1/tickets?' + query)
           .then((response) => {
             this.tickets = response.data.tickets;
@@ -225,8 +273,8 @@ export default {
      * @param ticket
      */
     handleAcceptTicketClick: function (ticket) {
-      this.$http.put(`/api/v1/tickets/${ticket.slug}`, { supported_by: this.user._id})
-          .then(() => {
+      this.$http.put(`/api/v1/tickets/${ticket.slug}`, {supported_by: this.user._id}).then(() => {
+        ticket.supported_by = this.user._id;
             let activity = {
               user: this.user,
               message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
@@ -244,7 +292,8 @@ export default {
      * @param ticket
      */
     handleSolvedTicketClick: function (ticket) {
-      this.$http.put(`/api/v1/tickets/${ticket.slug}`, { is_closed: true })
+      ticket.is_closed = true;
+      this.$http.put(`/api/v1/tickets/${ticket.slug}`, {is_closed: true})
           .then(() => {
             let activity = {
               user: this.user,
@@ -256,14 +305,14 @@ export default {
         alert(err.message);
         throw err;
       });
-     },
+    },
 
     /**
      * Reopen ticket support
      * @param ticket
      */
     handleReOpenTicketClick: function (ticket) {
-      this.$http.put(`/api/v1/tickets/${ticket.slug}`, { is_closed: false, is_reopen: true })
+      this.$http.put(`/api/v1/tickets/${ticket.slug}`, {is_closed: false, is_reopen: true})
           .then(() => {
             let activity = {
               user: this.user,
@@ -271,8 +320,8 @@ export default {
             }
             io.emit("activity:recent", this.user, activity);
           }).catch((err) => {
-            alert(err.message);
-            throw err;
+        alert(err.message);
+        throw err;
       });
     },
 
@@ -316,7 +365,7 @@ export default {
       this.isRecording = false;
       recorder.stop();
     },
-     handleSendMessageClick: function () {
+    handleSendMessageClick: function () {
       io.emit("chat:message", this.message);
       this.messages.push({send: true, body: this.message});
       this.message = null;

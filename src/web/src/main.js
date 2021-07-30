@@ -26,7 +26,7 @@ Axios.defaults.baseURL = "http://localhost:3000";
 Vue.config.productionTip = false;
 
 const routes = [
-    { path: '/', component: TicketsComponent, alias: ['/tickets', '/tickets/closed', '/tickets/unanswered'], meta: { auth: true, admin: false}},
+    { path: '/', component: TicketsComponent, alias: ['/tickets', '/tickets/closed', '/tickets/my-new', '/tickets/unanswered'], meta: { auth: true, admin: false}},
     { path: '/auth/login', component: LoginComponent, meta: { guest: true } },
     { path: '/payment', component: PaymentComponent, meta: { auth: true, admin: true } }
 ];

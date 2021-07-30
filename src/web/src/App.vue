@@ -30,7 +30,7 @@
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link nav-avatar" :style="'background-image: url(/images/' + user.avatar + ')'" href="#"></a>
+              <a class="nav-link" @click="$router.push('/profile/' + user.username)"><img class="nav-avatar" :src="'/images/' + user.avatar" alt="">{{ user.firstname }} {{ user.lastname}}</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Sair</a>
@@ -178,8 +178,6 @@ export default {
       this.modal = true;
     },
     handleSubmitCreateNewTicketClick: function () {
-      // eslint-disable-next-line no-console
-      console.log(this.ticket);
     }
   },
   created() {
