@@ -18,21 +18,26 @@ const MessageSchema = mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    created_at: {
-        type: Date,
+    receiver: {
+        type: mongoose.Types.ObjectId,
         required: true,
-        default: moment.now()
+        ref: 'User'
     },
     read_at: {
         type: Date,
-        required: true,
+        required: false,
         default: moment.now()
     },
     is_deleted: {
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    created_at: {
+        type: Date,
+        required: true,
+        default: moment.now()
+    },
 });
 
 module.exports = mongoose.model('Message', MessageSchema);

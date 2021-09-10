@@ -4,7 +4,7 @@
   "description": "IT People Helpdesk Restful API",
   "main": "index.js",
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
     "connect-redis": "^3.4.2",
     "cors": "^2.8.5",

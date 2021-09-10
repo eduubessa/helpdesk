@@ -1,5 +1,5 @@
 <template>
-  <section class="app">
+  <section v-if="user !== {} || user !== undefined" class="app">
     <header class="header">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">HelpMe!</a>
@@ -47,7 +47,7 @@
     </main>
 
     <transition name="fade">
-      <section v-if="!isloaded" class="page-loader">
+      <section v-if="!is_loaded" class="page-loader">
         <div class="container">
           <div class="row">
             <div class="col-12 text-center">
@@ -66,8 +66,8 @@
       </section>
 
       <section class="lightbox" v-if="modal">
+        <button @click="modal = false"  class="btn-close-modal"><i class="fa fa-times"></i></button>
         <div class="lightbox-content" @click="false">
-          <button @click="modal = false"  class="btn-close-modal"><i class="fa fa-times"></i></button>
           <div class="container-fluid">
            <div class="row">
              <div class="col-10 offset-1">
@@ -103,8 +103,21 @@
             <div class="row mt-4">
               <div class="col-12 offset-1">
                 <p class="font-weight-bold">É a tua primeira vez que usa o HelpMe?</p>
-                <button :class="{ 'btn btn-default btn-select btn-select': true, 'btn-active': ticket.first_time === 1 }" @click="ticket.first_time = 1">Sim</button>
-                <button :class="{ 'btn btn-default btn-select btn-select ml-2': true, 'btn-active': ticket.first_time === 0 }" @click="ticket.first_time = 0">Não, já usei!</button>
+                <button :class="{ 'btn btn-default btn-select btn-select': true, 'btn-active': ticket.first_time === 1 }" @click="ticket.first_time = true">Sim</button>
+                <button :class="{ 'btn btn-default btn-select btn-select ml-2': true, 'btn-active': ticket.first_time === 0 }" @click="ticket.first_time = false">Não, já usei!</button>
+              </div>
+            </div>
+            <div v-if="user.is_admin" class="row mt-4">
+              <div class="col-12 offset-1">
+                <p class="font-weight-bold">Este ticket é para ti?</p>
+                <button :class="{ 'btn btn-default btn-select btn-select': true, 'btn-active': to_me === true }" @click="to_me = true">Sim</button>
+                <button :class="{ 'btn btn-default btn-select btn-select ml-2': true, 'btn-active': to_me === false }" @click="to_me = false">Não!</button>
+              </div>
+            </div>
+            <div v-if="!to_me" class="row mt-4">
+              <div class="col-12 offset-1">
+                <p class="font-weight-bold">Para quem?</p>
+                <input class="form-control" type="text" v-model="ticket.author" />
               </div>
             </div>
             <div class="row">
@@ -143,7 +156,14 @@
         </div>
       </section>
     </transition>
+  </section>
 
+  <section v-else class="app">
+    <main class="main">
+      <div class="container-fluid">
+        <router-view></router-view>
+      </div>
+    </main>
   </section>
 </template>
 <style lang="scss" scoped>
@@ -154,6 +174,7 @@ export default {
   data: () => {
     return {
       ticket: {
+        author: null,
         priority: null,
         department: null,
         description: null,
@@ -161,8 +182,9 @@ export default {
         first_time: 1
       },
       user: {},
+      to_me: false,
       modal: false,
-      isloaded: false,
+      is_loaded: false,
       pathname: null,
       difficulty_level: 3,
       loader_phrases: [
@@ -183,10 +205,11 @@ export default {
   created() {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.pathname = window.location.pathname;
+
     document.onreadystatechange = () => {
       if (document.readyState === "complete") {
         setTimeout(() => {
-          this.isloaded = true;
+          this.is_loaded = true;
         }, 1000);
       }
     }

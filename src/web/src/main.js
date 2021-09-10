@@ -5,9 +5,11 @@ import VueAxios from "vue-axios";
 import VueRouter from 'vue-router';
 
 // Components
+import AppsComponent from './components/AppsComponents';
 import LoginComponent from './components/Auth/LoginComponent'
 import PaymentComponent from './components/PaymentComponent';
 import TicketsComponent from './components/TicketsComponent';
+
 // import TicketsIndexComponent from './components/Tickets/IndexComponent';
 // import TicketsClosedComponent from './components/Tickets/ClosedComponent'
 
@@ -27,6 +29,7 @@ Vue.config.productionTip = false;
 
 const routes = [
     { path: '/', component: TicketsComponent, alias: ['/tickets', '/tickets/closed', '/tickets/my-new', '/tickets/unanswered'], meta: { auth: true, admin: false}},
+    { path: '/apps', component: AppsComponent, meta: true },
     { path: '/auth/login', component: LoginComponent, meta: { guest: true } },
     { path: '/payment', component: PaymentComponent, meta: { auth: true, admin: true } }
 ];

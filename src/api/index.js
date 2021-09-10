@@ -9,6 +9,11 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const momentTimezone = require('moment-timezone');
 
+const User = require('./App/Models/User');
+const Ticket = require('./App/Models/Ticket');
+const Message = require('./App/Models/Message');
+const Activity = require('./App/Models/Activity');
+
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http, {
@@ -28,6 +33,9 @@ const database = require('./Database/database');
 //Router
 const routerAPI = require('./Routes/api');
 const routerWeb = require('./Routes/web');
+const bcrypt = require("bcrypt");
+const {unix} = require("moment");
+const mongoose = require("mongoose");
 
 dotenv.config();
 console.log("API TOKEN: " + process.env.API_TOKEN_ACCESS);
@@ -45,16 +53,56 @@ app.use(bodyParser.json());
 
 io.on('connection', socket => {
     // Chat Message
-    socket.on('chat:message', msg => {
-        console.log(msg);
-        io.emit('chat:message', msg);
+    socket.on('chat:message', async (msg) => {
+        let t = undefined;
+        let u = undefined;
+        let a = undefined;
+
+        t = await Ticket.findOne({ slug: msg.ticket }).then((ticket) => {
+            return ticket;
+        });
+
+        a = await User.findOne({ username: msg.author }).then((user) => {
+            return user;
+        })
+
+        u = await User.findOne({ username: msg.receiver }).then((user) => {
+            return user;
+        });
+
+        if(t != null && a !== null && a !== undefined && u !== null && u !== undefined) {
+            let m = new Message;
+            m.ticket = mongoose.Types.ObjectId(t._id);
+            m.author = mongoose.Types.ObjectId(a._id);
+            m.receiver = mongoose.Types.ObjectId(u._id);
+            m.body = msg.body;
+            m.is_deleted = false;
+            m.created_at = moment.now();
+            await m.save((err, message) => {
+                console.log(`Mensagem criada e enviada com sucesso de ${a.firstname} ${a.lastname} para ${u.firstname} ${u.lastname}!`)
+            });
+            io.emit('chat:message', msg);
+        }
     });
 
     // Recent activity
-    socket.on('activity:recent', (user, activity) => {
-        console.log(`User: ${user.firstname}`);
-        console.log(`Activity:  ${activity}`);
-        io.emit('activity:recent', `${activity}`);
+    socket.on('activity:recent', async (activity) => {
+        let u = undefined;
+        let a = undefined;
+
+        u = await User.findOne({ username: activity.user.username }).then((user) => {
+            return user;
+        });
+
+        a = new Activity;
+        a.user = u._id;
+        a.message = activity.message;
+        a.visible = true;
+        a.created_at = moment.now();
+
+        await a.save(() => {
+            io.emit('activity:recent', activity);
+        });
     });
 });
 

@@ -1,0 +1,147 @@
+[{
+  "_id": {
+    "$oid": "60dd9d7970d52808c0d7756c"
+  },
+  "priority": 10,
+  "created_at": {
+    "$date": "2021-07-01T09:14:10.275Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-01T09:14:10.275Z"
+  },
+  "title": "O meu primeiro ticket",
+  "departament": "support",
+  "slug": "3dab6de5d995b8664fe024ff",
+  "created_by": {
+    "$oid": "60de4c73c3991c5284aa7c83"
+  },
+  "supported_by": {
+    "$oid": "60dda0bcc36f5e2e131128bf"
+  },
+  "__v": 0,
+  "is_closed": false
+},{
+  "_id": {
+    "$oid": "60e57819a0aef35854aab34f"
+  },
+  "priority": 20,
+  "created_at": {
+    "$date": "2021-07-07T09:44:58.858Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T09:44:58.858Z"
+  },
+  "title": "A minha impressora não está ligada à rede!",
+  "departament": "support",
+  "slug": "8d68adfa337138aba440fb16",
+  "created_by": {
+    "$oid": "60e574fac6059e3b0009d0b5"
+  },
+  "supported_by": {
+    "$oid": "60e712f94a15b94be855fb70"
+  },
+  "__v": 0,
+  "isReopen": true,
+  "is_closed": true
+},{
+  "_id": {
+    "$oid": "60e58134aa2de4352cf5af93"
+  },
+  "priority": 20,
+  "created_at": {
+    "$date": "2021-07-07T09:59:30.496Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T09:59:30.496Z"
+  },
+  "title": "Olá! Eu não estou a conseguir instalar uma o Visual Studio Code, está a dar error 0x68421544",
+  "departament": "support",
+  "slug": "eca22eafdd4cdb7bb4a60857",
+  "created_by": {
+    "$oid": "60e57f7baa2de4352cf5af8a"
+  },
+  "supported_by": null,
+  "__v": 0,
+  "is_closed": false
+},{
+  "_id": {
+    "$oid": "60e581f7e033200428ab30c1"
+  },
+  "priority": 1,
+  "created_at": {
+    "$date": "2021-07-07T10:29:09.701Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T10:29:09.701Z"
+  },
+  "title": "Se possível preciso que me enviem as folhas de salários dos últimos 6 meses, podem me enviar por email por favor?",
+  "departament": "finances",
+  "slug": "b257d13225a11509783e4ce4",
+  "created_by": {
+    "$oid": "60e57f7baa2de4352cf5af8a"
+  },
+  "supported_by": null,
+  "__v": 0,
+  "is_closed": false
+},{
+  "_id": {
+    "$oid": "60e5b5822981d43e44894962"
+  },
+  "priority": 20,
+  "created_at": {
+    "$date": "2021-07-07T13:48:21.259Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T13:48:21.259Z"
+  },
+  "title": "Eu preciso de um ficheiro de base de dados, com todos os candidatos ao cliente do Santander, mas não consigo fazer download!",
+  "departament": "finances",
+  "slug": "d59c79c0b8dd8f547eb5cedf",
+  "created_by": {
+    "$oid": "60e5b5322981d43e4489495f"
+  },
+  "supported_by": null,
+  "__v": 0,
+  "is_closed": false
+},{
+  "_id": {
+    "$oid": "60e5b63d2981d43e44894973"
+  },
+  "priority": 1,
+  "created_at": {
+    "$date": "2021-07-07T13:48:21.259Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T13:48:21.259Z"
+  },
+  "title": "Eu não estou a conseguir enviar emails através da app das finanças",
+  "departament": "development",
+  "slug": "917f55c50110b0c9f6b65f66",
+  "created_by": {
+    "$oid": "60e5b5f72981d43e44894970"
+  },
+  "supported_by": null,
+  "__v": 0,
+  "is_closed": false
+},{
+  "_id": {
+    "$oid": "60ec4a82935b3b63988e8b0d"
+  },
+  "priority": 1,
+  "created_at": {
+    "$date": "2021-07-12T13:57:03.262Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-12T13:57:03.262Z"
+  },
+  "title": "Eu não estou a conseguir enviar emails através da app das finanças",
+  "departament": "development",
+  "slug": "05ec9310b4bac3ebb34bab6f",
+  "created_by": {
+    "$oid": "60e7458d71af942a04d21de6"
+  },
+  "supported_by": null,
+  "__v": 0,
+  "is_closed": false,
+  "is_reopen": false
+}]

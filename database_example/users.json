@@ -1,0 +1,132 @@
+[{
+  "_id": {
+    "$oid": "60dda0bcc36f5e2e131128bf"
+  },
+  "avatar": "757365726176617461725f656475756265737361.jpg",
+  "firstname": "Eduardo",
+  "lastname": "Bessa",
+  "username": "eduubessa",
+  "email": "eduubessa@gmail.com",
+  "password": "$2b$10$E2AEK7gjjU9ThgIWoVy5le9cQVx.On6825tmGNJ5zVjRQazpxr0ee",
+  "updated_at": {
+    "$date": "2021-07-01T09:14:10.275Z"
+  },
+  "created_at": {
+    "$date": "2021-07-01T09:14:10.275Z"
+  },
+  "ativated": true,
+  "is_admin": true,
+  "token": "superscret"
+},{
+  "_id": {
+    "$oid": "60de4c73c3991c5284aa7c83"
+  },
+  "avatar": "757365726176617461725f6361726f6c70696e7461646f.jpg",
+  "created_at": {
+    "$date": "2021-07-01T23:14:55.325Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-01T23:14:55.325Z"
+  },
+  "actived": false,
+  "firstname": "Carolina",
+  "lastname": "Dias",
+  "username": "carolpintado",
+  "email": "carolpintado@gmail.com",
+  "__v": 0,
+  "password": "$2b$10$E2AEK7gjjU9ThgIWoVy5le9cQVx.On6825tmGNJ5zVjRQazpxr0ee",
+  "is_admin": true,
+  "token": "supersecret"
+},{
+  "_id": {
+    "$oid": "60e574fac6059e3b0009d0b5"
+  },
+  "avatar": "757365726176617461725f726171656c726f64.jpg",
+  "created_at": {
+    "$date": "2021-07-07T09:08:11.954Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T09:08:11.954Z"
+  },
+  "actived": true,
+  "firstname": "Raquel",
+  "lastname": "Rodrigues",
+  "username": "raqelrod",
+  "email": "raqelrod@gmail.com",
+  "__v": 0,
+  "password": "$2b$10$E2AEK7gjjU9ThgIWoVy5le9cQVx.On6825tmGNJ5zVjRQazpxr0ee"
+},{
+  "_id": {
+    "$oid": "60e57f7baa2de4352cf5af8a"
+  },
+  "avatar": "757365726176617461725f746f6d6d79616c6d65696461.jpg",
+  "created_at": {
+    "$date": "2021-07-07T09:59:30.488Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T09:59:30.488Z"
+  },
+  "actived": false,
+  "firstname": "Tomás",
+  "lastname": "Almeida",
+  "username": "tommydev",
+  "email": "tommydev@gmail.com",
+  "__v": 0,
+  "password": "$2b$10$E2AEK7gjjU9ThgIWoVy5le9cQVx.On6825tmGNJ5zVjRQazpxr0ee"
+},{
+  "_id": {
+    "$oid": "60e5b5322981d43e4489495f"
+  },
+  "avatar": "757365726176617461725f74617469616e6173616e63686573.jpg",
+  "created_at": {
+    "$date": "2021-07-07T13:48:21.251Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T13:48:21.251Z"
+  },
+  "actived": false,
+  "firstname": "Tatiana ",
+  "lastname": "Sanches",
+  "username": "tatianasanches",
+  "email": "tatianasanches@gmail.com",
+  "__v": 0,
+  "password": "$2b$10$E2AEK7gjjU9ThgIWoVy5le9cQVx.On6825tmGNJ5zVjRQazpxr0ee"
+},{
+  "_id": {
+    "$oid": "60e5b5f72981d43e44894970"
+  },
+  "avatar": "757365726176617461725f66696c6970616e65766573.jpg",
+  "created_at": {
+    "$date": "2021-07-07T13:48:21.251Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-07T13:48:21.251Z"
+  },
+  "actived": false,
+  "firstname": "Filipa",
+  "lastname": "Neves",
+  "username": "filipaneves",
+  "email": "filipaneves@gmail.com",
+  "__v": 0,
+  "password": "$2b$10$E2AEK7gjjU9ThgIWoVy5le9cQVx.On6825tmGNJ5zVjRQazpxr0ee"
+},{
+  "_id": {
+    "$oid": "60e7458d71af942a04d21de6"
+  },
+  "avatar": "757365726176617461725f616e6173616c6f6d65.jpg",
+  "created_at": {
+    "$date": "2021-07-08T18:35:57.087Z"
+  },
+  "updated_at": {
+    "$date": "2021-07-08T18:35:57.087Z"
+  },
+  "actived": false,
+  "firstname": "Ana Salomé",
+  "lastname": "Albuquerque",
+  "username": "anasalome",
+  "email": "anasalome@gmail.com",
+  "password": "$2b$10$E2AEK7gjjU9ThgIWoVy5le9cQVx.On6825tmGNJ5zVjRQazpxr0ee",
+  "__v": 0,
+  "is_admin": true,
+  "token": "supersecret"
+}]

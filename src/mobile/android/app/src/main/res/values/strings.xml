@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">helpdesk</string>
+    <string name="btn_get_started">Get Started</string>
+    <string name="btn_sign_in">Sign In</string>
+</resources>

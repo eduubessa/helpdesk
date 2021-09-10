@@ -153,6 +153,10 @@ section {
       border: 0;
       height: 83.7vh;
       overflow-y: auto;
+      &::-webkit-scrollbar { width: 4px; }
+      &::-webkit-scrollbar-track { background: #F5F5F5; }
+      &::-webkit-scrollbar-thumb { background: #343A40; border-radius: 40px; }
+      &::-webkit-scrollbar-thumb:hover { background: #81b826; }
       nav#nav-tickets {
         padding: 0;
 
@@ -298,12 +302,34 @@ section {
     }
 
     section#messages-conversation {
-      height: 55vh;
+      height: 54.5vh;
       background: whitesmoke !important;
       border: 0;
+      overflow-y: scroll;
+      overflow-x: hidden;
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+          background: #F5F5F5;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+          background: #343A40;
+          border-radius: 40px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+          background: #81b826;
+        }
 
       div.message-receiver {
         padding: 8px;
+        margin-left: 18px;
         display: flex;
 
         div.message-receiver-avatar {
@@ -311,7 +337,7 @@ section {
           width: 55px;
           height: 55px;
           border-radius: 50%;
-          background: red;
+          background-size: cover;
         }
 
         div.message-receiver-body {
@@ -320,6 +346,7 @@ section {
           padding: 10px 16px;
           position: relative;
           width: auto;
+          max-width: 70%;
           background: #81b826;
           border-radius: 4px;
 
@@ -349,6 +376,7 @@ section {
           padding: 16px;
           position: relative;
           width: auto;
+          max-width: 70%;
           background: #fff;
           border-radius: 4px;
 
@@ -464,22 +492,3 @@ section {
   }
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #F5F5F5;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #343A40;
-  border-radius: 40px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
