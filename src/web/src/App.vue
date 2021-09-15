@@ -2,7 +2,7 @@
   <section v-if="user !== {} || user !== undefined" class="app">
     <header class="header">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">HelpMe!</a>
+        <a class="navbar-brand" href="#">Helpdesk</a>
         <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
                 class="navbar-toggler mr-4 border-0" data-target="#navbarSupportedContent"
                 data-toggle="collapse" type="button">

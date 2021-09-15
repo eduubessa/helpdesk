@@ -9,9 +9,15 @@
               <i class="fa fa-user"></i>Administration
               <ul :class="{ 'd-none' : navigation.apps.administration_opened === false }">
                 <li :class="{ 'active' : $route.path == '/apps'}" @click="$router.push('/tickets')">All</li>
-                <li :class="{ 'active' : $route.path == '/apps/system'}" @click="$router.push('/tickets/my-new')">System</li>
-                <li :class="{ 'active' : $route.path == '/apps/users'}" @click="$router.push('/tickets/closed')">By User</li>
-                <li :class="{ 'active' : $route.path == '/apps/support'}" @click="$router.push('/tickets/closed')">Support</li>
+                <li :class="{ 'active' : $route.path == '/apps/system'}" @click="$router.push('/tickets/my-new')">
+                  System
+                </li>
+                <li :class="{ 'active' : $route.path == '/apps/users'}" @click="$router.push('/tickets/closed')">By
+                  User
+                </li>
+                <li :class="{ 'active' : $route.path == '/apps/support'}" @click="$router.push('/tickets/closed')">
+                  Support
+                </li>
               </ul>
             </li>
             <li @click="navigation.apps.administration_opened = false">
@@ -40,16 +46,49 @@
           </ul>
         </section>
       </aside>
+      <section id="apps"
+               :class="{ 'col-md-12 col-lg-6' : app_selected != null, 'col-md-12 col-lg-10' : app_selected == null }">
+        <header id="apps-header" class="col-12">
+          <div class="row">
+            <div class=" col-sm-6 col-md-6 col-lg-6">
+              <button><i class="fa fa-tag"></i></button>
+              <button><i class="fa fa-flag"></i></button>
+              <button><i class="fa fa-user"></i></button>
+              <button><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6">
+              <div id="order">
+                Ordenar por: <strong id="order-by" tabindex="0" data-toggle="popover" data-trigger="focus"
+                                     data-placement="bottom"
+                                     data-content="<ul class='order-by-select'><li>Atualizado: Mais recente</li><li>Atualizado: Mais antigo</li><li>Criação: Mais recente</li><li>Criação: mais antigo</li><li>Autor: A-Z</li><li>Autor: Z-A</li></ul>">
+                <span>Atualizado - Mais recente</span>
+                <i class="fa fa-sort-down"></i></strong>
+              </div>
+            </div>
+          </div>
+        </header>
+        <nav id="nav-apps" v-if="apps.length > 0">
+          <article class="app text-center" v-for="(app, index) in apps" :key="index">
+            <img class="mt-3" :src="app.brand" width="56px"/>
+            <h5 class="font-weight-bold mt-3">{{ app.title }}</h5>
+            <p class="text-center mt-3">{{ app.description }}</p>
+            <button class="btn btn-default">Selecionar</button>
+          </article>
+        </nav>
+        <div class="py-5" v-else>
+          <p class="text-center">Neste momento não temos registo de nenhuma aplicação!</p>
+        </div>
+      </section>
+      <section id="app-details" class="col-md-7 col-lg-4">
+        <header id="app-detail-header">
+          teste
+        </header>
+      </section>
     </div>
-    <section id="apps" class="col-md-12 col-lg-10'">
-      <header id="apps-header" class="col-12">
-        teste
-      </header>
-    </section>
   </div>
 </template>
 <style lang="scss" scoped>
-  @import "../resources/assets/scss/apps";
+@import "../resources/assets/scss/apps";
 </style>
 <script>
 
@@ -67,13 +106,15 @@ export default {
         }
       },
       activities: [],
+      apps: [],
+      app_selected: null
     }
   },
   mounted: function () {
     this.user = JSON.parse(localStorage.getItem('user'));
     // Recent activity
     io.on('activity:recent', (activity) => {
-      if(this.activities.length >= 5){
+      if (this.activities.length >= 5) {
         this.activities.pop()
       }
       this.activities.unshift(activity)
@@ -91,18 +132,56 @@ export default {
     }).catch((err) => {
       throw err;
     });
+
+    // Temp
+    this.apps = [
+      {
+        brand: 'https://upload.wikimedia.org/wikipedia/commons/3/31/TeamViewer_Logo_Icon_Only.svg',
+        title: 'TeamViewer',
+        description: 'Pacote de software proprietario para acesso remoto, partilha de área de trabalho, entre outras...'
+      },
+      {
+        brand: 'https://camo.githubusercontent.com/e8d69359439d6bde385fccc98ad6920b98fc8355e43b2aa678b66b69bded0ac3/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f343732313330392f3636343330362f66373865356161302d643738312d313165322d383766612d3338626635363164656233392e706e67',
+        title: 'MS Office 365 Enterprise',
+        description: 'Conjunto de aplicações para produtividade/escritório com acesso a cloud online.'
+      },
+      {
+        brand: 'https://upload.wikimedia.org/wikipedia/commons/8/86/Microsoft_Skype_for_Business_logo.png',
+        title: 'Skype',
+        description: 'Software que permite comunicação pela internet, com ligações de voz e de video.'
+      },
+      {
+        brand: 'https://user-images.githubusercontent.com/674621/71187801-14e60a80-2280-11ea-94c9-e56576f76baf.png',
+        title: 'Visual Studio Code',
+        description: 'O Visual Studio Code é um editor de código-fonte desenvolvido pela Microsoft.'
+      },
+      {
+        brand: 'https://logodix.com/logo/555156.png',
+        title: 'Microsoft Visual Studio',
+        description: 'Ambiente de desenvolvimento integrado da Microsoft para desenvolvimento de software.'
+      }
+    ];
   },
   watch: {
-    $route(to){
+    $route(to) {
       let query = to.path.replace('/tickets/', '');
 
-      switch(query)
-      {
-        case 'all': query = ""; break;
-        case 'closed': query = "?is_closed=true"; break;
-        case 'my-new': query = "?supported_by=" + this.user.username; break;
-        case 'unanswered': query = "?supported_by=unanswered"; break;
-        default : query = ""; break;
+      switch (query) {
+        case 'all':
+          query = "";
+          break;
+        case 'closed':
+          query = "?is_closed=true";
+          break;
+        case 'my-new':
+          query = "?supported_by=" + this.user.username;
+          break;
+        case 'unanswered':
+          query = "?supported_by=unanswered";
+          break;
+        default :
+          query = "";
+          break;
       }
 
       this.$http.get(`/api/v1/tickets${query}`)
@@ -114,180 +193,6 @@ export default {
       });
     }
   },
-  methods: {
-    // Fetch Tickets wi
-    fetchTicketsWithQuery: function (query = '') {
-      // eslint-disable-next-line no-console
-      console.log(query);
-      this.$http.get('/api/v1/tickets?' + query)
-          .then((response) => {
-            this.tickets = response.data.tickets;
-          }).catch((err) => {
-        alert(err.message);
-        throw err;
-      });
-    },
-
-    /**
-     * Accept ticket support
-     * @param ticket
-     */
-    handleAcceptTicketClick: function (ticket) {
-      this.$http.patch(`/api/v1/ticket/accept/`, { slug: ticket.slug, supported_by: this.user.username }).then((r) => {
-        let activity = {
-          user: this.user,
-          message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
-        }
-
-        io.emit("activity:recent", activity);
-
-        ticket.is_closed = r.data.ticket.is_closed;
-        ticket.supported_by = r.data.ticket.supported_by;
-        ticket.is_closed = false;
-        ticket.supported_by = "eduubessa";
-
-        let message = {};
-        message.ticket = this.tickets[this.ticket_selected].slug;
-        message.body = `Olá ${this.tickets[this.ticket_selected].created_by.firstname}, em que posso ajudar?`;
-        message.author = this.user.username;
-        message.receiver = this.tickets[this.ticket_selected].created_by.username;
-
-        io.emit("chat:message", message);
-
-        // this.messages.push({
-        //   body: message.body,
-        //   author: message.author,
-        //   receiver: message.receiver
-        // });
-
-      }).catch((err) => {
-        alert(err.message);
-        throw err;
-      });
-    },
-
-    /**
-     * Solved and Close ticket
-     * @param ticket
-     */
-    handleSolvedTicketClick: function (ticket) {
-      ticket.is_closed = true;
-      this.$http.put(`/api/v1/tickets/${ticket.slug}`, {is_closed: true})
-          .then(() => {
-            let activity = {
-              user: this.user,
-              message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> terminou o suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
-            }
-            io.emit("activity:recent", activity);
-            ticket.is_closed = true;
-          }).catch((err) => {
-        alert(err.message);
-        throw err;
-      });
-    },
-
-    /**
-     * Reopen ticket support
-     * @param ticket
-     */
-    handleReOpenTicketClick: function (ticket) {
-      this.$http.put(`/api/v1/tickets/${ticket.slug}`, {is_closed: false, is_reopen: true})
-          .then(() => {
-            let activity = {
-              user: this.user,
-              message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Reabriu o Ticket#${ticket.slug}`
-            }
-            io.emit("activity:recent", activity);
-          }).catch((err) => {
-        alert(err.message);
-        throw err;
-      });
-    },
-
-    /**
-     * Delete ticket support
-     * @param ticket
-     */
-    handleTrashTicketClick: function (ticket, key) {
-      let activity = {
-        user: this.user,
-        message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> O ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a> foi apagado com sucesso!`
-      }
-      io.emit("activity:recent", activity);
-      this.tickets.splice(key, 1);
-    },
-    handleUploadImagesVideosAndDocumentsClick: function (type) {
-      switch (type) {
-        case 'documents': {
-          document.getElementById('upload-documents').click();
-        }
-          break;
-        case "pictures" : {
-          document.getElementById('upload-pictures').click();
-        }
-          break;
-      }
-    },
-
-    handleUploadImagesVideosAndDocumentsChange: function (type) {
-      // eslint-disable-next-line no-console
-      console.log(type);
-    },
-
-    handleStartRecordingVoiceClick: async function () {
-      const recorder = await this.audioMicrophoneRecording();
-      this.isRecording = true;
-      recorder.start()
-    },
-
-    handleStopRecordingVoiceClick: async function () {
-      // eslint-disable-next-line no-console
-      console.log("Trying stop record!")
-      const recorder = await this.audioMicrophoneRecording();
-      this.isRecording = false;
-      recorder.stop();
-    },
-
-    handleSendMessageClick: function () {
-      if(this.message !== null || this.message !== '') {
-        let message = {};
-        message.ticket = this.tickets[this.ticket_selected].slug;
-        message.body = this.message;
-
-        message.author = this.user.username;
-        message.receiver = this.tickets[this.ticket_selected].created_by.username;
-
-        // Temp
-        // message.receiver = this.user.username;
-        // message.author = this.tickets[this.ticket_selected].created_by.username;
-
-        io.emit("chat:message", message);
-
-        this.messages.push({
-          body: this.message,
-          author: this.user,
-          receiver: this.tickets[this.ticket_selected].created_by.username
-        });
-
-
-        this.message = null;
-      }
-    },
-
-    fetchTicketMessages: function (i) {
-      let ticket = this.tickets[i].slug;
-      let author = this.user.username;
-      let receiver = this.tickets[i].created_by.username
-      this.$http.post(`/api/v1/messages`, { ticket: ticket, author: author, receiver: receiver }).then((r) => {
-        if(r.data !== null) {
-          this.messages = r.data.messages;
-        }else{
-          this.messages = [];
-        }
-      }).catch((err) => {
-        throw err;
-      });
-    }
-  }
+  methods: {}
 }
 </script>

@@ -30,7 +30,7 @@ router.post('/users',               userApiController.store);
 router.delete('/users',             userApiController.delete);
 router.get('/users/:username',      userApiController.show);
 
-//Tickets route
+//Tickets routes
 router.get('/tickets',              ticketApiController.index);
 router.get('/tickets/:slug',        ticketApiController.show);
 router.post('/tickets',                   ticketApiController.store);
@@ -48,10 +48,12 @@ router.get('/activities',           activitiesApiController.index);
 router.post('/activities',           activitiesApiController.store);
 router.get('/activities/:username', activitiesApiController.show);
 
-// Messages
+// Messages routes
 router.post('/messages',             messageApiController.index);
 router.post('/messages/sent',        messageApiController.store);
-router.put('/messages',             messageApiController.upload);
+router.put('/messages',              messageApiController.upload);
+
+router.get('/apps',                  appsApiController.index);
 
 //Settings route
 router.get('/settings',             messageApiController.index);
