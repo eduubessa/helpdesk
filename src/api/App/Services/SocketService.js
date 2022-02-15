@@ -1,7 +1,12 @@
-const io = require('socket.io')(http, {
-    cors: {
-        origin: '*'
-    }
-});
 
-module.exports = { io }
+class SocketService {
+
+    constructor(http) {
+        this.http = http;
+        this.io = require('socket.io')(http);
+    }
+
+    
+}
+
+module.exports = new SocketService;

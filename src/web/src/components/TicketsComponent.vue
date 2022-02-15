@@ -250,8 +250,6 @@ export default {
   methods: {
     // Fetch Tickets wi
     fetchTicketsWithQuery: function (query = '') {
-      // eslint-disable-next-line no-console
-      console.log(query);
       this.$http.get('/api/v1/tickets?' + query)
           .then((response) => {
             this.tickets = response.data.tickets;

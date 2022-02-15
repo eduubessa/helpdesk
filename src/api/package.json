@@ -1,58 +1,51 @@
 {
-  "name": "helpdesk",
+  "name": "helpdeskapi",
   "version": "1.0.0",
-  "description": "IT People Helpdesk Restful API",
+  "description": "New Helpdesk API (2022)",
   "main": "index.js",
-  "dependencies": {
-    "bcrypt": "^3.0.8",
-    "body-parser": "^1.19.0",
-    "connect-redis": "^3.4.2",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "jsonwebtoken": "^8.5.1",
-    "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
-    "mongoose": "^5.13.0",
-    "morgan": "^1.9.1",
-    "nodemailer": "^6.6.2",
-    "nodemailer-express-handlebars": "^3.1.0",
-    "nodemon": "^1.19.4",
-    "passport": "^0.4.1",
-    "pug": "^2.0.4",
-    "socket.io": "^4.1.2"
-  },
-  "devDependencies": {},
   "scripts": {
-    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eduardobessait/helpdesk.git"
+    "url": "git+ssh://git@github.com/eduubessa/helpdesk.git"
   },
   "keywords": [
+    "helpdesk",
     "it",
-    "itpeople",
-    "people",
-    "eduubessa",
     "eduardo",
     "bessa",
-    "it",
-    "people",
+    "eduubessa",
     "nodejs",
-    "helpdesk",
-    "vuejs",
-    "rest",
-    "api",
-    "restful"
+    "multiplataforma",
+    "web",
+    "mobile",
+    "discord"
   ],
-  "author": "Eduardo Bessa",
+  "author": "Eduardo Bessa <eduubessa@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/eduardobessait/helpdesk/issues"
+    "url": "https://github.com/eduubessa/helpdesk/issues"
   },
-  "homepage": "https://github.com/eduardobessait/helpdesk#readme"
+  "homepage": "https://github.com/eduubessa/helpdesk#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.34",
+    "mongoose": "^5.13.14",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.7.2",
+    "nodemailer-express-handlebars": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "pug": "^3.0.2",
+    "socket.io": "^4.4.1"
+  }
 }

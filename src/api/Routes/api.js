@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //Requires
+const AppApiController         = require('../App/Controllers/API/AppApiController');
 const AuthApiController        = require('../App/Controllers/Api/AuthApiController');
 const UserApiController        = require('../App/Controllers/Api/UserApiController');
 const TicketApiController      = require('../App/Controllers/Api/TicketApiController');
@@ -12,6 +13,7 @@ const ActivitiesApiController  = require('../App/Controllers/Api/ActivityApiCont
 
 
 //Instances
+let appApiController           = new AppApiController();
 let authApiController          = new AuthApiController();
 let userApiController          = new UserApiController();
 let ticketApiController        = new TicketApiController();
@@ -33,7 +35,7 @@ router.get('/users/:username',      userApiController.show);
 //Tickets routes
 router.get('/tickets',              ticketApiController.index);
 router.get('/tickets/:slug',        ticketApiController.show);
-router.post('/tickets',                   ticketApiController.store);
+router.post('/tickets',             ticketApiController.store);
 router.delete('/ticket/:slug',      ticketApiController.destroy);
 router.patch('/ticket/accept',      ticketApiController.updateAndAcceptSupport);
 router.patch('/ticket/reopen',      ticketApiController.updateAndReopen);
@@ -45,7 +47,7 @@ router.get('/departments/:slug',    departmentApiController.show);
 router.post('/departments',         departmentApiController.store);
 
 router.get('/activities',           activitiesApiController.index);
-router.post('/activities',           activitiesApiController.store);
+router.post('/activities',          activitiesApiController.store);
 router.get('/activities/:username', activitiesApiController.show);
 
 // Messages routes
@@ -53,9 +55,9 @@ router.post('/messages',             messageApiController.index);
 router.post('/messages/sent',        messageApiController.store);
 router.put('/messages',              messageApiController.upload);
 
-router.get('/apps',                  appsApiController.index);
+router.get('/apps',                  appApiController.index);
 
 //Settings route
-router.get('/settings',             messageApiController.index);
+router.get('/settings',              messageApiController.index);
 
 module.exports = router;
