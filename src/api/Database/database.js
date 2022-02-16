@@ -1,36 +1,44 @@
 const mongoose = require("mongoose");
 const app = require("../Config/app");
-const database = require("../Config/DataBase");
+const database = require("../Config/database");
 
-let connectionString = null;
+class Database {
 
-if(app.debug === true){
-    if(database.development.auth === true) {
-        connectionString = `${database.development.driver}+srv://${database.development.username}:${database.development.password}@${database.development.host}/${database.development.index}?retryWrites=true&w=majority`;
-    }else {
+    connection = null;
 
-        connectionString = `mongodb://localhost:27017/helpdesk`;
-    }
-
-    
-}else{
-    if(database.production.auth === true) {
-        connectionString = `${database.production.driver}+srv://${database.production.username}:${database.production.password}@${database.production.host}/${database.production.index}?retryWrites=true&w=majority`;
-    }else{
-        connectionString = `${database.production.driver}+srv://${database.production.host}:${database.production.port}/${database.production.index}?retryWrites=true&w=majority`;
-    }
-}
-
-const connection = async () => {
-    try {
-        if(app.debug === true){
-            await mongoose.connect(connectionString, database.development.options);
+    constructor() {
+        if(app.debug === true) {
+            if(database.development.auth === false) {
+                this.connection_string = `${database.development.driver}://${database.development.host}:${database.development.port}/${database.development.index}`;
+            }else{
+                this.connection_string = `${database.development.driver}://${database.development.user}:${database.development.password}@${database.development.host}:${database.development.port}/${database.development.index}`;
+            }
         }else{
-            await mongoose.connect(connectionString, database.production.options);
+            if(database.production.auth === false) {
+                this.connection_string = `${database.production.driver}://${database.production.host}:${database.production.port}/${database.production.index}`;
+            }else{
+                this.connection_string = `${database.production.driver}://${database.production.user}:${database.production.password}@${database.production.host}:${database.production.port}/${database.production.index}`;
+            }
         }
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    }
+
+    async connect () {
+        this.connection_string = `mongodb+srv://helpdesk_admin:cf4pPAEGTEVcZ9Ay@helpdesk-cluster.usuiy.azure.mongodb.net/helpdesk?retryWrites=true&w=majority`;
+        this.connection = await mongoose.connect(this.connection_string, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+        }).then(x => {
+            console.log(`Database connected: ${x.connections[0].name}`);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    async disconnect(){
+        await this.connection.close();
     }
 }
 
-connection();
+const d = new Database();
+d.connect();

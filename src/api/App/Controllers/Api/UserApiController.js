@@ -13,13 +13,7 @@ class UserApiController {
      * @returns {Promise<void>}
      */
     async index(request, response, next) {
-        try {
-            const users = await User.find();
-            response.json(users);
-        } catch (e) {
-            next(e);
-        }
-        return response.send("Working!");
+
     }
 
     /**
