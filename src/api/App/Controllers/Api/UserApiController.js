@@ -13,7 +13,18 @@ class UserApiController {
      * @returns {Promise<void>}
      */
     async index(request, response, next) {
+        await User.find({}, (err, user) => {
+            if (err) {
+                response.status(500).json({error: 500, message: err});
+                throw err;
+            }
 
+            if (user != null) {
+                response.status(200).json({user: user})
+            } else {
+                response.status(200).json({message: 'Neste momento não temos utilizadores na nossa base de dados, crie o primeiro utilizador'});
+            }
+        }).select(['-_id', '-__v']);
     }
 
     /**
@@ -75,7 +86,7 @@ class UserApiController {
     }
 
     async delete (request, response, next) {
-        User.findOneAndUpdate({ username : request.body.username}, { actived: true }).then((err) => {
+        User.updateOne({ username : request.body.username}, { actived: true }).then((err) => {
             if(err) throw err;
             response.status(200).json("User desactivated");
         }).catch((err) => {

@@ -58,11 +58,6 @@ class ActivityApiController {
                 }
             });
         }
-
-        return response.status(500).json({
-            error: 500,
-            message: 'Não foi possivel encontrar as atividades deste utilizador, tente novamente!'
-        });
     }
 
     /**

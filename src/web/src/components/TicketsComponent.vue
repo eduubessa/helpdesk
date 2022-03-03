@@ -204,7 +204,6 @@ export default {
   },
   mounted: function () {
     this.user = JSON.parse(localStorage.getItem('user'));
-    // Recent activity
     io.on('activity:recent', (activity) => {
       if(this.activities.length >= 5){
         this.activities.pop()
@@ -264,7 +263,7 @@ export default {
      * @param ticket
      */
     handleAcceptTicketClick: function (ticket) {
-      this.$http.patch(`/api/v1/ticket/accept/`, { slug: ticket.slug, supported_by: this.user.username }).then((r) => {
+      this.$http.patch(`/api/v1/ticket/accept`, { slug: ticket.slug, supported_by: this.user.username }).then((r) => {
             let activity = {
               user: this.user,
               message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
@@ -303,7 +302,7 @@ export default {
      */
     handleSolvedTicketClick: function (ticket) {
       ticket.is_closed = true;
-      this.$http.put(`/api/v1/tickets/${ticket.slug}`, {is_closed: true})
+      this.$http.patch(`/api/v1/ticket/close`, { slug: ticket.slug})
           .then(() => {
             let activity = {
               user: this.user,
@@ -322,8 +321,10 @@ export default {
      * @param ticket
      */
     handleReOpenTicketClick: function (ticket) {
-      this.$http.put(`/api/v1/tickets/${ticket.slug}`, {is_closed: false, is_reopen: true})
+      this.$http.patch(`/api/v1/ticket/reopen`, { slug: ticket.slug })
           .then(() => {
+            ticket.is_closed = false;
+            ticket.is_reopen = true;
             let activity = {
               user: this.user,
               message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Reabriu o Ticket#${ticket.slug}`

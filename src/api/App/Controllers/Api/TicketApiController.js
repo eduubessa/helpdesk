@@ -127,7 +127,7 @@ class TicketApiController {
         });
 
         if(user !== undefined && user !== null){
-            let ticketAndUpdate = await Ticket.findOneAndUpdate({slug: request.body.slug}, { $set: { is_closed: false, supported_by: user._id }}, { new: false}, (err, ticket) => {
+            let ticketAndUpdate = await Ticket.updateOne({slug: request.body.slug}, { $set: { is_closed: false, supported_by: user._id }}, { new: false}, (err, ticket) => {
                 return response.status(200).json({
                     message: 'O ticket foi aceite com sucesso!',
                     ticket: ticket
@@ -157,7 +157,7 @@ class TicketApiController {
      */
     async updateAndReopen(request, response, next)
     {
-        let ticketAndUpdate = await Ticket.findOneAndUpdate({slug: request.body.slug}, { $set: { is_closed: request.body.is_closed, is_reopen: request.body.is_reopen }}, { new: false}, (err, ticket) => {
+        let ticketAndUpdate = await Ticket.updateOne({slug: request.body.slug}, { $set: { is_closed: request.body.is_closed, is_reopen: request.body.is_reopen }}, { new: false}, (err, ticket) => {
             if(err) throw err;
             return response.status(200).json(ticket);
         }).catch((err) => {
@@ -174,7 +174,7 @@ class TicketApiController {
      * @returns {Promise<void>}
      */
     async updateAndClose(request, response, next) {
-        let ticketAndUpdate = await Ticket.findOneAndUpdate({ slug: request.body.slug}, { $set: { is_closed: true }}, { new: false}, (err, ticket) => {
+        let ticketAndUpdate = await Ticket.updateOne({ slug: request.body.slug}, { $set: { is_closed: true }}, { new: false}, (err, ticket) => {
             if(err) throw err;
             return response.status(200).json(ticket);
         }).catch((err) => {
@@ -191,7 +191,7 @@ class TicketApiController {
      * @returns {Promise<void>}
      */
     async destroy(request, response, next) {
-         let ticketAndDelete = await Ticket.findOneAndDelete({ slug: request.body.slug}, { new: false}, (err, ticket) =>{
+         let ticketAndDelete = await Ticket.deleteOne({ slug: request.body.slug}, { new: false}, (err, ticket) =>{
              if(err) throw err;
              return response.status(200).json({ message : 'Ticket apagado com sucesso!'});
          }).catch((err) => {

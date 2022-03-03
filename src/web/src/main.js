@@ -40,6 +40,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+
     if(to.matched.some(record => record.meta.auth)){
          // if(localStorage.getItem('token') == null){
          //     next({

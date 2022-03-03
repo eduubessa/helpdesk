@@ -6,6 +6,7 @@ const morgan    = require('morgan');
 const moment    = require('moment');
 const express   = require('express');
 const bodyParse = require('body-parser');
+const mongoose  = require('mongoose');
 
 const User      = require('./App/Models/User');
 const Ticket    = require('./App/Models/Ticket');
@@ -16,7 +17,11 @@ dotenv.config();
 
 const app       = express();
 const http      = require("http").Server(app);
-
+const io        = require("socket.io")(http, {
+    cors: {
+        origin: '*'
+    }
+});
 
 // Load configuration file (config/app.json)
 const server = require('./Config/app.json');
@@ -68,6 +73,61 @@ app.use((request, response, next) => {
     const err = new Error('500 Internal Server Error');
     response.status(request.status || 500);
     response.redirect('/error/500');
+});
+
+io.on('connection', socket => {
+    // Chat Message
+    socket.on('chat:message', async (msg) => {
+        let t = undefined;
+        let u = undefined;
+        let a = undefined;
+
+        t = await Ticket.findOne({ slug: msg.ticket }).then((ticket) => {
+            return ticket;
+        });
+
+        a = await User.findOne({ username: msg.author }).then((user) => {
+            return user;
+        })
+
+        u = await User.findOne({ username: msg.receiver }).then((user) => {
+            return user;
+        });
+
+        if(t != null && a !== null && a !== undefined && u !== null && u !== undefined) {
+            let m = new Message;
+            m.ticket = mongoose.Types.ObjectId(t._id);
+            m.author = mongoose.Types.ObjectId(a._id);
+            m.receiver = mongoose.Types.ObjectId(u._id);
+            m.body = msg.body;
+            m.is_deleted = false;
+            m.created_at = moment.now();
+            await m.save((err, message) => {
+                console.log(`Mensagem criada e enviada com sucesso de ${a.firstname} ${a.lastname} para ${u.firstname} ${u.lastname}!`)
+            });
+            io.emit('chat:message', msg);
+        }
+    });
+
+    // Recent activity
+    socket.on('activity:recent', async (activity) => {
+        let u = undefined;
+        let a = undefined;
+
+        u = await User.findOne({ username: activity.user.username }).then((user) => {
+            return user;
+        });
+
+        a = new Activity;
+        a.user = u._id;
+        a.message = activity.message;
+        a.visible = true;
+        a.created_at = moment.now();
+
+        await a.save(() => {
+            io.emit('activity:recent', activity);
+        });
+    });
 });
 
 http.listen(server.port, server.host, (request, repsonse) => {

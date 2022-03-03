@@ -23,7 +23,6 @@ class Database {
     }
 
     async connect () {
-        this.connection_string = `mongodb+srv://helpdesk_admin:cf4pPAEGTEVcZ9Ay@helpdesk-cluster.usuiy.azure.mongodb.net/helpdesk?retryWrites=true&w=majority`;
         this.connection = await mongoose.connect(this.connection_string, {
             useNewUrlParser: true,
             useUnifiedTopology: true,

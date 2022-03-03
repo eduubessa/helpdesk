@@ -73,6 +73,8 @@
     },
     beforeMount() {
       let user = JSON.parse(localStorage.getItem('user'));
+      // eslint-disable-next-line no-console
+      console.log(user);
       if(localStorage.getItem('token') != null){
         this.$emit('logged_in');
         if(this.$route.query.redirect_to != null) {

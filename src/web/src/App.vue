@@ -20,6 +20,9 @@
             <li :class="{ 'nav-item' : true,  'active' : pathname === '/apps' }" >
               <a class="nav-link" :href="pathname !== '/apps' ? '/apps' : false">Apps</a>
             </li>
+            <li :class="{ 'nav-item' : true,  'active' : pathname === '/users' }" >
+              <a class="nav-link" :href="pathname !== '/users' ? '/users' : false">Users</a>
+            </li>
             <li class="nav-item">
               <a @click="modal = true" aria-disabled="true" class="nav-link" href="#"
                  id="nav-new-ticket" tabindex="-1">
@@ -213,6 +216,9 @@ export default {
         }, 1000);
       }
     }
+  },
+  mounted () {
+    this.user = JSON.parse(localStorage.getItem("user"));
   }
 }
 </script>

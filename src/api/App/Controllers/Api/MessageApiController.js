@@ -66,9 +66,6 @@ class MessageApiController {
 
     async store(request, response, net)
     {
-
-        console.log(request.body);
-
         let message = new Message;
         message.ticket = mongoose.Types.ObjectId(request.body.ticket);
         message.author = mongoose.Types.ObjectId(request.body.author);

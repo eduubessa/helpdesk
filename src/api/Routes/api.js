@@ -27,7 +27,6 @@ router.post('/auth/sign-in', authApiController.signIn)
 router.post('/auth/sign-out', authApiController.signOut)
 
 //Users route
-router.get('/users',                userApiController.index);
 router.post('/users',               userApiController.store);
 router.delete('/users',             userApiController.delete);
 router.get('/users/:username',      userApiController.show);
