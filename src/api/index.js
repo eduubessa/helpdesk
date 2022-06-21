@@ -102,10 +102,11 @@ io.on('connection', socket => {
             m.body = msg.body;
             m.is_deleted = false;
             m.created_at = moment.now();
+            console.log(socket.id);
             await m.save((err, message) => {
                 console.log(`Mensagem criada e enviada com sucesso de ${a.firstname} ${a.lastname} para ${u.firstname} ${u.lastname}!`)
             });
-            io.emit('chat:message', msg);
+            io.to(msg.receiver).emit('chat:message', msg);
         }
     });
 
