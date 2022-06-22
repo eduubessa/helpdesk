@@ -1,8 +1,8 @@
 <template>
-  <section v-if="user !== {} || user !== undefined" class="app">
+  <section v-if="user !== {} && user.is_admin === true" class="app">
     <header class="header">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Helpdesk</a>
+      <nav class="navbar navbar-admin navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"><span class="text-weight-bold">IT</span>Help</a>
         <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
                 class="navbar-toggler mr-4 border-0" data-target="#navbarSupportedContent"
                 data-toggle="collapse" type="button">
@@ -72,17 +72,17 @@
         <button @click="modal = false"  class="btn-close-modal"><i class="fa fa-times"></i></button>
         <div class="lightbox-content" @click="false">
           <div class="container-fluid">
-           <div class="row">
-             <div class="col-10 offset-1">
-               <header>
-                 <h4 class="text-center font-weight-bold">Estamos aqui para ajudar,</h4>
-                 <p class="text-center">
-                   Pedimos-te por favor que preenchas todo o formulário com o máximo de informação que consigas,
-                   para chegarmos o mais rápido à solução que precisas, e forma a sermos eficazes
-                 </p>
-               </header>
-             </div>
-           </div>
+            <div class="row">
+              <div class="col-10 offset-1">
+                <header>
+                  <h4 class="text-center font-weight-bold">Estamos aqui para ajudar,</h4>
+                  <p class="text-center">
+                    Pedimos-te por favor que preenchas todo o formulário com o máximo de informação que consigas,
+                    para chegarmos o mais rápido à solução que precisas, e forma a sermos eficazes
+                  </p>
+                </header>
+              </div>
+            </div>
             <div class="row mt-3">
               <div class="col-3 offset-1">
                 <button :class="{ 'btn btn-default btn-select-square': true, 'btn-active': ticket.difficulty_level === 3 }" @click="ticket.difficulty_level = 3">
@@ -161,6 +161,15 @@
     </transition>
   </section>
 
+  <section v-else-if="user !== {} && user.is_admin === false" class="app">
+    <section class="page" id="home">
+      <h1>How can we help you?</h1>
+      <p>Search here to get awswers to your questions</p>
+      <input type="text" placeholder="Pesquise por uma solução" />
+      <button type="button">Search</button>
+    </section>
+  </section>
+
   <section v-else class="app">
     <main class="main">
       <div class="container-fluid">
@@ -199,15 +208,15 @@ export default {
     }
   },
   methods: {
-    handleCreateNewTicketClick: function () {
-      this.modal = true;
-    },
     handleSubmitCreateNewTicketClick: function () {
     }
   },
   created() {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.pathname = window.location.pathname;
+
+    // eslint-disable-next-line no-console
+    console.log(this.user);
 
     document.onreadystatechange = () => {
       if (document.readyState === "complete") {
@@ -216,9 +225,6 @@ export default {
         }, 1000);
       }
     }
-  },
-  mounted () {
-    this.user = JSON.parse(localStorage.getItem("user"));
   }
 }
 </script>

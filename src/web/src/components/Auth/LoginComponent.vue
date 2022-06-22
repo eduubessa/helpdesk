@@ -71,23 +71,6 @@
         password: null
       }
     },
-    beforeMount() {
-      let user = JSON.parse(localStorage.getItem('user'));
-      // eslint-disable-next-line no-console
-      console.log(user);
-      if(localStorage.getItem('token') != null){
-        this.$emit('logged_in');
-        if(this.$route.query.redirect_to != null) {
-          this.$router.push("/" + this.$route.query.redirect_to)
-        }else{
-          if(user.is_admin === true){
-            this.$router.push('/tickets');
-          }else{
-            this.$router.push('/apps');
-          }
-        }
-      }
-    },
     methods: {
       authentication: function () {
         if(this.password.length > 3){

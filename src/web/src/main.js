@@ -9,6 +9,7 @@ import AppsComponent from './components/AppsComponents';
 import LoginComponent from './components/Auth/LoginComponent'
 import PaymentComponent from './components/PaymentComponent';
 import TicketsComponent from './components/TicketsComponent';
+import ProfileComponent from './components/ProfileComponent';
 
 // import TicketsIndexComponent from './components/Tickets/IndexComponent';
 // import TicketsClosedComponent from './components/Tickets/ClosedComponent'
@@ -29,7 +30,8 @@ Vue.config.productionTip = false;
 
 const routes = [
     { path: '/', component: TicketsComponent, alias: ['/tickets', '/tickets/closed', '/tickets/my-new', '/tickets/unanswered'], meta: { auth: true, admin: false }},
-    { path: '/apps', component: AppsComponent, alias: ['/apps/system', '/apps/by-user', '/apps/support', '/tickets/others'], meta: { auth: true, admin: false } },
+    { path: '/apps', component: AppsComponent, alias: ['/apps/system', '/apps/by-user', '/apps/support', '/tickets/others'], meta: { auth: true, admin: false }},
+    { path: '/profile/:username', component: ProfileComponent, meta: { auth: true, admin: false }},
     { path: '/auth/login', component: LoginComponent, meta: { guest: true } },
     { path: '/payment', component: PaymentComponent, meta: { auth: true, admin: true } }
 ];
@@ -64,8 +66,16 @@ router.beforeEach((to, from, next) => {
          //     }
          // }
 
-        let user = JSON.parse(localStorage.getItem('user'));
-        if(user !== null || user !== '') {
+        if(localStorage.getItem("user") === null)
+        {
+            next({
+                to: {
+                    path: '/auth/login'
+                }
+            })
+        }else{
+            let user = localStorage.getItem("user");
+
             if (to.matched.some(record => record.meta.admin)) {
                 if (user.is_admin) {
                     next();
@@ -75,12 +85,6 @@ router.beforeEach((to, from, next) => {
                     });
                 }
             }
-        }else{
-            next({
-                to: {
-                    path: '/auth/login'
-                }
-            })
         }
     }
 

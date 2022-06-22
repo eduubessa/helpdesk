@@ -1,13 +1,19 @@
-const Discord = require('discord.js');
-const config = require('./Config/discord');
-const database = require('./Database/database');
+const { Client, Intents } = require('discord.js');
+const client = new Client({ intents: Intents.FLAGS.GUILDS});
 
-const client = new Discord.Client()
+const config = require('./Config/discord.json')
 
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`);
+    console.log(`Logged in as ${client.user.tag}!`);
 });
 
-const Commands = require('./App/Commands')(client);
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+
+    if (interaction.commandName === 'ping') {
+        console.log("Hello world")
+        await interaction.reply('Pong!');
+    }
+});
 
 client.login(config.development.token);

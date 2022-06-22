@@ -69,11 +69,11 @@
                   :class="{  'nav-tickets-item' : true, 'active' : ticket_selected === key }" :key="key"
                   @click="ticket_selected = key; fetchTicketMessages(ticket_selected);">
                 <div class="row">
-                  <div class="col-sm-3 col-md-3 col-lg-1">
+                  <div class="col-sm-1 col-md-1 col-lg-1">
                     <div class="ticket-item-user-avatar"
                          :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
                   </div>
-                  <div class="col-sm-10 col-md-8 col-lg-8 pt-3 pb-3">
+                  <div class="col-sm-10 col-md-7 col-lg-8 pt-3 pb-3">
                     <h4>
                       <span class="badge badge-info mr-2"
                             v-if="ticket.supported_by == null && !ticket.is_closed">New</span>
@@ -89,7 +89,7 @@
                       <div class="message">{{ ticket.title }}</div>
                     </div>
                   </div>
-                  <div class="col-md-2 offset-md-9 offset-lg-0 col-lg-3 pt-lg-2 text-right">
+                  <div class="col-md-3 offset-md-0 offset-lg-0 col-lg-3 pt-lg-2 text-right">
                     <button @click="handleAcceptTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
                     <button @click="handleSolvedTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
                     <button v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}" class="circle-warning"><i class="fa fa-pencil"></i></button>
@@ -184,7 +184,9 @@
 <script>
 
 const socketIO = require('socket.io-client');
-const io = socketIO.io("http://localhost:3000")
+const io = socketIO.io("http://localhost:3000", {
+  autoConnect: true
+})
 
 export default {
   data: function () {
@@ -204,6 +206,7 @@ export default {
   },
   mounted: function () {
     this.user = JSON.parse(localStorage.getItem('user'));
+
     io.on('activity:recent', (activity) => {
       if(this.activities.length >= 5){
         this.activities.pop()
@@ -213,6 +216,7 @@ export default {
 
     this.$http.get('/api/v1/tickets').then((response) => {
       this.tickets = response.data.tickets;
+      this.fetchTicketMessages(0);
     }).catch((err) => {
       alert(err.message);
       throw err;
@@ -284,12 +288,6 @@ export default {
 
             io.emit("chat:message", message);
 
-            // this.messages.push({
-            //   body: message.body,
-            //   author: message.author,
-            //   receiver: message.receiver
-            // });
-
           }).catch((err) => {
             alert(err.message);
             throw err;
@@ -324,7 +322,7 @@ export default {
       this.$http.patch(`/api/v1/ticket/reopen`, { slug: ticket.slug })
           .then(() => {
             ticket.is_closed = false;
-            ticket.is_reopen = true;
+            ticket.is_reopened = true;
             let activity = {
               user: this.user,
               message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Reabriu o Ticket#${ticket.slug}`
