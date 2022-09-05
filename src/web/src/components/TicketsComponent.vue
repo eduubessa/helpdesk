@@ -403,9 +403,7 @@ export default {
       let ticket = this.tickets[i].slug;
       let author = this.user.username;
       let receiver = this.tickets[i].created_by.username;
-      // eslint-disable-next-line no-console
-      console.log(this.tickets[i]);
-      if(this.user.username === this.tickets[i].created_by.usernam){
+      if(this.user.username === this.tickets[i].created_by.username){
         io.emit("chat:join", { 'author': this.user.username, 'receiver': this.tickets[i].supported_by.username})
       }else{
         io.emit("chat:join", { 'author': this.user.username, 'receiver': this.tickets[i].created_by.username})
