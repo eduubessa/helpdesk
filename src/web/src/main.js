@@ -7,7 +7,6 @@ import VueRouter from 'vue-router';
 // Components
 import AppsComponent from './components/AppsComponents';
 import LoginComponent from './components/Auth/LoginComponent'
-import PaymentComponent from './components/PaymentComponent';
 import TicketsComponent from './components/TicketsComponent';
 import ProfileComponent from './components/ProfileComponent';
 
@@ -33,7 +32,6 @@ const routes = [
     { path: '/apps', component: AppsComponent, alias: ['/apps/system', '/apps/by-user', '/apps/support', '/tickets/others'], meta: { auth: true, admin: false }},
     { path: '/profile/:username', component: ProfileComponent, meta: { auth: true, admin: false }},
     { path: '/auth/login', component: LoginComponent, meta: { guest: true } },
-    { path: '/payment', component: PaymentComponent, meta: { auth: true, admin: true } }
 ];
 
 const router = new VueRouter({

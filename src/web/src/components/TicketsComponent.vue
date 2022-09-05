@@ -75,18 +75,19 @@
                   </div>
                   <div class="col-sm-10 col-md-7 col-lg-8 pt-3 pb-3">
                     <h4>
-                      <span class="badge badge-info mr-2"
-                            v-if="ticket.supported_by == null && !ticket.is_closed">New</span>
+                      <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && !ticket.is_closed">New</span>
                       <span class="badge badge-danger mr-2" v-if="ticket.is_closed">Closed</span>
                       <span class="badge badge-success mr-2" v-if="!ticket.is_closed && ticket.supported_by != null">Open</span>
                       {{ ticket.created_by.firstname }}
-                      {{ ticket.created_by.lastname }}</h4>
+                      {{ ticket.created_by.lastname }}
+                      <small v-if="ticket.created_by.username === user.username" class="text-bold">(criado por mim)</small>
+                    </h4>
                     <div class="info">
                       <span v-if="ticket.priority >= 15" class="badge badge-danger mr-2">Priority: High</span>
-                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15"
-                            class="badge badge-warning text-white mr-2">Priority: Medium</span>
+                      <span v-else-if="ticket.priority >= 8 && ticket.priority < 15" class="badge badge-warning text-white mr-2">Priority: Medium</span>
                       <span v-else-if="ticket.priority >= 0 && ticket.priority < 15" class="badge badge-success mr-2">Priority: Low</span>
-                      <div class="message">{{ ticket.title }}</div>
+                      <div v-if="ticket.created_by.username === user.username" class="message"><small>Meu ticket: </small>{{ ticket.title }}</div>
+                      <div v-else class="message">{{ ticket.title }}</div>
                     </div>
                   </div>
                   <div class="col-md-3 offset-md-0 offset-lg-0 col-lg-3 pt-lg-2 text-right">
@@ -272,9 +273,7 @@ export default {
               user: this.user,
               message: `<strong>${this.user.firstname} ${this.user.lastname}</strong> Iniciou suporte ao ticket de <a href="/profile/${ticket.created_by.username}">${ticket.created_by.firstname} ${ticket.created_by.lastname}</a>`
             }
-
             io.emit("activity:recent", activity);
-
             ticket.is_closed = r.data.ticket.is_closed;
             ticket.supported_by = r.data.ticket.supported_by;
             ticket.is_closed = false;
@@ -387,10 +386,6 @@ export default {
         message.author = this.user.username;
         message.receiver = this.tickets[this.ticket_selected].created_by.username;
 
-        // Temp
-        // message.receiver = this.user.username;
-        // message.author = this.tickets[this.ticket_selected].created_by.username;
-
         io.emit("chat:message", message);
 
         this.messages.push({
@@ -407,7 +402,14 @@ export default {
     fetchTicketMessages: function (i) {
       let ticket = this.tickets[i].slug;
       let author = this.user.username;
-      let receiver = this.tickets[i].created_by.username
+      let receiver = this.tickets[i].created_by.username;
+      // eslint-disable-next-line no-console
+      console.log(this.tickets[i]);
+      if(this.user.username === this.tickets[i].created_by.usernam){
+        io.emit("chat:join", { 'author': this.user.username, 'receiver': this.tickets[i].supported_by.username})
+      }else{
+        io.emit("chat:join", { 'author': this.user.username, 'receiver': this.tickets[i].created_by.username})
+      }
       this.$http.post(`/api/v1/messages`, { ticket: ticket, author: author, receiver: receiver }).then((r) => {
             if(r.data !== null) {
               this.messages = r.data.messages;

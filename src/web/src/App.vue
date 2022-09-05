@@ -1,5 +1,5 @@
 <template>
-  <section v-if="user !== {} && user.is_admin === true" class="app">
+  <section v-if="user !== {}" class="app">
     <header class="header">
       <nav class="navbar navbar-admin navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#"><span class="text-weight-bold">IT</span>Help</a>
@@ -17,10 +17,10 @@
             <li :class="{ 'nav-item' : true,  'active' : pathname === '/trends' }">
               <a class="nav-link" :href="pathname !== '/trends' ? '/trends' : false">Trends</a>
             </li>
-            <li :class="{ 'nav-item' : true,  'active' : pathname === '/apps' }" >
+            <li v-if="user.is_admin === false" :class="{ 'nav-item' : true,  'active' : pathname === '/apps' }" >
               <a class="nav-link" :href="pathname !== '/apps' ? '/apps' : false">Apps</a>
             </li>
-            <li :class="{ 'nav-item' : true,  'active' : pathname === '/users' }" >
+            <li v-if="user.is_admin === false" :class="{ 'nav-item' : true,  'active' : pathname === '/users' }" >
               <a class="nav-link" :href="pathname !== '/users' ? '/users' : false">Users</a>
             </li>
             <li class="nav-item">
@@ -161,15 +161,6 @@
     </transition>
   </section>
 
-  <section v-else-if="user !== {} && user.is_admin === false" class="app">
-    <section class="page" id="home">
-      <h1>How can we help you?</h1>
-      <p>Search here to get awswers to your questions</p>
-      <input type="text" placeholder="Pesquise por uma solução" />
-      <button type="button">Search</button>
-    </section>
-  </section>
-
   <section v-else class="app">
     <main class="main">
       <div class="container-fluid">
@@ -212,8 +203,12 @@ export default {
     }
   },
   created() {
-    this.user = JSON.parse(localStorage.getItem("user"));
+    let _userLocalStorage = localStorage.getItem("user");
     this.pathname = window.location.pathname;
+
+    if(_userLocalStorage !== null){
+      this.user = JSON.parse(_userLocalStorage);
+    }
 
     // eslint-disable-next-line no-console
     console.log(this.user);
