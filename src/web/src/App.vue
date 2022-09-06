@@ -17,10 +17,10 @@
             <li :class="{ 'nav-item' : true,  'active' : pathname === '/trends' }">
               <a class="nav-link" :href="pathname !== '/trends' ? '/trends' : false">Trends</a>
             </li>
-            <li v-if="user.is_admin === false" :class="{ 'nav-item' : true,  'active' : pathname === '/apps' }" >
+            <li v-if="user.is_admin" :class="{ 'nav-item' : true,  'active' : pathname === '/apps' }" >
               <a class="nav-link" :href="pathname !== '/apps' ? '/apps' : false">Apps</a>
             </li>
-            <li v-if="user.is_admin === false" :class="{ 'nav-item' : true,  'active' : pathname === '/users' }" >
+            <li v-if="user.is_admin" :class="{ 'nav-item' : true,  'active' : pathname === '/users' }" >
               <a class="nav-link" :href="pathname !== '/users' ? '/users' : false">Users</a>
             </li>
             <li class="nav-item">
@@ -209,9 +209,6 @@ export default {
     if(_userLocalStorage !== null){
       this.user = JSON.parse(_userLocalStorage);
     }
-
-    // eslint-disable-next-line no-console
-    console.log(this.user);
 
     document.onreadystatechange = () => {
       if (document.readyState === "complete") {

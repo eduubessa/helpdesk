@@ -33,8 +33,8 @@ class MessageApiController {
             receiver !== undefined && receiver !== null) {
             await Message.find({ ticket: mongoose.Types.ObjectId(ticket._id), $or:
                     [
-                        { $and : [{ author: mongoose.Types.ObjectId(author._id) }, { receiver: mongoose.Types.ObjectId(receiver._id) }]},
-                        { $and : [{ author: mongoose.Types.ObjectId(receiver._id) }, { receiver: mongoose.Types.ObjectId(author._id) }]}
+                        { $or : [{ author: mongoose.Types.ObjectId(author._id) }, { receiver: mongoose.Types.ObjectId(receiver._id) }]},
+                        { $or : [{ author: mongoose.Types.ObjectId(receiver._id) }, { receiver: mongoose.Types.ObjectId(author._id) }]}
                     ]
             }, (err, messages) => {
                 if (err) {

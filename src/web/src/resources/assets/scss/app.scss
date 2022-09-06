@@ -73,65 +73,7 @@ nav.navbar-admin {
   }
 }
 
-section.page-loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  background: rgba(52, 58, 64, 1);
-  display: flex;
-  z-index: 999;
 
-  div.square {
-    margin-right: 8px;
-    width: 16px;
-    height: 16px;
-    background: #81b826;
-    display: inline-flex;
-    $colors: #81b826, #FFFFFF, #81b826, #FFFFFF;
-    border-radius: 50%;
-    @for $i from 1 through length($colors) {
-      &:nth-child(#{$i}) {
-        background-color: nth($colors, $i);
-      }
-    }
-
-    &:first-child, &:nth-child(3) {
-      animation: greenToWhite 1s infinite;
-    }
-
-    &:nth-child(2), &:last-child {
-      animation: whiteToGreen 1s infinite;
-    }
-  }
-}
-
-@keyframes greenToWhite {
-  0% {
-    background-color: #81b826;
-  }
-  50% {
-    background-color: #ffffff;
-  }
-  100% {
-    background-color: #81b826;
-  }
-}
-
-@keyframes whiteToGreen {
-  0% {
-    background-color: #ffffff;
-  }
-  50% {
-    background-color: #81b826;
-  }
-  100% {
-    background-color: #ffffff;
-  }
-}
 
 section.lightbox {
   padding: 0;

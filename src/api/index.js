@@ -16,6 +16,7 @@ const Activity  = require('./App/Models/Activity');
 dotenv.config();
 
 const app       = express();
+const clients   = {};
 const http      = require("http").Server(app);
 const io        = require("socket.io")(http, {
     cors: {
@@ -76,6 +77,12 @@ app.use((request, response, next) => {
 });
 
 io.on('connection', socket => {
+    // Join on chat
+    socket.on("chat:join", (members) => {
+        console.log(`Chat logged ${members.author} with ${members.receiver} `);
+        clients[socket.id] = members.author;
+    });
+
     // Chat Message
     socket.on('chat:message', async (msg) => {
         let t = undefined;
@@ -102,13 +109,16 @@ io.on('connection', socket => {
             m.body = msg.body;
             m.is_deleted = false;
             m.created_at = moment.now();
-            console.log(socket.id);
             await m.save((err, message) => {
                 console.log(`Mensagem criada e enviada com sucesso de ${a.firstname} ${a.lastname} para ${u.firstname} ${u.lastname}!`)
             });
-            io.to(msg.receiver).emit('chat:message', msg);
+            //io.to(msg.receiver).emit('chat:message', msg);
+            console.log("Sending message to ...");
+            socket.broadcast.emit("chat:message", a, m);
         }
     });
+
+
 
     // Recent activity
     socket.on('activity:recent', async (activity) => {
