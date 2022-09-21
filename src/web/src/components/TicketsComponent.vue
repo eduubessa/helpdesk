@@ -72,46 +72,10 @@
         </div>
       </header>
       <section id="list-tickets" class="col-md-12">
-        <nav id="nav-tickets" v-if="user.is_admin && tickets.length > 0">
+        <nav id="nav-tickets" v-if="tickets.length > 0">
           <ul>
             <li v-for="(ticket, key) in tickets" :class="{  'nav-tickets-item' : true, 'active' : ticket_selected === key }" :key="key" @click="ticket_selected = key; fetchTicketMessages(ticket_selected);">
               <div class="row">
-                <div class="col-sm-1 col-md-1 col-lg-1">
-                  <div class="ticket-item-user-avatar"
-                       :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
-                </div>
-                <div class="col-sm-10 col-md-7 col-lg-8 pt-3 pb-3">
-                  <h4>
-                    <span class="badge badge-info mr-2" v-if="ticket.supported_by == null && !ticket.is_closed">New</span>
-                    <span class="badge badge-danger mr-2" v-if="ticket.is_closed">Closed</span>
-                    <span class="badge badge-success mr-2" v-if="!ticket.is_closed && ticket.supported_by != null">Open</span>
-                    {{ ticket.created_by.firstname }}
-                    {{ ticket.created_by.lastname }}
-                    <small v-if="ticket.created_by.username === user.username" class="text-bold">(criado por mim)</small>
-                  </h4>
-                  <div class="info">
-                    <span v-if="ticket.priority >= 15" class="badge badge-danger mr-2">Priority: High</span>
-                    <span v-else-if="ticket.priority >= 8 && ticket.priority < 15" class="badge badge-warning text-white mr-2">Priority: Medium</span>
-                    <span v-else-if="ticket.priority >= 0 && ticket.priority < 15" class="badge badge-success mr-2">Priority: Low</span>
-                    <div v-if="ticket.created_by.username === user.username" class="message"><small>Meu ticket: </small>{{ ticket.title }}</div>
-                    <div v-else class="message">{{ ticket.title }}</div>
-                  </div>
-                </div>
-                <div class="col-md-3 offset-md-0 offset-lg-0 col-lg-3 pt-lg-2 text-right">
-                  <button @click="handleAcceptTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by == null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                  <button @click="handleSolvedTicketClick(ticket)" v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'circle-success' : true, 'ml-4' : user.level < 4 }"><i class="fa fa-check"></i></button>
-                  <button v-if="!ticket.is_closed && ticket.supported_by != null" :class="{ 'ml-4' : user.level < 4}" class="circle-warning"><i class="fa fa-pencil"></i></button>
-                  <button @click="handleReOpenTicketClick(ticket)" v-if="ticket.is_closed && !ticket.is_reopen" class="circle-warning"><i class="fa fa-undo"></i></button>
-                  <button @click="handleTrashTicketClick(ticket, key)" class="circle-danger"><i class="fa fa-trash"></i></button>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </nav>
-        <nav id="nav-tickets" v-else-if="!user.is_admin">
-          <ul>
-            <li v-for="(ticket, key) in tickets" :class="{  'nav-tickets-item' : true, 'active' : ticket_selected === key }" :key="key" @click="ticket_selected = key; fetchTicketMessages(ticket_selected);">
-              <div v-if="user.username === ticket.author.username"  class="row">
                 <div class="col-sm-1 col-md-1 col-lg-1">
                   <div class="ticket-item-user-avatar"
                        :style="`background-image: url('/images/${ticket.created_by.avatar}')`"></div>
