@@ -1,19 +1,27 @@
-const { Client, Intents } = require('discord.js');
-const client = new Client({ intents: Intents.FLAGS.GUILDS});
+ const CONFIG = require('./Config/discord');
+ const { Client, Collection, GatewayIntentBits } = require('discord.js');
+ const fs = require('fs');
+ 
+ const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+    ]
+ });
 
-const config = require('./Config/discord.json')
+ client.commands = new Collection();
+ client.commandsArray = [];
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-});
+ const handlers = fs.readdirSync('./App/Handlers');
 
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isChatInputCommand()) return;
-
-    if (interaction.commandName === 'ping') {
-        console.log("Hello world")
-        await interaction.reply('Pong!');
+ for(let handler of handlers) {
+    if(fs.statSync(`./App/Handlers/${handler}`).isFile()) {
+        require(`./App/Handlers/${handler}`)(client);
     }
-});
+ }
 
-client.login(config.development.token);
+client.EventsHanlder();
+client.CommandsHandler();
+
+
+client.login(CONFIG.development.token); // Login to the bot with the token from the config file

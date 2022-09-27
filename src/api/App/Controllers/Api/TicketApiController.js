@@ -66,8 +66,11 @@ class TicketApiController {
      */
     async show (request, response, next)
     {
+
+
         await Ticket.findOne({ slug : request.params.slug }, (err, ticket) => {
             if(err) throw err;
+            console.log(ticket);
             if(ticket === null || ticket === ""){
                 return response.status(404).send("ERROR 404 - Page Not Found");
             }else{

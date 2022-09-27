@@ -4,8 +4,19 @@
   "description" : "",
   "port" : 3000,
   "host": "localhost",
-  "url" : "http://localhost:3000/",
-  "api" : {
-    "token": "Hello world"
+  "api": {
+    "version": "1.0.0",
+    "name": "Helpdesk Restful API",
+    "description": "Helpdesk Restful API",
+    "title": "Helpdesk Restful API",
+    "url": "http://localhost:3000"
+  },
+  "app": {
+    "name": "Helpdesk - Web Application",
+    "description": "Helpdesk - Web Application",
+    "keywords": "Helpdesk - Web Application",
+    "version": "1.0.0",
+    "author": "It's Possible",
+    "url": "http://localhost:8080"
   }
 }
