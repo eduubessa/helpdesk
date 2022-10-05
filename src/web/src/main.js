@@ -40,49 +40,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-
     if(to.matched.some(record => record.meta.auth)){
-         // if(localStorage.getItem('token') == null){
-         //     next({
-         //         path: '/auth/login',
-         //         query: { redirect_to: (to.path === '/' || to.path === '') ? 'tickets' : to.path.replace('/', '') }
-         //     });
-         // }else{
-         //     let user = JSON.parse(localStorage.getItem('user'));
-         //     if(to.matched.some(record => record.meta.admin)) {
-         //         if(user.is_admin){
-         //             next();
-         //         }else{
-         //             next({
-         //                 path: '/error/404'
-         //             });
-         //         }
-         //     }else{
-         //         // next({
-         //         //     path: '/error/404'
-         //         // });
-         //     }
-         // }
-
-        if(localStorage.getItem("user") === null)
-        {
+        if(localStorage.getItem('user') == null){
             next({
-                to: {
-                    path: '/auth/login'
-                }
-            })
-        }else{
-            let user = localStorage.getItem("user");
-
-            if (to.matched.some(record => record.meta.admin)) {
-                if (user.is_admin) {
-                    next();
-                } else {
-                    next({
-                        path: '/error/404'
-                    });
-                }
-            }
+                path: '/auth/login',
+                query: { redirect_to: (to.path === '/' || to.path === '') ? 'tickets' : to.path.replace('/', '') }
+            });
         }
     }
 

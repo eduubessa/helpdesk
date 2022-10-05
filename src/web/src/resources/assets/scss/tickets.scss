@@ -3,6 +3,7 @@ aside {
   border: 0;
   min-height: 90vh;
   background: rgba(245, 245, 245, 1);
+
   h4 {
     margin: 35px 20px;
     color: #999;
@@ -60,6 +61,7 @@ aside {
         margin: 32px 0;
         list-style: none;
         display: flex;
+
         div.recent-activity-user {
           div.recent-activity-user-avatar {
             width: 38px;
@@ -126,12 +128,14 @@ section {
         margin: 28px 20px;
         transition: all 0.4s ease;
         font-size: .8rem;
+
         strong {
           span {
             position: relative;
             left: 5px;
             bottom: 0;
           }
+
           i {
             position: relative;
             left: 15px;
@@ -146,10 +150,24 @@ section {
       border: 0;
       height: 83.7vh;
       overflow-y: auto;
-      &::-webkit-scrollbar { width: 4px; }
-      &::-webkit-scrollbar-track { background: #F5F5F5; }
-      &::-webkit-scrollbar-thumb { background: #343A40; border-radius: 40px; }
-      &::-webkit-scrollbar-thumb:hover { background: #81b826; }
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #F5F5F5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #343A40;
+        border-radius: 40px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #81b826;
+      }
+
       nav#nav-tickets {
         padding: 0;
 
@@ -301,25 +319,26 @@ section {
       overflow-y: scroll;
       overflow-x: hidden;
       font-size: 0.8rem;
-        &::-webkit-scrollbar {
-          width: 4px;
-        }
 
-        /* Track */
-        &::-webkit-scrollbar-track {
-          background: #F5F5F5;
-        }
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
 
-        /* Handle */
-        &::-webkit-scrollbar-thumb {
-          background: #343A40;
-          border-radius: 40px;
-        }
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #F5F5F5;
+      }
 
-        /* Handle on hover */
-        &::-webkit-scrollbar-thumb:hover {
-          background: #81b826;
-        }
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: #343A40;
+        border-radius: 40px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #81b826;
+      }
 
       div.message-receiver {
         padding: 8px;
@@ -465,6 +484,67 @@ section {
             }
           }
         }
+      }
+    }
+  }
+
+  #rating-ticket {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(52, 58, 64, .95);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-top: 1px solid rgba(220, 220, 220, 1);
+
+    .ticket-user-support {
+      width: 100%;
+      height: 150px;
+      .ticket-user-support-avatar {
+        margin: 0 auto 12px auto;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-size: cover;
+      }
+    }
+
+    div.btns-rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+
+      button {
+        color: #fff;
+        background: transparent;
+        border: 0;
+        outline: 0;
+
+        &:hover {
+          color: #f1c40f;
+
+          ~ button {
+            color: #f1c40f;
+          }
+        }
+      }
+    }
+
+    .btn-send-rating {
+      padding: 10px 26px 8px 26px;
+      margin: 5vh 20px;
+      color: #fff;
+      border-radius: 24px;
+      letter-spacing: 2px;
+      background: #81b826;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+      &:hover {
+        color: #81b826;
+        background: #ffffff;
       }
     }
   }
