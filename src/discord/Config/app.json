@@ -9,7 +9,7 @@
     "name": "Helpdesk Restful API",
     "description": "Helpdesk Restful API",
     "title": "Helpdesk Restful API",
-    "url": "http://localhost:3000"
+    "url": "http://localhost:3000/api/v1"
   },
   "app": {
     "name": "Helpdesk - Web Application",
@@ -18,5 +18,11 @@
     "version": "1.0.0",
     "author": "It's Possible",
     "url": "http://localhost:8080"
+  },
+  "author": {
+    "name": "It's Possible",
+    "email": "geral@itspossible.pt",
+    "url": "http://www.itspossible.pt",
+    "icon": "https://scontent.flis5-3.fna.fbcdn.net/v/t39.30808-6/300457470_472338821570623_7012166664244174209_n.png?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vjceM4KW7AAAX_HL9fD&_nc_ht=scontent.flis5-3.fna&oh=00_AT_U_xjNo7FR3ttRCRPg6mZitXJpWdo5dXT0NEwGELAKsA&oe=6339CBF7"
   }
 }

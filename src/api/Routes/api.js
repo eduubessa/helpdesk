@@ -30,6 +30,7 @@ router.post('/auth/sign-out', authApiController.signOut)
 router.post('/users',               userApiController.store);
 router.delete('/users',             userApiController.delete);
 router.get('/users/:username',      userApiController.show);
+router.post('/users/discord',       userApiController.discord);
 
 //Tickets routes
 router.get('/tickets',              ticketApiController.index);

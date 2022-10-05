@@ -1,12 +1,22 @@
  const CONFIG = require('./Config/discord');
- const { Client, Collection, GatewayIntentBits } = require('discord.js');
+ const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
  const fs = require('fs');
- 
+
  const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
-    ]
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.GuildMessageReactions,
+    ],
+    partials: [
+        Partials.User,
+        Partials.Message,
+        Partials.GuildMember,
+        Partials.ThreadMember
+    ],
  });
 
  client.commands = new Collection();

@@ -70,6 +70,7 @@ class UserApiController {
         newUser.lastname = request.body.lastname;
         newUser.username = request.body.username;
         newUser.email = request.body.email;
+        newUser.discord = (request.body.discord !== null && request.body.discord !== undefined) ? request.body.discord : null;
         newUser.password = await bcrypt.hash(request.body.password, 10);
 
         await newUser.save((err, user) => {
@@ -93,6 +94,23 @@ class UserApiController {
             return response.status(500).json((err));
         })
     };
+
+    async discord(request, response, next) {
+        User.findOne({ discord: request.body.discord }, (err, user) => {
+            if (err) {
+                response.status(500).json({error: 500, message: err});
+                throw err;
+            }
+
+            if (user != null) {
+                response.status(200).json({user: user})
+            } else {
+                response.status(200).json({message: 'Neste momento não temos utilizadores na nossa base de dados, crie o primeiro utilizador'});
+            }
+        }).select(['-__v']).catch((err) => {
+            return response.status(500).json((err));
+        });
+    }
 }
 
 module.exports = UserApiController;

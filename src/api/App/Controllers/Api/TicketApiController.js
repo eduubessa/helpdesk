@@ -76,7 +76,10 @@ class TicketApiController {
             }else{
                 response.status(200).json(ticket);
             }
-        }).catch((err) => {
+        }).populate('created_by', '-_id -email -password -created_at -updated_at -__v')
+            .populate('supported_by','-_id -email -password -created_at -updated_at -__v')
+            .select(['-_id', '-__v']).sort([['priority', -1], ['updated_at', -1], ['created_at', -1]])
+        .catch((err) => {
             response.status(500).send(err);
         })
     }

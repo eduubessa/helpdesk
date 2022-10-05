@@ -7,8 +7,8 @@ module.exports = (client) => {
         for(let side of side_of_events){
             switch(side){
                 case 'Client':
-                    for(let file of fs.readdirSync('./App/Events/Client')){
-                        let event = require(`../Events/Client/${file}`);    
+                    for(let file of fs.readdirSync('./App/Events/Client').filter(file => file.endsWith('Event.js'))){
+                        let event = require(`../Events/Client/${file}`);
                         if(event.once) client.once(event.name, (...args) => event.execute(...args, client));
                         else client.on(event.name, (...args) => event.execute(...args, client));
                         console.log(`Loaded: App/Events/Client/${file}`);
@@ -19,5 +19,5 @@ module.exports = (client) => {
             }
         }
 
-    }  
+    }
 }
