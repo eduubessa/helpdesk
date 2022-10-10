@@ -225,7 +225,7 @@
           </div>
         </div>
       </footer>
-      <section id="rating-ticket" v-if="tickets[ticket_selected].is_closed" class="text-white text-center">
+      <section id="rating-ticket" v-if="tickets[ticket_selected].is_closed && user.username === tickets[ticket_selected].created_by.username" class="text-white text-center">
         <div class="row">
           <div class="col-12 text-center">
             <h3 class="mb-5">O seu ticket foi fechado com sucesso!</h3>

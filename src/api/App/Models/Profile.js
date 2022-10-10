@@ -31,5 +31,13 @@ const ProfileSchema = new mongoose.Schema({
     github: {
         type: String,
         required: false
+    },
+    created_at: {
+        type: Date,
+        default: moment().format('YYYY-MM-DD HH:mm:ss')
+    },
+    upodated_at: {
+        type: Date,
+        default: moment().format('YYYY-MM-DD HH:mm:ss')
     }
 });
