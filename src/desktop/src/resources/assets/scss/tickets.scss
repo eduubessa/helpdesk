@@ -1,0 +1,552 @@
+aside {
+  padding: 0;
+  border: 0;
+  min-height: 90vh;
+  background: rgba(245, 245, 245, 1);
+
+  h4 {
+    margin: 35px 20px;
+    color: #999;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+  }
+
+  nav {
+    ul.navbar-nav {
+      position: relative;
+      left: 8%;
+
+      li {
+        cursor: pointer;
+        color: #81b826;
+        margin: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: "PT Sans", sans-serif;
+        letter-spacing: 1px;
+        transition: all 0.6s ease;
+
+        i {
+          margin-right: 15px;
+        }
+
+        ul {
+          li {
+            cursor: pointer;
+            margin: 12px;
+            color: rgba(140, 140, 140, 1);
+            list-style: none;
+            font-weight: normal;
+            transition: all 0.4s ease;
+
+            &:hover, &.active {
+              color: rgba(80, 80, 80, 1);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  section#recent-activity {
+    ul {
+      position: relative;
+      right: 20px;
+      border: 0;
+
+      li {
+        margin: 32px 0;
+        list-style: none;
+        display: flex;
+
+        div.recent-activity-user {
+          div.recent-activity-user-avatar {
+            width: 38px;
+            height: 38px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            border: 2px solid #81b826;
+          }
+        }
+      }
+
+      span {
+        color: #999;
+        margin-left: 15px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+section {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background: rgba(245, 245, 245, 1);
+  border-left: 1px solid rgba(220, 220, 220, 1);
+
+  &#tickets {
+    padding: 0;
+    overflow-y: auto;
+
+    div.col-sm-6 {
+      padding: 0;
+      margin: 0;
+    }
+
+    header#tickets-header {
+      height: 9vh;
+      border-bottom: 2px solid rgba(220, 220, 220, 1);
+
+      button {
+        padding: 7px 12px;
+        margin: 20px 8px;
+        color: rgba(180, 180, 180, 1);
+        border: 2px solid rgba(180, 180, 180, 1);
+        background: transparent;
+        border-radius: 50%;
+        transition: all 0.4s ease;
+        font-size: .8rem;
+
+        &:first-child {
+          margin-left: 45px;
+        }
+
+        &:hover, &.active {
+          color: #81b826;
+          border-color: #81b826;
+        }
+      }
+
+      div#order {
+        margin: 28px 20px;
+        transition: all 0.4s ease;
+        font-size: .8rem;
+
+        strong {
+          span {
+            position: relative;
+            left: 5px;
+            bottom: 0;
+          }
+
+          i {
+            position: relative;
+            left: 15px;
+            bottom: 3px;
+          }
+        }
+      }
+    }
+
+    section#list-tickets {
+      padding: 0;
+      border: 0;
+      height: 83.7vh;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #F5F5F5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #343A40;
+        border-radius: 40px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #81b826;
+      }
+
+      nav#nav-tickets {
+        padding: 0;
+
+        ul {
+          padding: 0;
+
+          li.nav-tickets-item {
+            cursor: pointer;
+            padding: 15px 30px;
+            list-style: none;
+            border: 0;
+            border-bottom: 1px solid #ccc;
+            transition: background 0.4s ease;
+
+            div.ticket-item-user-avatar {
+              margin: 16px 0;
+              width: 65px;
+              height: 65px;
+              border-radius: 50%;
+              border: 3px solid #81b826;
+              background-repeat: no-repeat;
+              background-size: cover;
+              background-position: 50% 50%;
+            }
+
+            h4 {
+              position: relative;
+              font-size: 1rem;
+            }
+
+            div.info {
+              span {
+                margin-top: 3px;
+                float: left;
+              }
+
+              div.message {
+                width: 85%;
+                white-space: nowrap;
+                overflow: hidden !important;
+                text-overflow: ellipsis;
+                float: left;
+                @media (min-width: 576px) {
+                  width: 75%;
+                }
+              }
+            }
+
+            button {
+              padding: 4px 10px;
+              margin: 25px 10px;
+              color: #b4b4b4;
+              border: 2px solid #b4b4b4;
+              background: transparent;
+              border-radius: 50%;
+              transition: all 0.4s ease;
+              @media (min-width: 576px) {
+                margin: 15px 4px;
+              }
+
+              &.circle-success:hover {
+                color: #81b826;
+                border-color: #81b826;
+              }
+
+              &.circle-warning:hover {
+                color: #ffc107;
+                border-color: #ffc107;
+              }
+
+              &.circle-danger:hover {
+                color: #dc3545;
+                border-color: #dc3545;
+              }
+
+            }
+
+            &:hover, &.active {
+              background: rgba(230, 230, 230, 1);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &#messages {
+    padding: 0;
+    width: 100%;
+    height: 91.8vh;
+
+    header#messages-header {
+      color: #fff;
+      padding: 20px 45px;
+      margin: 0;
+      position: relative;
+      height: 26vh;
+      background: #bccbde;
+
+      h3 {
+        font-size: 1.25rem;
+        line-height: 35px;
+      }
+
+      div.ticket-user-creator {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 70px;
+        display: flex;
+
+        div.ticket-user-creator-avatar {
+          margin: 15px 10px 0 47px;
+          width: 42px;
+          height: 42px;
+          background: transparent url('http://lorempixel.com/g/600/600/people/') 50% 50% no-repeat;
+          background-size: cover;
+          border-radius: 50%;
+          border: 2px solid #81b826;
+        }
+
+        span {
+          color: #fff;
+          margin-top: 20px;
+          margin-left: 5px;
+          font-size: 14px;
+          font-family: "PT Sans", sans-serif;
+          letter-spacing: 1px;
+        }
+
+        div.ticket-user-contact {
+          text-align: right;
+
+          button {
+            color: #fff;
+            background: transparent;
+            border: 0;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    section#messages-conversation {
+      height: 54.5vh;
+      background: whitesmoke !important;
+      border: 0;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      font-size: 0.8rem;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #F5F5F5;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: #343A40;
+        border-radius: 40px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #81b826;
+      }
+
+      div.message-receiver {
+        padding: 8px;
+        margin-left: 18px;
+        display: flex;
+
+        div.message-receiver-avatar {
+          margin: 8px 25px 0 0;
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          background-size: cover;
+        }
+
+        div.message-receiver-body {
+          color: #fff;
+          margin-top: 15px;
+          padding: 10px 16px;
+          position: relative;
+          width: auto;
+          max-width: 70%;
+          background: #81b826;
+          border-radius: 4px;
+
+          &:after {
+            right: 100%;
+            top: 37%;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(136, 183, 213, 0);
+            border-right-color: #81b826;
+            border-width: 8px;
+            margin-top: -8px;
+          }
+        }
+      }
+
+      div.message-sender {
+        padding: 8px;
+        width: 100%;
+
+        div.message-sender-body {
+          margin: 8px 25px 0 0;
+          padding: 16px;
+          position: relative;
+          width: auto;
+          max-width: 70%;
+          background: #fff;
+          border-radius: 4px;
+          box-shadow: 0 0 1px #333;
+        }
+
+        div.message-sender-audio {
+          margin: 0 25px 5px 0;
+          padding: 16px;
+          width: auto;
+          background: transparent;
+          border-radius: 4px;
+        }
+
+        div.message-sender-avatar {
+          margin: 8px 16px 0 0;
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: 50% 50%;
+        }
+      }
+    }
+
+    footer#messages-textarea {
+      margin: 0;
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      width: 100%;
+      background: whitesmoke;
+      border-top: 1px solid rgba(220, 220, 220, 1);
+
+      div#messages-textarea-editor {
+        position: relative;
+        width: 90%;
+        height: 8vh;
+        border-radius: 6px;
+
+        textarea {
+          padding: 30px 20px;
+          width: 100%;
+          border-radius: 0;
+          border: 0;
+          height: 80px;
+          resize: none;
+          background: whitesmoke;
+          overflow: hidden;
+
+          &:focus {
+            outline: 0;
+            border: 0;
+          }
+        }
+
+        div#messages-textarea-editor-features {
+          display: flex;
+
+          button {
+            color: #999;
+            margin: 0;
+            padding: 8px 15px;
+            border: 0;
+            font-size: 22px;
+            background: whitesmoke;
+            transition: all 0.6s ease;
+
+            &:hover, &:focus {
+              outline: 0;
+              border: 0;
+              color: #555555;
+            }
+
+            &#send-message {
+              color: #fff;
+              padding: 12px 18px;
+              position: absolute;
+              right: -1vw;
+              bottom: 6.5vh;
+              background: #81b826;
+              border-radius: 50%;
+              font-size: 18px;
+              box-shadow: 1px 4px 4px #888;
+              border: 1px solid #81b826;
+
+              &:hover, &:focus {
+                outline: 0;
+                border: 0;
+                color: #81b826;
+                background: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #rating-ticket {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(52, 58, 64, .95);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-top: 1px solid rgba(220, 220, 220, 1);
+
+    .ticket-user-support {
+      width: 100%;
+      height: 150px;
+      .ticket-user-support-avatar {
+        margin: 0 auto 12px auto;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-size: cover;
+      }
+    }
+
+    div.btns-rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+
+      button {
+        color: #fff;
+        background: transparent;
+        border: 0;
+        outline: 0;
+
+        &:hover {
+          color: #f1c40f;
+
+          ~ button {
+            color: #f1c40f;
+          }
+        }
+      }
+    }
+
+    .btn-send-rating {
+      padding: 10px 26px 8px 26px;
+      margin: 5vh 20px;
+      color: #fff;
+      border-radius: 24px;
+      letter-spacing: 2px;
+      background: #81b826;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+      &:hover {
+        color: #81b826;
+        background: #ffffff;
+      }
+    }
+  }
+}
+

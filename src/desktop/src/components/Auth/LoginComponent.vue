@@ -43,7 +43,7 @@
               <form action="/auth/login" method="post" id="auth-sign"></form>
               <div class="row">
                    <div class="col-10 offset-1 text-center mt-5">
-                     Quero criar uma <a class="ml-1" href="/auth/create-account">conta</a>
+                     Quero criar uma <a class="ml-1" href="/auth/sign-up">conta</a>
                      <span class="ml-4 mr-4">&bull;</span>
                      Esqueci-me da minha <a class="ml-1" href="/auth/recover-account">password</a>
                    </div>
@@ -78,7 +78,6 @@
             username: this.username,
             password: this.password
           }).then((response) => {
-            this.password = null;
             localStorage.setItem('user', JSON.stringify(response.data.user));
             localStorage.setItem('token', response.data.token);
             if(localStorage.getItem('token') != null){
@@ -93,7 +92,9 @@
                 }
               }
             }
-          }).catch(() => {
+          }).catch((err) => {
+            // eslint-disable-next-line no-console
+            console.error(err);
             this.password = null;
             this.error = "Utilizador ou password introduzidos estão incorretos, tente novamente!";
             setTimeout(() => { this.error = null}, 6000)

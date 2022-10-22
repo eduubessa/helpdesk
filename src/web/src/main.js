@@ -31,6 +31,7 @@ const routes = [
     { path: '/', component: TicketsComponent, alias: ['/tickets', '/tickets/closed', '/tickets/my-new', '/tickets/unanswered'], meta: { auth: true, admin: false }},
     { path: '/apps', component: AppsComponent, alias: ['/apps/system', '/apps/by-user', '/apps/support', '/tickets/others'], meta: { auth: true, admin: false }},
     { path: '/profile/:username', component: ProfileComponent, meta: { auth: true, admin: false }},
+    { path: '/my-profile', component: ProfileComponent, meta: { auth: true, admin: false }},
     { path: '/auth/login', component: LoginComponent, meta: { guest: true } },
 ];
 

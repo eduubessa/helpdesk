@@ -7,7 +7,9 @@
             <i class="fa fa-thumbs-o-up"></i>
           </button>
         </div>
-        <div class="profile-user-avatar" :style="`background-image: url('/images/${user.avatar}')`"></div>
+        <div class="profile-user-avatar">
+
+        </div>
         <div class="profile-button profile-button-message">
           <button class="btn">
             <i class="fa fa-envelope-o"></i>
@@ -29,7 +31,7 @@
         </section>
       </div>
       <div class="profile-title text-center">
-        <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+        <h3>Eduardo Bessa</h3>
         <p>Fullstack Developer & System Administrator</p>
       </div>
     </section>
@@ -178,27 +180,9 @@
 </style>
 <script>
 export default {
-  data: function () {
-    return {
-      user: {}
-    }
-  },
-  created: function () {
+  created () {
     // eslint-disable-next-line no-console
-    console.log(this.$route.path);
-    if(this.$route.path === "/my-profile")
-    {
-      this.user = JSON.parse(localStorage.getItem("user"));
-      // eslint-disable-next-line no-console
-      console.log(this.user);
-    }else{
-      this.$http.post('/api/v1/profile', { username: this.$route.path.query }).then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response);
-      }).catch((err) => {
-        throw err;
-      });
-    }
+    console.log("Hello world");
   }
 }
 </script>

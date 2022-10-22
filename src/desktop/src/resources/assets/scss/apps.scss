@@ -1,0 +1,207 @@
+aside {
+  padding: 0;
+  border: 0;
+  min-height: 90.1vh;
+  background: rgba(245, 245, 245, 1);
+
+  h4 {
+    margin: 35px 20px;
+    color: #999;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+  }
+
+  nav {
+    ul.navbar-nav {
+      position: relative;
+      left: 8%;
+
+      li {
+        cursor: pointer;
+        color: #81b826;
+        margin: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: "PT Sans", sans-serif;
+        letter-spacing: 1px;
+        transition: all 0.6s ease;
+
+        i {
+          margin-right: 15px;
+        }
+
+        ul {
+          li {
+            cursor: pointer;
+            margin: 12px;
+            color: rgba(140, 140, 140, 1);
+            list-style: none;
+            font-weight: normal;
+            transition: all 0.4s ease;
+
+            &:hover, &.active {
+              color: rgba(80, 80, 80, 1);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  section#recent-activity {
+    ul {
+      position: relative;
+      right: 20px;
+      border: 0;
+
+      li {
+        margin: 32px 0;
+        list-style: none;
+        display: flex;
+
+        &:hover {
+          color: red;
+        }
+
+        div.recent-activity-user {
+          div.recent-activity-user-avatar {
+            width: 38px;
+            height: 38px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            border: 2px solid #81b826;
+          }
+        }
+      }
+
+      span {
+        color: #999;
+        margin-left: 15px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+section {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background: rgba(245, 245, 245, 1);
+  border-left: 1px solid rgba(220, 220, 220, 1);
+  &#apps {
+    padding: 0;
+    margin: 0;
+
+    div.col-sm-6 {
+      padding: 0;
+      margin: 0;
+    }
+
+    header#apps-header {
+      height: 9vh;
+      border-bottom: 2px solid rgba(220, 220, 220, 1);
+
+      button {
+        padding: 9px 14px;
+        margin: 20px 8px;
+        color: rgba(180, 180, 180, 1);
+        border: 2px solid rgba(180, 180, 180, 1);
+        background: transparent;
+        border-radius: 50%;
+        transition: all 0.4s ease;
+        font-size: .8rem;
+
+        &:first-child {
+          margin-left: 45px;
+        }
+
+        &:hover, &.active {
+          color: #81b826;
+          border-color: #81b826;
+        }
+      }
+
+      div#order {
+        margin: 28px 20px;
+        transition: all 0.4s ease;
+
+        strong {
+          span {
+            position: relative;
+            left: 5px;
+            bottom: 0;
+          }
+
+          i {
+            position: relative;
+            left: 15px;
+            bottom: 3px;
+          }
+        }
+      }
+    }
+  }
+  nav#nav-apps {
+    padding: 16px;
+    border: 0;
+    height: 83.7vh;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #F5F5F5;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #343A40;
+      border-radius: 40px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #81b826;
+    }
+
+    article.app {
+      padding: 8px 16px;
+      margin: 10px 21.3px;
+      position: relative;
+      width: 270px;
+      height: 320px;
+      background: #fff;
+      border-radius: 4px;
+      border: 1px solid rgba(180, 180, 180, 1);
+      box-shadow: 0 0 15px rgba(50, 50, 50, 0.2);
+      float: left;
+      display: inline-block;
+      h5 {
+        margin-top: 30px !important;
+        font-size: 1.05rem;
+      }
+      p {
+        margin: 20px auto;
+        width: 90%;
+        font-size: 0.9rem
+      }
+      button {
+        margin-top: 8px;
+        position: absolute;
+        right: 22%;
+        bottom: 30px;
+        color: #fff;
+        width: 150px;
+        border-radius: 0;
+        border: 2px solid #81b826;
+        background: #81b826;
+      }
+    }
+  }
+}
