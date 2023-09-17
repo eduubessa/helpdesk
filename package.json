@@ -1,0 +1,60 @@
+{
+  "name": "helpdesk-restapi",
+  "version": "1.0.0",
+  "description": "RestAPI to Helpdesk Applications ",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduubessa/helpdesk.git"
+  },
+  "keywords": [
+    "help",
+    "desk",
+    "helpdesk",
+    "eduubessa",
+    "eduardo",
+    "bessa",
+    "dev",
+    "node",
+    "js",
+    "typescript",
+    "ts",
+    "mongo",
+    "db",
+    "mongoose",
+    "api",
+    "rest"
+  ],
+  "author": "Eduardo Bessa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eduubessa/helpdesk/issues"
+  },
+  "homepage": "https://github.com/eduubessa/helpdesk#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^7.5.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.3",
+    "@types/compression": "^1.7.3",
+    "@types/cookie-parser": "^1.4.4",
+    "@types/cors": "^2.8.14",
+    "@types/express": "^4.17.17",
+    "@types/lodash": "^4.14.198",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.6.2",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
